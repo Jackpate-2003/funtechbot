@@ -1,6 +1,7 @@
 const express = require('express');
 const {Telegraf} = require("telegraf");
 const BodyParser = require("body-parser");
+const start = require('./bot');
 
 const BOT_KEY = '5836436547:AAE_Z-6MpCP-bVp3r96M8XhFIMCGxNJgKvk';
 
@@ -18,12 +19,7 @@ bot.telegram.setWebhook(`${HOST}/${secret}`)
 
 console.log('Secret path', `${HOST}/${secret}`)
 
-bot.command("text", async (ctx) => {
-
-    console.log("Reply!");
-
-    ctx.reply('Hello!')
-});
+start(bot);
 
 app.use(BodyParser.json());
 app.use(
