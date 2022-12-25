@@ -1,11 +1,19 @@
+const YT_REG = /^.*(?:(?:youtu\.be\/|v\/|vi\/|u\/\w\/|embed\/|shorts\/)|(?:(?:watch)?\?v(?:i)?=|\&v(?:i)?=))([^#\&\?]*).*/;
+
+function ytDl() {
+
+
+
+}
+
 module.exports = function (bot) {
 
-    bot.command("text", async (ctx) => {
+    bot.command(YT_REG, async (ctx) => {
 
-        let reply = "https://www.youtube.com/v/ON8Lifu0Vzw";
+        const text = ctx.message.text;
 
         const caption = `
-    <b>Link:</b> ${reply}
+    <b>Link:</b> ${text}
     <b>Title:</b> Test!
     <b>Duration:</b> 00:02:00
     `;
