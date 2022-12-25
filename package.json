@@ -18,6 +18,7 @@
   "homepage": "https://github.com/cyclic-software/starter-express-api#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "telegraf": "^4.11.2"
+    "telegraf": "^4.11.2",
+    "body-parser": "*"
   }
 }
