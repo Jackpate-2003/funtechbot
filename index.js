@@ -1,7 +1,14 @@
-const express = require('express')
-const app = express()
-app.all('/', (req, res) => {
-    console.log("Just got a request!")
-    res.send('Yo!')
-})
-app.listen(process.env.PORT || 3000)
+const express = require('express');
+const { Telegraf } = require("telegraf");
+
+const BOT_KEY = '5836436547:AAE_Z-6MpCP-bVp3r96M8XhFIMCGxNJgKvk';
+
+const bot = new Telegraf(BOT_KEY);
+
+const app = express();
+
+bot.command("cat", ctx => ctx.reply('Hello!'));
+
+bot.launch();
+
+app.listen(process.env.PORT || 3000);
