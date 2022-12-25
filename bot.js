@@ -1,4 +1,4 @@
-export default function (bot) {
+module.exports = function (bot) {
 
     bot.command("text", async (ctx) => {
 
