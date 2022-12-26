@@ -56,17 +56,18 @@ const platform = (ctx, text, match) => ({
             }`
         }])
 
+        console.log('aa', ctx, ctx.message)
+
         return await ctx.replyWithPhoto({url: thumb},
             {
+                reply_to_message_id: ctx.message.message_id,
                 reply_markup: {
                     inline_keyboard: [
                         [{
                             text: `🎬 ${videos[0].qualityLabel} - ${
                                 formatBytes(Number(videos[0].contentLength))
                             } (${videos[0].container})`,
-                            callback_data: `download_yt_${
-                                Buffer.from(`${url}_${videos[0].itag}`).toString('base64')
-                            }`
+                            callback_data: `download_yt ${videos[0].itag}`
                         }]
                     ],
                 }, caption, parse_mode: 'HTML'
