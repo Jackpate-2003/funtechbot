@@ -26,11 +26,7 @@ const platform = (ctx, text, match) => ({
                 text: `🎬 ${v.qualityLabel} - ${
                     formatBytes(Number(v.contentLength))
                 } (${v.container})`,
-                callback_data: `download_yt:${
-                    Buffer.from(`
-                                    ${v.url},${v.mimeType},${v.itag}
-                                    `).toString('base64')
-                }`,
+                callback_data: `download_yt ${v.itag}`,
             }]);
         });
 
@@ -39,11 +35,7 @@ const platform = (ctx, text, match) => ({
                 text: `🎶 ${au.audioBitrate}k - ${
                     formatBytes(Number(au.contentLength))
                 } (${au.container})`,
-                callback_data: `download_yt:${
-                    Buffer.from(`
-                                    ${au.url},${au.mimeType},${au.itag}
-                                    `).toString('base64')
-                }`,
+                callback_data: `download_yt ${au.itag}`
             }]);
         });
 
@@ -62,14 +54,7 @@ const platform = (ctx, text, match) => ({
             {
                 reply_to_message_id: ctx.message.message_id,
                 reply_markup: {
-                    inline_keyboard: [
-                        [{
-                            text: `🎬 ${videos[0].qualityLabel} - ${
-                                formatBytes(Number(videos[0].contentLength))
-                            } (${videos[0].container})`,
-                            callback_data: `download_yt ${videos[0].itag}`
-                        }]
-                    ],
+                    inline_keyboard: dataArray,
                 }, caption, parse_mode: 'HTML'
             }
         );
