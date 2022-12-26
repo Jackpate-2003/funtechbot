@@ -50,7 +50,9 @@ const platform = (ctx, text, match) => ({
         return await ctx.replyWithPhoto({url: thumb},
             {
                 reply_markup: {
-                    inline_keyboard: dataArray,
+                    inline_keyboard: [
+                        ...dataArray
+                    ],
                 }, caption, parse_mode: 'HTML'
             }
         );
