@@ -2,7 +2,7 @@ const platforms = (ctx, text) => ({
 
     yt: async () => {
 
-        console.log('CTX', ctx, text)
+        console.log('CTX222', ctx, text)
 
         return ctx.reply('OK!', text);
 
@@ -12,7 +12,7 @@ const platforms = (ctx, text) => ({
 
 module.exports = async function (ctx, text) {
 
-    const method = platforms(ctx, text)[text.split(' ')[0].replace('download_', '').trim()];
+    const method = platforms(ctx, text)[text.split(' ')[1]];
 
     if(
         method

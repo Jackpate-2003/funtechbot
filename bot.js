@@ -15,6 +15,10 @@ module.exports = function (bot) {
             return DOWNLOADER;
         }
 
+    });
+
+    bot.action(/download_.*?/, async (ctx) => {
+
         const DOWNLOAD = await download(ctx, text);
 
         if(
