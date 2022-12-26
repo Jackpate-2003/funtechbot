@@ -4,7 +4,7 @@ const platform = (ctx, text, match) => ({
 
     youtube: async () => {
 
-        const data = await fetchData(API_HOST, {
+        const data = await fetchData(`${API_HOST}/video-meta`, {
             id: match,
         });
 
