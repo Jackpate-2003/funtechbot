@@ -13,18 +13,13 @@ const platform = (ctx, text, match) => ({
             duration,
         } = await data.json();
 
-        console.log('wad', {
-            videos, audios, title, description, url, thumb,
-            duration,
-        })
-
         const caption = `
     <b>Link:</b> ${url}
     <b>Title:</b> ${title}
     <b>Duration:</b> ${duration}
     `;
 
-        ctx.replyWithPhoto({url: thumb},
+        return await ctx.replyWithPhoto({url: thumb},
             {
                 reply_markup: {
                     inline_keyboard: [
@@ -71,14 +66,10 @@ module.exports = async function (ctx, text) {
 
         if (match) {
 
-            await platform(ctx, text, match[1])[rk]();
-
-            break;
+            return await platform(ctx, text, match[1])[rk]();
 
         }
 
     }
-
-    if (match) return true;
 
 }

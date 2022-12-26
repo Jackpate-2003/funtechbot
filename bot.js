@@ -6,10 +6,14 @@ module.exports = function (bot) {
 
         const text = ctx.message.text;
 
-        if(
-            await downloader(ctx, text)
+        const DOWNLOADER = await downloader(ctx, text);
+
+        console.log('Down', DOWNLOADER)
+
+        if (
+            DOWNLOADER
         ) {
-            return null;
+            return DOWNLOADER;
         }
 
     });
