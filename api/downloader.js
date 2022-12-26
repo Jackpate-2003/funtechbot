@@ -13,6 +13,11 @@ const platform = (ctx, text, match) => ({
             duration,
         } = await data.json();
 
+        console.log('wad', {
+            videos, audios, title, description, url, thumb,
+            duration,
+        })
+
         const caption = `
     <b>Link:</b> ${url}
     <b>Title:</b> ${title}
@@ -38,11 +43,11 @@ const platform = (ctx, text, match) => ({
                         audios.map(au => {
                             return {
                                 text: `🎶 ${au.audioBitrate}k - ${
-                                    formatBytes(Number(v.contentLength))
-                                } (${v.container})`,
+                                    formatBytes(Number(au.contentLength))
+                                } (${au.container})`,
                                 callback_data: `download_yt:${
                                     Buffer.from(`
-                                    ${v.url},${v.mimeType},${v.itag}
+                                    ${au.url},${au.mimeType},${au.itag}
                                     `).toString('base64')
                                 }`,
                             }
