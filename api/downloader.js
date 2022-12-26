@@ -26,7 +26,7 @@ const platform = (ctx, text, match) => ({
                 text: `🎬 ${v.qualityLabel} - ${
                     formatBytes(Number(v.contentLength))
                 } (${v.container})`,
-                callback_data: `download_yt ${v.itag}`,
+                callback_data: `download_yt ${v.itag}_${ctx.message.message_id}`,
             }]);
         });
 
@@ -35,20 +35,9 @@ const platform = (ctx, text, match) => ({
                 text: `🎶 ${au.audioBitrate}k - ${
                     formatBytes(Number(au.contentLength))
                 } (${au.container})`,
-                callback_data: `download_yt ${au.itag}`
+                callback_data: `download_yt ${au.itag}_${ctx.message.message_id}`
             }]);
         });
-
-        console.log('wdac', [{
-            text: `🎬 ${videos[0].qualityLabel} - ${
-                formatBytes(Number(videos[0].contentLength))
-            } (${videos[0].container})`,
-            callback_data: `download_yt_${
-                Buffer.from(`${url}_${videos[0].itag}`).toString('base64')
-            }`
-        }])
-
-        console.log('aa', ctx, ctx.message)
 
         return await ctx.replyWithPhoto({url: thumb},
             {

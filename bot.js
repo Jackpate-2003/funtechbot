@@ -1,4 +1,5 @@
 const downloader = require('./api/downloader');
+const download = require('./api/download');
 
 module.exports = function (bot) {
 
@@ -8,12 +9,18 @@ module.exports = function (bot) {
 
         const DOWNLOADER = await downloader(ctx, text);
 
-        console.log('Down', DOWNLOADER)
-
         if (
             DOWNLOADER
         ) {
             return DOWNLOADER;
+        }
+
+        const DOWNLOAD = await download(ctx, text);
+
+        if(
+            DOWNLOAD
+        ) {
+            return DOWNLOAD;
         }
 
     });
