@@ -19,35 +19,36 @@ const platform = (ctx, text, match) => ({
     <b>Duration:</b> ${duration}
     `;
 
+        const videosArr = videos.map(v => {
+            return {
+                text: `🎬 ${v.qualityLabel} - ${
+                    formatBytes(Number(v.contentLength))
+                } (${v.container})`,
+                callback_data: `download_yt:${
+                    Buffer.from(`
+                                    ${v.url},${v.mimeType},${v.itag}
+                                    `).toString('base64')
+                }`,
+            };
+        });
+
+        const audiosArr = audios.map(au => {
+            return {
+                text: `🎶 ${au.audioBitrate}k - ${
+                    formatBytes(Number(au.contentLength))
+                } (${au.container})`,
+                callback_data: `download_yt:${
+                    Buffer.from(`
+                                    ${au.url},${au.mimeType},${au.itag}
+                                    `).toString('base64')
+                }`,
+            };
+        });
+
         return await ctx.replyWithPhoto({url: thumb},
             {
                 reply_markup: {
-                    inline_keyboard: [
-                        ...videos.map(v => {
-                            return [{
-                                text: `🎬 ${v.qualityLabel} - ${
-                                    formatBytes(Number(v.contentLength))
-                                } (${v.container})`,
-                                callback_data: `download_yt:${
-                                    Buffer.from(`
-                                    ${v.url},${v.mimeType},${v.itag}
-                                    `).toString('base64')
-                                }`,
-                            }];
-                        }),
-                        ...audios.map(au => {
-                            return [{
-                                text: `🎶 ${au.audioBitrate}k - ${
-                                    formatBytes(Number(au.contentLength))
-                                } (${au.container})`,
-                                callback_data: `download_yt:${
-                                    Buffer.from(`
-                                    ${au.url},${au.mimeType},${au.itag}
-                                    `).toString('base64')
-                                }`,
-                            }];
-                        })
-                    ]
+                    inline_keyboard: (videosArr.concat(audiosArr))
                 }, caption, parse_mode: 'HTML'
             }
         );
