@@ -20,7 +20,7 @@ const platform = (ctx, text, match) => ({
     `;
 
         const videosArr = videos.map(v => {
-            return {
+            return [{
                 text: `🎬 ${v.qualityLabel} - ${
                     formatBytes(Number(v.contentLength))
                 } (${v.container})`,
@@ -29,11 +29,11 @@ const platform = (ctx, text, match) => ({
                                     ${v.url},${v.mimeType},${v.itag}
                                     `).toString('base64')
                 }`,
-            };
+            }];
         });
 
         const audiosArr = audios.map(au => {
-            return {
+            return [{
                 text: `🎶 ${au.audioBitrate}k - ${
                     formatBytes(Number(au.contentLength))
                 } (${au.container})`,
@@ -42,7 +42,7 @@ const platform = (ctx, text, match) => ({
                                     ${au.url},${au.mimeType},${au.itag}
                                     `).toString('base64')
                 }`,
-            };
+            }];
         });
 
         return await ctx.replyWithPhoto({url: thumb},
