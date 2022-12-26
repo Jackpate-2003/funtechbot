@@ -19,8 +19,10 @@ const platform = (ctx, text, match) => ({
     <b>Duration:</b> ${duration}
     `;
 
-        const videosArr = videos.map(v => {
-            return [{
+        let dataArray = [];
+
+        videos.forEach(v => {
+            dataArray.push([{
                 text: `🎬 ${v.qualityLabel} - ${
                     formatBytes(Number(v.contentLength))
                 } (${v.container})`,
@@ -29,11 +31,11 @@ const platform = (ctx, text, match) => ({
                                     ${v.url},${v.mimeType},${v.itag}
                                     `).toString('base64')
                 }`,
-            }];
+            }]);
         });
 
-        const audiosArr = audios.map(au => {
-            return [{
+        audios.forEach(au => {
+            dataArray.push([{
                 text: `🎶 ${au.audioBitrate}k - ${
                     formatBytes(Number(au.contentLength))
                 } (${au.container})`,
@@ -42,13 +44,13 @@ const platform = (ctx, text, match) => ({
                                     ${au.url},${au.mimeType},${au.itag}
                                     `).toString('base64')
                 }`,
-            }];
+            }]);
         });
 
         return await ctx.replyWithPhoto({url: thumb},
             {
                 reply_markup: {
-                    inline_keyboard: (videosArr.concat(audiosArr))
+                    inline_keyboard: dataArray,
                 }, caption, parse_mode: 'HTML'
             }
         );
