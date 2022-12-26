@@ -51,10 +51,10 @@ const platform = (ctx, text, match) => ({
             text: `🎬 ${videos[0].qualityLabel} - ${
                 formatBytes(Number(videos[0].contentLength))
             } (${videos[0].container})`,
-            callback_data: `download_yt:${
-                Buffer.from(`
-                                    ${videos[0].url},${videos[0].mimeType},${videos[0].itag}
-                                    `).toString('base64')
+            callback_data: `download_yt_${
+                (`
+                                    ${videos[0].url}_${videos[0].mimeType}_${videos[0].itag}
+                                    `)
             }`
         }])
 
@@ -66,10 +66,10 @@ const platform = (ctx, text, match) => ({
                             text: `🎬 ${videos[0].qualityLabel} - ${
                                 formatBytes(Number(videos[0].contentLength))
                             } (${videos[0].container})`,
-                            callback_data: `download_yt:${
-                                Buffer.from(`
-                                    ${videos[0].url},${videos[0].mimeType},${videos[0].itag}
-                                    `).toString('base64')
+                            callback_data: `download_yt_${
+                                (`
+                                    ${videos[0].url}_${videos[0].mimeType}_${videos[0].itag}
+                                    `)
                             }`
                         }]
                     ],
