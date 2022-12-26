@@ -23,7 +23,7 @@ const platform = (ctx, text, match) => ({
             {
                 reply_markup: {
                     inline_keyboard: [
-                        videos.map(v => {
+                        ...videos.map(v => {
                             return {
                                 text: `🎬 ${v.qualityLabel} - ${
                                     formatBytes(Number(v.contentLength))
@@ -35,7 +35,7 @@ const platform = (ctx, text, match) => ({
                                 }`,
                             }
                         }),
-                        audios.map(au => {
+                        ...audios.map(au => {
                             return {
                                 text: `🎶 ${au.audioBitrate}k - ${
                                     formatBytes(Number(au.contentLength))
