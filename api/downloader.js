@@ -51,7 +51,10 @@ const platform = (ctx, text, match) => ({
             {
                 reply_markup: {
                     inline_keyboard: [
-                        ...dataArray
+                        [{
+                            text: 'a',
+                            callback_data: 'bb'
+                        }]
                     ],
                 }, caption, parse_mode: 'HTML'
             }
