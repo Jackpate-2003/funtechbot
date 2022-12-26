@@ -52,9 +52,7 @@ const platform = (ctx, text, match) => ({
                 formatBytes(Number(videos[0].contentLength))
             } (${videos[0].container})`,
             callback_data: `download_yt_${
-                (`
-                                    ${videos[0].url}_${videos[0].mimeType}_${videos[0].itag}
-                                    `)
+                (`${videos[0].url}_${videos[0].mimeType}_${videos[0].itag}`)
             }`
         }])
 
@@ -67,9 +65,7 @@ const platform = (ctx, text, match) => ({
                                 formatBytes(Number(videos[0].contentLength))
                             } (${videos[0].container})`,
                             callback_data: `download_yt_${
-                                (`
-                                    ${videos[0].url}_${videos[0].mimeType}_${videos[0].itag}
-                                    `)
+                                (`${videos[0].url}_${videos[0].mimeType}_${videos[0].itag}`)
                             }`
                         }]
                     ],
