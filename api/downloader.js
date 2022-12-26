@@ -47,13 +47,30 @@ const platform = (ctx, text, match) => ({
             }]);
         });
 
+        console.log('wdac', [{
+            text: `🎬 ${videos[0].qualityLabel} - ${
+                formatBytes(Number(videos[0].contentLength))
+            } (${videos[0].container})`,
+            callback_data: `download_yt:${
+                Buffer.from(`
+                                    ${videos[0].url},${videos[0].mimeType},${videos[0].itag}
+                                    `).toString('base64')
+            }`
+        }])
+
         return await ctx.replyWithPhoto({url: thumb},
             {
                 reply_markup: {
                     inline_keyboard: [
                         [{
-                            text: 'a',
-                            callback_data: 'bb'
+                            text: `🎬 ${videos[0].qualityLabel} - ${
+                                formatBytes(Number(videos[0].contentLength))
+                            } (${videos[0].container})`,
+                            callback_data: `download_yt:${
+                                Buffer.from(`
+                                    ${videos[0].url},${videos[0].mimeType},${videos[0].itag}
+                                    `).toString('base64')
+                            }`
                         }]
                     ],
                 }, caption, parse_mode: 'HTML'
