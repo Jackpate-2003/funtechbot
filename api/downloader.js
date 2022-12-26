@@ -24,7 +24,7 @@ const platform = (ctx, text, match) => ({
                 reply_markup: {
                     inline_keyboard: [
                         ...videos.map(v => {
-                            return {
+                            return [{
                                 text: `🎬 ${v.qualityLabel} - ${
                                     formatBytes(Number(v.contentLength))
                                 } (${v.container})`,
@@ -33,10 +33,10 @@ const platform = (ctx, text, match) => ({
                                     ${v.url},${v.mimeType},${v.itag}
                                     `).toString('base64')
                                 }`,
-                            }
+                            }];
                         }),
                         ...audios.map(au => {
-                            return {
+                            return [{
                                 text: `🎶 ${au.audioBitrate}k - ${
                                     formatBytes(Number(au.contentLength))
                                 } (${au.container})`,
@@ -45,7 +45,7 @@ const platform = (ctx, text, match) => ({
                                     ${au.url},${au.mimeType},${au.itag}
                                     `).toString('base64')
                                 }`,
-                            }
+                            }];
                         })
                     ]
                 }, caption, parse_mode: 'HTML'
