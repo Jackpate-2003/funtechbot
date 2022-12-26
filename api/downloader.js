@@ -1,0 +1,79 @@
+const {REG, fetchData, API_HOST, formatBytes} = require("../utils");
+
+const platform = (ctx, text, match) => ({
+
+    youtube: async () => {
+
+        const data = await fetchData(API_HOST, {
+            id: match,
+        });
+
+        const {
+            videos, audios, title, description, url, thumb,
+            duration,
+        } = await data.json();
+
+        const caption = `
+    <b>Link:</b> ${url}
+    <b>Title:</b> ${title}
+    <b>Duration:</b> ${duration}
+    `;
+
+        ctx.replyWithPhoto({url: thumb},
+            {
+                reply_markup: {
+                    inline_keyboard: [
+                        videos.map(v => {
+                            return {
+                                text: `🎬 ${v.qualityLabel} - ${
+                                    formatBytes(Number(v.contentLength))
+                                } (${v.container})`,
+                                callback_data: `download_yt:${
+                                    Buffer.from(`
+                                    ${v.url},${v.mimeType},${v.itag}
+                                    `).toString('base64')
+                                }`,
+                            }
+                        }),
+                        audios.map(au => {
+                            return {
+                                text: `🎶 ${au.audioBitrate}k - ${
+                                    formatBytes(Number(v.contentLength))
+                                } (${v.container})`,
+                                callback_data: `download_yt:${
+                                    Buffer.from(`
+                                    ${v.url},${v.mimeType},${v.itag}
+                                    `).toString('base64')
+                                }`,
+                            }
+                        })
+                    ]
+                }, caption, parse_mode: 'HTML'
+            }
+        );
+
+    },
+
+});
+
+module.exports = async function (ctx, text) {
+
+    let match;
+
+    for (const rk in REG) {
+
+        match = text.match(REG[rk]);
+
+        if (match) {
+
+            await platform(ctx, text, match)[rk]();
+
+            break;
+
+        }
+
+    }
+
+    if (match) return true;
+
+}

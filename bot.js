@@ -1,12 +1,18 @@
-const YT_REG = /^.*(?:(?:youtu\.be\/|v\/|vi\/|u\/\w\/|embed\/|shorts\/)|(?:(?:watch)?\?v(?:i)?=|\&v(?:i)?=))([^#\&\?]*).*/;
-
-function ytDl() {
-
-
-
-}
+const downloader = require('./api/downloader');
 
 module.exports = function (bot) {
+
+    bot.on('text', async (ctx) => {
+
+        const text = ctx.message.text;
+
+        if(
+            await downloader(ctx, text)
+        ) {
+            return null;
+        }
+
+    });
 
     bot.command(YT_REG, async (ctx) => {
 

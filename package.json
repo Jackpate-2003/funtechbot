@@ -19,6 +19,8 @@
   "dependencies": {
     "express": "^4.17.1",
     "telegraf": "^4.11.2",
-    "body-parser": "*"
+    "body-parser": "*",
+    "node-fetch": "*",
+    "moment": "*"
   }
 }
