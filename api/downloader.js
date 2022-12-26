@@ -66,7 +66,7 @@ module.exports = async function (ctx, text) {
 
         if (match) {
 
-            await platform(ctx, text, match)[rk]();
+            await platform(ctx, text, match[1])[rk]();
 
             break;
 
