@@ -1,3 +1,5 @@
+const fetch = require('node-fetch');
+
 const REG = {
 
     youtube: /.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/,
@@ -8,8 +10,6 @@ const REG = {
 const API_HOST = 'https://fun-tech.vercel.app/api';
 
 async function fetchData(url, body) {
-
-    const fetch = require('node-fetch');
 
     const headers = {'Content-Type': 'application/json'};
 

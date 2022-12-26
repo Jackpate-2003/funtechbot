@@ -20,7 +20,7 @@
     "express": "^4.17.1",
     "telegraf": "^4.11.2",
     "body-parser": "*",
-    "node-fetch": "*",
+    "node-fetch": "^2.6.1",
     "moment": "*"
   }
 }
