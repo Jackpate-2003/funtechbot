@@ -4,7 +4,7 @@ const platforms = (ctx, text) => ({
 
         console.log('CTX', ctx, text)
 
-        return ctx.reply('OK!');
+        return ctx.reply('OK!', text);
 
     }
 
@@ -12,7 +12,7 @@ const platforms = (ctx, text) => ({
 
 module.exports = async function (ctx, text) {
 
-    const method = platforms(ctx, text)[text.replace('download_', '')];
+    const method = platforms(ctx, text)[text.split(' ')[0].replace('download_', '').trim()];
 
     if(
         method
