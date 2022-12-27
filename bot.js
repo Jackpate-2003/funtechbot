@@ -14,6 +14,14 @@ function start(bot) {
 
     });
 
+    bot.hears('et', async (ctx) => {
+        await ctx.reply('HERE!')
+    });
+
+    bot.hears(/ab_(.*)/, async (ctx) => {
+        await ctx.reply('LOLO!')
+    });
+
     bot.hears(/download_(.*)/, async (ctx) => {
 
         console.log('HERE!', ctx.match)
