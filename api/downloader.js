@@ -22,20 +22,34 @@ const platform = (ctx, text, match) => ({
         let dataArray = [];
 
         videos.forEach(v => {
+
+            const cd = Buffer.from(`download_yt_${
+                url
+            }_${
+                v.itag
+            }`, 'utf8').toString('hex');
+
             dataArray.push([{
                 text: `🎬 ${v.qualityLabel} - ${
                     formatBytes(Number(v.contentLength))
                 } (${v.container})`,
-                callback_data: `download_yt ${v.itag}_${ctx.message.message_id}`,
+                callback_data: cd,
             }]);
         });
 
         audios.forEach(au => {
+
+            const cd = Buffer.from(`download_yt_${
+                url
+            }_${
+                au.itag
+            }`, 'utf8').toString('hex');
+
             dataArray.push([{
                 text: `🎶 ${au.audioBitrate}k - ${
                     formatBytes(Number(au.contentLength))
                 } (${au.container})`,
-                callback_data: `download_yt_${au.itag}_${ctx.message.message_id}`
+                callback_data: cd
             }]);
         });
 

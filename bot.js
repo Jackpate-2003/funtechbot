@@ -17,7 +17,7 @@ module.exports = function (bot) {
 
     });
 
-    bot.action(/download_.*?/, async (ctx) => {
+    bot.hears(/download_.*?/, async (ctx) => {
 
         const DOWNLOAD = await download(ctx, text);
 
