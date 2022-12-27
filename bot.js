@@ -17,11 +17,11 @@ function start(bot) {
 
     });
 
-    bot.hears(/download_.*?/, async (ctx) => {
+    bot.hears(/download_(.*)/, async (ctx) => {
 
-        const text = ctx.message.text;
+        console.log('HERE!', ctx.match)
 
-        const DOWNLOAD = await download(ctx, text);
+        const DOWNLOAD = await download(ctx, ctx.match);
 
         if (
             DOWNLOAD
