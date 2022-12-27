@@ -19,6 +19,8 @@ function start(bot) {
 
     bot.hears(/download_.*?/, async (ctx) => {
 
+        const text = ctx.message.text;
+
         const DOWNLOAD = await download(ctx, text);
 
         if (
