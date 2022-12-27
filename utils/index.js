@@ -33,8 +33,33 @@ function formatBytes(bytes, decimals = 2) {
     return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))}${sizes[i]}`
 }
 
+function getSession(ctx, key) {
+
+    if (ctx.session) {
+        return ctx.session[key];
+    }
+
+}
+
+function setSession(ctx, key, value, parent) {
+
+    if (!ctx.session) {
+        ctx.session = {};
+    }
+
+    if (parent) {
+        if (!ctx.session[parent]) {
+            ctx.session[parent] = {};
+        }
+        return ctx.session[parent][key] = value;
+    }
+
+    ctx.session[key] = value;
+
+}
+
 module.exports = {
 
     REG, API_HOST, fetchData, formatBytes,
-
+    getSession, setSession,
 }

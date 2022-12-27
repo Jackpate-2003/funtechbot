@@ -31,31 +31,6 @@ function start(bot) {
 
 }
 
-function getSession(ctx, key) {
-
-    if (ctx.session) {
-        return ctx.session[key];
-    }
-
-}
-
-function setSession(ctx, key, value, parent) {
-
-    if (!ctx.session) {
-        ctx.session = {};
-    }
-
-    if (parent) {
-        if (!ctx.session[parent]) {
-            ctx.session[parent] = {};
-        }
-        return ctx.session[parent][key] = value;
-    }
-
-    ctx.session[key] = value;
-
-}
-
 module.exports = {
-    start, getSession, setSession,
+    start,
 }

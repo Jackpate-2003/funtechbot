@@ -1,4 +1,4 @@
-const {getSession} = require("../bot");
+const {getSession} = require("../utils");
 const platforms = (ctx, text) => ({
 
     youtube: async () => {

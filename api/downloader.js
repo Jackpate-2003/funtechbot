@@ -1,5 +1,4 @@
-const {REG, fetchData, API_HOST, formatBytes} = require("../utils");
-const {setSession} = require("../bot");
+const {REG, fetchData, API_HOST, formatBytes, setSession} = require("../utils");
 
 const platform = (ctx, text, match) => ({
 
