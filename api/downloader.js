@@ -37,7 +37,7 @@ const platform = (ctx, text, match) => ({
                 text: `🎶 ${au.audioBitrate}k - ${
                     formatBytes(Number(au.contentLength))
                 } (${au.container})`,
-                callback_data: `download_youtube_${v.itag}`,
+                callback_data: `download_youtube_${au.itag}`,
             }]);
         });
 
