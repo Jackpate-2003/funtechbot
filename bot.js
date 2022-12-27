@@ -17,7 +17,7 @@ function start(bot) {
 
     });
 
-    bot.hears('download_youtube_wdfed', async (ctx) => {
+    bot.hears('pp', async (ctx) => {
 
         console.log('HERE!', ctx.match)
 
