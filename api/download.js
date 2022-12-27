@@ -1,8 +1,9 @@
+const {getSession} = require("../bot");
 const platforms = (ctx, text) => ({
 
-    yt: async () => {
+    youtube: async () => {
 
-        console.log('CTX222', ctx, text)
+        console.log('CTX222', getSession(ctx, 'downloader'), text)
 
         return ctx.reply('OK!', text);
 
@@ -12,7 +13,7 @@ const platforms = (ctx, text) => ({
 
 module.exports = async function (ctx, text) {
 
-    const method = platforms(ctx, text)[text.split(' ')[1]];
+    const method = platforms(ctx, text)[text.split('_')[1]];
 
     if(
         method

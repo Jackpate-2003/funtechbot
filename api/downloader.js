@@ -1,4 +1,5 @@
 const {REG, fetchData, API_HOST, formatBytes} = require("../utils");
+const {setSession} = require("../bot");
 
 const platform = (ctx, text, match) => ({
 
@@ -7,6 +8,8 @@ const platform = (ctx, text, match) => ({
         const data = await fetchData(`${API_HOST}/video-meta`, {
             id: match,
         });
+
+        setSession(ctx, 'youtube', match, 'downloader');
 
         const {
             videos, audios, title, description, url, thumb,
@@ -26,7 +29,7 @@ const platform = (ctx, text, match) => ({
                 text: `🎬 ${v.qualityLabel} - ${
                     formatBytes(Number(v.contentLength))
                 } (${v.container})`,
-                callback_data: `download_yt_${v.itag}_${ctx.message.message_id}`,
+                callback_data: `download_yt_${v.itag}`,
             }]);
         });
 
@@ -35,7 +38,7 @@ const platform = (ctx, text, match) => ({
                 text: `🎶 ${au.audioBitrate}k - ${
                     formatBytes(Number(au.contentLength))
                 } (${au.container})`,
-                callback_data: `download_yt_${au.itag}_${ctx.message.message_id}`
+                callback_data: `download_youtube_${v.itag}`,
             }]);
         });
 

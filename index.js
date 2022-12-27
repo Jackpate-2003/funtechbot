@@ -1,7 +1,7 @@
 const express = require('express');
-const {Telegraf} = require("telegraf");
+const {Telegraf, session} = require("telegraf");
 const BodyParser = require("body-parser");
-const start = require('./bot');
+const {start} = require('./bot');
 
 const BOT_KEY = '5836436547:AAE_Z-6MpCP-bVp3r96M8XhFIMCGxNJgKvk';
 
@@ -17,9 +17,7 @@ bot.telegram.setWebhook(`${HOST}/${secret}`)
     .then((status) => console.log('Webhook setted: ' + status))
     .catch(err => console.log("ERR", err));
 
-console.log('Secret path', `${HOST}/${secret}`)
-
-start(bot);
+bot.use(session());
 
 app.use(BodyParser.json());
 app.use(
@@ -27,6 +25,8 @@ app.use(
         extended: true,
     })
 );
+
+start(bot);
 
 app.get("/", (req, res) => res.send("Hello!"));
 

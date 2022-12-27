@@ -1,7 +1,7 @@
 const downloader = require('./api/downloader');
 const download = require('./api/download');
 
-module.exports = function (bot) {
+function start(bot) {
 
     bot.on('text', async (ctx) => {
 
@@ -21,7 +21,7 @@ module.exports = function (bot) {
 
         const DOWNLOAD = await download(ctx, text);
 
-        if(
+        if (
             DOWNLOAD
         ) {
             return DOWNLOAD;
@@ -29,4 +29,33 @@ module.exports = function (bot) {
 
     });
 
+}
+
+function getSession(ctx, key) {
+
+    if (ctx.session) {
+        return ctx.session[key];
+    }
+
+}
+
+function setSession(ctx, key, value, parent) {
+
+    if (!ctx.session) {
+        ctx.session = {};
+    }
+
+    if (parent) {
+        if (!ctx.session[parent]) {
+            ctx.session[parent] = {};
+        }
+        return ctx.session[parent][key] = value;
+    }
+
+    ctx.session[key] = value;
+
+}
+
+module.exports = {
+    start, getSession, setSession,
 }
