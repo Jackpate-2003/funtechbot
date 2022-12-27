@@ -34,6 +34,7 @@ class Downloader {
         let dataArray = [];
 
         videos.forEach(v => {
+            console.log('vv', v)
             dataArray.push([{
                 text: `🎬 ${v.qualityLabel} - ${
                     formatBytes(Number(v.contentLength))

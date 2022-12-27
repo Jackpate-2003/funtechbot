@@ -4,9 +4,9 @@ const platforms = (ctx, text) => ({
 
     youtube: async () => {
 
-        console.log('CTX222', getSession(ctx, 'downloader'), text)
+        console.log('CTX222', ctx.session, text)
 
-        return await ctx.reply('OK!', text);
+        return await ctx.reply('OK!');
 
     }
 

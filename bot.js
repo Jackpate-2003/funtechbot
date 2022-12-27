@@ -20,8 +20,6 @@ function start(bot) {
 
     bot.action(/download_(.*)/, async (ctx) => {
 
-        console.log('HERE!', ctx.match)
-
         await download(ctx, ctx.match[0]);
 
     });
