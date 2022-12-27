@@ -51,7 +51,7 @@ class Downloader {
             }]);
         });
 
-        return await this.ctx.replyWithPhoto({url: thumb},
+        await this.ctx.replyWithPhoto({url: thumb},
             {
                 reply_to_message_id: this.ctx.message.message_id,
                 reply_markup: {
