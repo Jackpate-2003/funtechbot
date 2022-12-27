@@ -18,7 +18,7 @@ function start(bot) {
 
         console.log('HERE!', ctx.match)
 
-        await download(ctx, ctx.match);
+        await download(ctx, ctx.match[0]);
 
     });
 
