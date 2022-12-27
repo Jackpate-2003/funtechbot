@@ -1,14 +1,24 @@
 const {REG, fetchData, API_HOST, formatBytes, setSession} = require("../utils");
 
-const platform = (ctx, text, match) => ({
+class Downloader {
 
-    youtube: async () => {
+    ctx;
+    match;
+
+    constructor(ctx) {
+
+        this.ctx = ctx;
+        this.match = ctx.match[1];
+
+    }
+
+    async youtube() {
 
         const data = await fetchData(`${API_HOST}/video-meta`, {
-            id: match,
+            id: this.match,
         });
 
-        setSession(ctx, 'youtube', match, 'downloader');
+        setSession(this.ctx, 'youtube', this.match, 'downloader');
 
         const {
             videos, audios, title, description, url, thumb,
@@ -41,33 +51,17 @@ const platform = (ctx, text, match) => ({
             }]);
         });
 
-        return await ctx.replyWithPhoto({url: thumb},
+        return await this.ctx.replyWithPhoto({url: thumb},
             {
-                reply_to_message_id: ctx.message.message_id,
+                reply_to_message_id: this.ctx.message.message_id,
                 reply_markup: {
                     inline_keyboard: dataArray,
                 }, caption, parse_mode: 'HTML'
             }
         );
 
-    },
-
-});
-
-module.exports = async function (ctx, text) {
-
-    let match;
-
-    for (const rk in REG) {
-
-        match = text.match(REG[rk]);
-
-        if (match) {
-
-            return await platform(ctx, text, match[1])[rk]();
-
-        }
-
     }
 
 }
+
+module.exports = Downloader;

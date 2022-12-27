@@ -16,7 +16,7 @@ module.exports = async function (ctx, text) {
 
     const method = platforms(ctx, text)[text.split('_')[1]];
 
-    if (
+    if(
         method
     ) {
 
