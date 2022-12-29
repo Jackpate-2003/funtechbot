@@ -2,7 +2,7 @@ const express = require('express');
 const {Telegraf, session} = require("telegraf");
 const BodyParser = require("body-parser");
 const {start} = require('./bot');
-const LocalSession = require('telegraf-session-local');
+// const LocalSession = require('telegraf-session-local');
 
 const BOT_KEY = '5836436547:AAE_Z-6MpCP-bVp3r96M8XhFIMCGxNJgKvk';
 
@@ -17,8 +17,6 @@ const secret = `/tel/${bot.secretPathComponent()}`;
 bot.telegram.setWebhook(`${HOST}/${secret}`)
     .then((status) => console.log('Webhook setted: ' + status))
     .catch(err => console.log("ERR", err));
-
-bot.use((new LocalSession({database: 'ls.json'})).middleware());
 
 app.use(BodyParser.json());
 app.use(
