@@ -13,6 +13,8 @@ async function ytd(ctx) {
 
     const info = await ytdl.getInfo(id);
 
+    const details = info.videoDetails;
+
     let file;
 
     const format = ytdl.chooseFormat(info.formats, {quality: String(itag)});
