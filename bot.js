@@ -83,15 +83,15 @@ async function ytd(ctx) {
         const {Input} = require('telegraf');
 
         await ctx.sendVideo(
-            Input.fromBuffer(buffers),
+            Input.fromBuffer(buffers)
             // ctx.from.id,
-            {
+           /* {
                 // reply_to_message_id: ctx.from.id,
                 duration: Number(details.lengthSeconds),
                 caption: details.title,
                 width: format.width,
                 height: format.height
-            });
+            }*/);
 
     }
 
