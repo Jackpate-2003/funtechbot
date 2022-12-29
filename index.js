@@ -17,7 +17,7 @@ bot.telegram.setWebhook(`${HOST}/${secret}`)
     .then((status) => console.log('Webhook setted: ' + status))
     .catch(err => console.log("ERR", err));
 
-bot.use(session());
+bot.use((new LocalSession({database: 'ls.json'})).middleware());
 
 app.use(BodyParser.json());
 app.use(

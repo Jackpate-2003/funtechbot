@@ -21,6 +21,10 @@
     "telegraf": "^4.11.2",
     "body-parser": "*",
     "node-fetch": "^2.6.1",
-    "moment": "*"
+    "moment": "*",
+    "telegraf-session-local": "*",
+    "ytdl-core": "*",
+    "ffmpeg-static": "*",
+    "child_process": "*"
   }
 }
