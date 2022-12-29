@@ -1,100 +1,88 @@
 const {REG, fetchData, API_HOST, formatBytes, setSession, bytesToMegaBytes} = require("../utils");
 const {metaData} = require("../utils/yt");
 
-class Downloader {
+async function youtubeInfo(ctx) {
 
-    ctx;
-    match;
+    const match = ctx.match[1];
 
-    constructor(ctx) {
+    const data = await metaData(match);
 
-        this.ctx = ctx;
-        this.match = ctx.match[1];
+    const {
+        videos, audios, title, description, url, thumb,
+        duration,
+    } = await data.json();
 
-    }
-
-    async youtube() {
-
-        const data = await metaData(this.match);
-
-        const {
-            videos, audios, title, description, url, thumb,
-            duration,
-        } = await data.json();
-
-        const caption = `
+    const caption = `
     <b>Link:</b> ${url}
     <b>Title:</b> ${title}
     <b>Duration:</b> ${duration}
     `;
 
-        let dataArray = [];
+    let dataArray = [];
 
-        videos.forEach(v => {
+    videos.forEach(v => {
 
-            if (bytesToMegaBytes(v.contentLength) < 50) {
+        if (bytesToMegaBytes(v.contentLength) < 50) {
 
-                setSession(this.ctx, 'youtube', v.url, 'downloader');
+            setSession(ctx, 'youtube', v.url, 'downloader');
 
-                dataArray.push([{
-                    text: `🎬${v.hasAudio ? '🎶' : ''} ${v.qualityLabel} - ${
-                        formatBytes(Number(v.contentLength))
-                    } (${v.container}) ● ${v.hasAudio ? 'with' : 'without'} audio`,
-                    callback_data: `download_youtube`,
-                }]);
+            dataArray.push([{
+                text: `🎬${v.hasAudio ? '🎶' : ''} ${v.qualityLabel} - ${
+                    formatBytes(Number(v.contentLength))
+                } (${v.container}) ● ${v.hasAudio ? 'with' : 'without'} audio`,
+                callback_data: `download_youtube`,
+            }]);
 
-            } else {
+        } else {
 
-                dataArray.push([{
-                    text: `🎬${v.hasAudio ? '🎶' : ''} ${v.qualityLabel} - ${
-                        formatBytes(Number(v.contentLength))
-                    } (${v.container}) ● ${v.hasAudio ? 'with' : 'without'} audio`,
-                    url: v.url,
-                }]);
+            dataArray.push([{
+                text: `🎬${v.hasAudio ? '🎶' : ''} ${v.qualityLabel} - ${
+                    formatBytes(Number(v.contentLength))
+                } (${v.container}) ● ${v.hasAudio ? 'with' : 'without'} audio`,
+                url: v.url,
+            }]);
 
-            }
+        }
 
-        });
+    });
 
-        audios.forEach(au => {
+    audios.forEach(au => {
 
-            if (bytesToMegaBytes(au.contentLength) < 50) {
+        if (bytesToMegaBytes(au.contentLength) < 50) {
 
-                setSession(this.ctx, 'youtube', au.url, 'downloader');
+            setSession(ctx, 'youtube', au.url, 'downloader');
 
-                dataArray.push([{
-                    text: `🎶 ${au.audioBitrate}k - ${
-                        formatBytes(Number(au.contentLength))
-                    } (${au.container})`,
-                    callback_data: `download_youtube`,
-                }]);
+            dataArray.push([{
+                text: `🎶 ${au.audioBitrate}k - ${
+                    formatBytes(Number(au.contentLength))
+                } (${au.container})`,
+                callback_data: `download_youtube`,
+            }]);
 
-            }
+        } else {
 
-            else {
+            dataArray.push([{
+                text: `🎶 ${au.audioBitrate}k - ${
+                    formatBytes(Number(au.contentLength))
+                } (${au.container})`,
+                url: au.url,
+            }]);
 
-                dataArray.push([{
-                    text: `🎶 ${au.audioBitrate}k - ${
-                        formatBytes(Number(au.contentLength))
-                    } (${au.container})`,
-                    url: au.url,
-                }]);
+        }
 
-            }
+    });
 
-        });
-
-        await this.ctx.replyWithPhoto({url: thumb},
-            {
-                reply_to_message_id: this.ctx.message.message_id,
-                reply_markup: {
-                    inline_keyboard: dataArray,
-                }, caption, parse_mode: 'HTML'
-            }
-        );
-
-    }
+    return await ctx.replyWithPhoto({url: thumb},
+        {
+            reply_to_message_id: ctx.message.message_id,
+            reply_markup: {
+                inline_keyboard: dataArray,
+            }, caption, parse_mode: 'HTML'
+        }
+    );
 
 }
 
-module.exports = Downloader;
+module.exports = {
+    youtubeInfo,
+};

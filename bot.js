@@ -1,7 +1,6 @@
-const Downloader = require('./api/downloader');
-const download = require('./api/download');
 const {REG} = require("./utils");
 const {downloadFromYoutube} = require("./api/download");
+const {youtubeInfo} = require("./api/downloader");
 
 function start(bot) {
 
@@ -9,15 +8,13 @@ function start(bot) {
 
         console.log('HEre!', ctx.match)
 
-        const downloader = new Downloader(ctx);
-
-        await downloader.youtube();
+        return await youtubeInfo();
 
     });
 
     bot.action('download_youtube', async (ctx) => {
 
-        await downloadFromYoutube()
+        return await downloadFromYoutube(ctx);
 
     });
 
