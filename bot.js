@@ -1,7 +1,6 @@
 const Downloader = require('./api/downloader');
 const download = require('./api/download');
 const {REG} = require("./utils");
-const LocalSession = require('telegraf-session-local');
 
 async function ytd(ctx) {
 
