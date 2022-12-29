@@ -2,7 +2,7 @@ const express = require('express');
 const {Telegraf, session} = require("telegraf");
 const BodyParser = require("body-parser");
 const {start} = require('./bot');
-// const LocalSession = require('telegraf-session-local');
+const LocalSession = require('telegraf-session-local');
 
 const BOT_KEY = '5836436547:AAE_Z-6MpCP-bVp3r96M8XhFIMCGxNJgKvk';
 
@@ -24,6 +24,8 @@ app.use(
         extended: true,
     })
 );
+
+bot.use((new LocalSession({ database: 'ls.json' })).middleware())
 
 start(bot);
 

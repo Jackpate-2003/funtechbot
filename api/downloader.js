@@ -20,7 +20,7 @@ async function youtubeInfo(ctx) {
 
     videos.forEach(v => {
 
-        if (bytesToMegaBytes(v.contentLength) < 50) {
+        if (bytesToMegaBytes(v.contentLength || 0) < 50) {
 
             setSession(ctx, 'youtube', v.url, 'downloader');
 
@@ -46,7 +46,7 @@ async function youtubeInfo(ctx) {
 
     audios.forEach(au => {
 
-        if (bytesToMegaBytes(au.contentLength) < 50) {
+        if (bytesToMegaBytes(au.contentLength || 0) < 50) {
 
             setSession(ctx, 'youtube', au.url, 'downloader');
 
