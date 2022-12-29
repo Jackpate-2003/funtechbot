@@ -33,6 +33,10 @@ function formatBytes(bytes, decimals = 2) {
     return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))}${sizes[i]}`
 }
 
+function bytesToMegaBytes(bytes) {
+    return Number(bytes) / (1024 * 1024);
+}
+
 function getSession(ctx, key) {
 
     if (ctx.session) {
@@ -61,6 +65,6 @@ function setSession(ctx, key, value, parent) {
 
 module.exports = {
 
-    REG, API_HOST, fetchData, formatBytes,
+    REG, API_HOST, fetchData, formatBytes, bytesToMegaBytes,
     getSession, setSession,
 }
