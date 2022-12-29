@@ -8,7 +8,7 @@ function start(bot) {
 
         console.log('HEre!', ctx.match)
 
-        return await youtubeInfo();
+        return await youtubeInfo(ctx);
 
     });
 
