@@ -8,8 +8,8 @@ async function ytd(ctx) {
     const ffmpeg = require('ffmpeg-static');
     const cp = require('child_process');
 
-    const id = 'ON8Lifu0Vzw',
-        itag = 134;
+    const id = '99JW6rNvsu8',
+        itag = 398;
 
     const info = await ytdl.getInfo(id);
 
@@ -82,16 +82,16 @@ async function ytd(ctx) {
 
         const {Input} = require('telegraf');
 
-        await ctx.sendVideo(
-            Input.fromBuffer(buffers)
+        return await ctx.sendVideo(
+            Input.fromBuffer(buffers),
             // ctx.from.id,
-           /* {
+            {
                 // reply_to_message_id: ctx.from.id,
                 duration: Number(details.lengthSeconds),
                 caption: details.title,
                 width: format.width,
                 height: format.height
-            }*/);
+            });
 
     }
 
