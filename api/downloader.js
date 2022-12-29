@@ -22,7 +22,10 @@ async function youtubeInfo(ctx) {
 
         if (bytesToMegaBytes(v.contentLength || 0) < 50) {
 
-            setSession(ctx, 'youtube', v.url, 'downloader');
+            ctx.session = {
+                ...ctx.session,
+                youtube: v.url,
+            }
 
             dataArray.push([{
                 text: `🎬${v.hasAudio ? '🎶' : ''} ${v.qualityLabel} - ${
@@ -48,7 +51,10 @@ async function youtubeInfo(ctx) {
 
         if (bytesToMegaBytes(au.contentLength || 0) < 50) {
 
-            setSession(ctx, 'youtube', au.url, 'downloader');
+            ctx.session = {
+                ...ctx.session,
+                youtube: au.url,
+            }
 
             dataArray.push([{
                 text: `🎶 ${au.audioBitrate}k - ${
