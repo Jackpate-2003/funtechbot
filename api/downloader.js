@@ -5,12 +5,10 @@ async function youtubeInfo(ctx) {
 
     const match = ctx.match[1];
 
-    const data = await metaData(match);
-
     const {
         videos, audios, title, description, url, thumb,
         duration,
-    } = await data.json();
+    } = await metaData(match);
 
     const caption = `
     <b>Link:</b> ${url}
