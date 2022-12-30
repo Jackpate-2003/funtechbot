@@ -24,7 +24,7 @@ async function youtubeInfo(ctx) {
                 text: `🎬${v.hasAudio ? '🎶' : ''} ${v.qualityLabel} - ${
                     formatBytes(Number(v.contentLength))
                 } (${v.container}) ● ${v.hasAudio ? 'with' : 'without'} audio`,
-                url: v.url,
+                url: 'https://example.com/efefefef',
             }]);
 
     });
@@ -35,7 +35,7 @@ async function youtubeInfo(ctx) {
                 text: `🎶 ${au.audioBitrate}k - ${
                     formatBytes(Number(au.contentLength))
                 } (${au.container})`,
-                url: au.url,
+                url: 'https://example.com/efefefef',
             }]);
 
     });
