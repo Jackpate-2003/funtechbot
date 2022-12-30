@@ -26,15 +26,13 @@ async function youtubeInfo(ctx) {
 
         const key = makeID(6);
 
-        const shortUrl = await s3.setObj(key, {
-            url: v.url,
-        });
+        global.sl[key] = v.url;
 
         dataArray.push([{
             text: `🎬${v.hasAudio ? '🎶' : ''} ${v.qualityLabel} - ${
                 formatBytes(Number(v.contentLength))
             } (${v.container}) ● ${v.hasAudio ? 'with' : 'without'} audio`,
-            url: `${HOST}/red?id=${shortUrl}`,
+            url: `${HOST}/red?id=${key}`,
         }]);
 
     }
@@ -43,15 +41,13 @@ async function youtubeInfo(ctx) {
 
         const key = makeID(6);
 
-        const shortUrl = await s3.setObj(key, {
-            url: au.url,
-        });
+        global.sl[key] = au.url;
 
         dataArray.push([{
             text: `🎶 ${au.audioBitrate}k - ${
                 formatBytes(Number(au.contentLength))
             } (${au.container})`,
-            url: `${HOST}/red?id=${shortUrl}`,
+            url: `${HOST}/red?id=${key}`,
         }]);
 
     }

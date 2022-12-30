@@ -6,6 +6,11 @@ const S3 = require('./db/s3');
 const {HOST} = require("./utils");
 // const LocalSession = require('telegraf-session-local');
 
+// Globals
+if(!global.sl) {
+    global.sl = {};
+}
+
 const BOT_KEY = '5836436547:AAE_Z-6MpCP-bVp3r96M8XhFIMCGxNJgKvk';
 
 const bot = new Telegraf(BOT_KEY);
@@ -37,9 +42,7 @@ app.get('/red', async (req, res) => {
 
     const { id } = req.query;
 
-    const s3 = new S3();
-
-    const url = await s3.getObj(String(id));
+    const url = global.sl[id];
 
     if(!url) {
 
