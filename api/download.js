@@ -7,9 +7,9 @@ async function downloadFromYoutube(ctx) {
 
     console.log('CTX222', getSession(ctx, 'downloader'), ctx.session)
 
-    const yt = ctx.session.youtube;
+    if (ctx.session && ctx.session.youtube) {
 
-    if (yt) {
+        const yt = ctx.session.youtube;
 
         const file = await fetch(yt.url);
 
@@ -17,7 +17,7 @@ async function downloadFromYoutube(ctx) {
 
         const fileBuffer = Buffer.from(await file.arrayBuffer());
 
-        const buffer = new Promise((res, rej) => {
+        const buffer = await new Promise((res, rej) => {
             ffmpeg(fileBuffer)
                 .audioBitrate(yt.bitrate)
                 .on('data', chunk => {
@@ -31,7 +31,7 @@ async function downloadFromYoutube(ctx) {
             });
         });
 
-        ctx.sendVoice(buffer);
+        return await ctx.sendVoice(buffer);
 
         /*if (yt.hasVideo) {
 
@@ -58,8 +58,6 @@ async function downloadFromYoutube(ctx) {
         }*/
 
     }
-
-    return await ctx.reply('OK!');
 
 }
 
