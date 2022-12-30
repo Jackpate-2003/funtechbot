@@ -41,6 +41,17 @@ async function youtubeInfo(ctx) {
 
         const key = makeID(6);
 
+        global.sl[key] = au.url;
+
+        dataArray.push([{
+            text: `🎶 ${au.audioBitrate}k - ${
+                formatBytes(Number(au.contentLength))
+            } (${au.container})`,
+            url: `${HOST}/red?id=${key}`,
+        }]);
+
+        continue;
+
         if (bytesToMegaBytes(au.contentLength || 0) < 50) {
 
             setSession(ctx, 'youtube', {
