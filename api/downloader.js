@@ -30,10 +30,10 @@ async function youtubeInfo(ctx) {
 
         if(bytesToMegaBytes(v.contentLength || 0) < 50) {
 
-            ctx.session.youtube = {
+            setSession(ctx, 'youtube', {
                 url: v.url,
                 title,
-            }
+            });
 
             dataArray.push([{
                 text: `🎬${v.hasAudio ? '🎶' : ''} ${v.qualityLabel} - ${
