@@ -55,7 +55,7 @@ const metaData = async (id) => {
             ...videosWithAudio,
             ...videos
         ], audios, title, description, url: video_url,
-        thumb, duration,
+        thumb, duration, lengthSeconds,
     };
 
 }

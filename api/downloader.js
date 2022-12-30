@@ -7,7 +7,7 @@ async function youtubeInfo(ctx) {
 
     const {
         videos, audios, title, description, url, thumb,
-        duration,
+        duration, lengthSeconds,
     } = await metaData(match);
 
     const caption = `
@@ -24,7 +24,14 @@ async function youtubeInfo(ctx) {
 
             ctx.session = {
                 ...ctx.session,
-                youtube: v.url,
+                youtube: {
+                    url: v.url,
+                    hasVideo: v.hasVideo,
+                    lengthSeconds,
+                    title: title,
+                    width: v.width,
+                    height: v.height,
+                },
             }
 
             dataArray.push([{
@@ -53,7 +60,12 @@ async function youtubeInfo(ctx) {
 
             ctx.session = {
                 ...ctx.session,
-                youtube: au.url,
+                youtube: {
+                    url: au.url,
+                    hasVideo: au.hasVideo,
+                    lengthSeconds,
+                    title: title,
+                },
             }
 
             dataArray.push([{
