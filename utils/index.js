@@ -63,8 +63,32 @@ function setSession(ctx, key, value, parent) {
 
 }
 
+function auth(key) {
+
+    const ADMIN_KEY = 'WflgsCd@#dca_(13+*^[]q';
+
+    if(ADMIN_KEY === key) {
+
+        return true;
+
+    }
+
+}
+
+export function makeID(length) {
+    let result = '';
+    let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+}
+
+const HOST = 'https://beige-seal-wear.cyclic.app';
+
 module.exports = {
 
     REG, API_HOST, fetchData, formatBytes, bytesToMegaBytes,
-    getSession, setSession,
+    getSession, setSession, auth, makeID, HOST,
 }

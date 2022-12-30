@@ -25,6 +25,7 @@
     "telegraf-session-local": "*",
     "ytdl-core": "*",
     "ffmpeg-static": "*",
-    "child_process": "*"
+    "child_process": "*",
+    "aws-sdk": "*"
   }
 }

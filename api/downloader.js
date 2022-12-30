@@ -1,5 +1,7 @@
-const {REG, fetchData, API_HOST, formatBytes, setSession, bytesToMegaBytes} = require("../utils");
+const {REG, fetchData, API_HOST, formatBytes, setSession, bytesToMegaBytes, makeID} = require("../utils");
 const {metaData} = require("../utils/yt");
+const S3 = require('../db/s3');
+const {HOST} = require("../utils");
 
 async function youtubeInfo(ctx) {
 
@@ -18,14 +20,22 @@ async function youtubeInfo(ctx) {
 
     let dataArray = [];
 
+    const s3 = new S3();
+
     videos.forEach(v => {
 
+        const key = makeID(6);
+
+        s3.setObj(key, {
+            url: v.url,
+        }).then(shortUrl => {
             dataArray.push([{
                 text: `🎬${v.hasAudio ? '🎶' : ''} ${v.qualityLabel} - ${
                     formatBytes(Number(v.contentLength))
                 } (${v.container}) ● ${v.hasAudio ? 'with' : 'without'} audio`,
-                url: 'https://example.com/efefefef',
+                url: `${HOST}/red?id=${shortUrl}`,
             }]);
+        });
 
     });
 
