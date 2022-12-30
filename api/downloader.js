@@ -28,32 +28,12 @@ async function youtubeInfo(ctx) {
 
         global.sl[key] = v.url;
 
-        if(bytesToMegaBytes(v.contentLength || 0) < 50) {
-
-            setSession(ctx, 'youtube', {
-                url: v.url,
-                title,
-            });
-
-            dataArray.push([{
-                text: `🎬${v.hasAudio ? '🎶' : ''} ${v.qualityLabel} - ${
-                    formatBytes(Number(v.contentLength))
-                } (${v.container}) ● ${v.hasAudio ? 'with' : 'without'} audio`,
-                callback_data: `download_youtube`,
-            }]);
-
-        }
-
-        else {
-
-            dataArray.push([{
-                text: `🎬${v.hasAudio ? '🎶' : ''} ${v.qualityLabel} - ${
-                    formatBytes(Number(v.contentLength))
-                } (${v.container}) ● ${v.hasAudio ? 'with' : 'without'} audio`,
-                url: `${HOST}/red?id=${key}`,
-            }]);
-
-        }
+        dataArray.push([{
+            text: `🎬${v.hasAudio ? '🎶' : ''} ${v.qualityLabel} - ${
+                formatBytes(Number(v.contentLength))
+            } (${v.container}) ● ${v.hasAudio ? 'with' : 'without'} audio`,
+            url: `${HOST}/red?id=${key}`,
+        }]);
 
     }
 
@@ -61,14 +41,33 @@ async function youtubeInfo(ctx) {
 
         const key = makeID(6);
 
-        global.sl[key] = au.url;
+        if (bytesToMegaBytes(au.contentLength || 0) < 50) {
 
-        dataArray.push([{
-            text: `🎶 ${au.audioBitrate}k - ${
-                formatBytes(Number(au.contentLength))
-            } (${au.container})`,
-            url: `${HOST}/red?id=${key}`,
-        }]);
+            setSession(ctx, 'youtube', {
+                url: au.url,
+                title,
+                bitrate: Number(au.audioBitrate),
+            });
+
+            dataArray.push([{
+                text: `🎶 ${au.audioBitrate}k - ${
+                    formatBytes(Number(au.contentLength))
+                } (${au.container})`,
+                callback_data: `download_youtube`,
+            }]);
+
+        } else {
+
+            global.sl[key] = au.url;
+
+            dataArray.push([{
+                text: `🎶 ${au.audioBitrate}k - ${
+                    formatBytes(Number(au.contentLength))
+                } (${au.container})`,
+                url: `${HOST}/red?id=${key}`,
+            }]);
+
+        }
 
     }
 

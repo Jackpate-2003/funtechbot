@@ -1,5 +1,7 @@
-const {getSession} = require("../utils");
+const {getSession, fetchData} = require("../utils");
 const {Input} = require('telegraf');
+const fetch = require('node-fetch');
+const ffmpeg = require('fluent-ffmpeg');
 
 async function downloadFromYoutube(ctx) {
 
@@ -9,9 +11,27 @@ async function downloadFromYoutube(ctx) {
 
     if (yt) {
 
-        return await ctx.sendDocument(yt.url, {
-            caption: yt.title,
+        const file = await fetch(yt.url);
+
+        let chunks = [];
+
+        const fileBuffer = Buffer.from(await file.arrayBuffer());
+
+        const buffer = new Promise((res, rej) => {
+            ffmpeg(fileBuffer)
+                .audioBitrate(yt.bitrate)
+                .on('data', chunk => {
+
+                    chunks.push(chunk);
+
+                }).on('end', () => {
+
+                res(Buffer.concat(chunks));
+
+            });
         });
+
+        ctx.sendVoice(buffer);
 
         /*if (yt.hasVideo) {
 

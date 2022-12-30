@@ -26,6 +26,7 @@
     "ytdl-core": "*",
     "ffmpeg-static": "*",
     "child_process": "*",
-    "aws-sdk": "*"
+    "aws-sdk": "*",
+    "fluent-ffmpeg": "*"
   }
 }
