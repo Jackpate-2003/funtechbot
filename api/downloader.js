@@ -41,12 +41,18 @@ async function youtubeInfo(ctx) {
 
     audios.forEach(au => {
 
+        const key = makeID(6);
+
+        s3.setObj(key, {
+            url: au.url,
+        }).then(shortUrl => {
             dataArray.push([{
                 text: `🎶 ${au.audioBitrate}k - ${
                     formatBytes(Number(au.contentLength))
                 } (${au.container})`,
-                url: 'https://example.com/efefefef',
+                url: `${HOST}/red?id=${shortUrl}`,
             }]);
+        });
 
     });
 
