@@ -28,12 +28,32 @@ async function youtubeInfo(ctx) {
 
         global.sl[key] = v.url;
 
-        dataArray.push([{
-            text: `🎬${v.hasAudio ? '🎶' : ''} ${v.qualityLabel} - ${
-                formatBytes(Number(v.contentLength))
-            } (${v.container}) ● ${v.hasAudio ? 'with' : 'without'} audio`,
-            url: `${HOST}/red?id=${key}`,
-        }]);
+        if(bytesToMegaBytes(v.contentLength || 0) < 50) {
+
+            ctx.session.youtube = {
+                url: v.url,
+                title,
+            }
+
+            dataArray.push([{
+                text: `🎬${v.hasAudio ? '🎶' : ''} ${v.qualityLabel} - ${
+                    formatBytes(Number(v.contentLength))
+                } (${v.container}) ● ${v.hasAudio ? 'with' : 'without'} audio`,
+                callback_data: `download_youtube`,
+            }]);
+
+        }
+
+        else {
+
+            dataArray.push([{
+                text: `🎬${v.hasAudio ? '🎶' : ''} ${v.qualityLabel} - ${
+                    formatBytes(Number(v.contentLength))
+                } (${v.container}) ● ${v.hasAudio ? 'with' : 'without'} audio`,
+                url: `${HOST}/red?id=${key}`,
+            }]);
+
+        }
 
     }
 

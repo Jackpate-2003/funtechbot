@@ -9,7 +9,11 @@ async function downloadFromYoutube(ctx) {
 
     if (yt) {
 
-        if (yt.hasVideo) {
+        return await ctx.sendDocument(yt.url, {
+            caption: yt.title,
+        });
+
+        /*if (yt.hasVideo) {
 
             return await ctx.sendVideo(
                 yt.url,
@@ -31,7 +35,7 @@ async function downloadFromYoutube(ctx) {
                     caption: yt.title,
                 });
 
-        }
+        }*/
 
     }
 
