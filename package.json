@@ -27,6 +27,7 @@
     "ffmpeg-static": "*",
     "child_process": "*",
     "aws-sdk": "*",
-    "fluent-ffmpeg": "*"
+    "fluent-ffmpeg": "*",
+    "soundcloud-downloader": "*"
   }
 }

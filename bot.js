@@ -12,6 +12,12 @@ function start(bot) {
 
     });
 
+    bot.hears(REG.soundcloud, async (ctx) => {
+
+        return await s
+
+    });
+
     bot.action('download_youtube', async (ctx) => {
 
         return await downloadFromYoutube(ctx);

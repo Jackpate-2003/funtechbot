@@ -3,7 +3,7 @@ const fetch = require('node-fetch');
 const REG = {
 
     youtube: /.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/,
-
+    soundcloud: /^https?:\/\/(soundcloud\.com|snd\.sc)\/(.*)$/,
 
 }
 
