@@ -7,7 +7,7 @@ class S3 {
 
     constructor() {
 
-        const s3 = new AWS.S3();
+        this.s3 = new AWS.S3();
 
     }
 
