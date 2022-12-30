@@ -1,5 +1,5 @@
 const {REG} = require("./utils");
-const {downloadFromYoutube} = require("./api/download");
+const {downloadFromYoutube, downloadFromSoundcloud} = require("./api/download");
 const {youtubeInfo} = require("./api/downloader");
 
 function start(bot) {
@@ -14,7 +14,7 @@ function start(bot) {
 
     bot.hears(REG.soundcloud, async (ctx) => {
 
-        return await s
+        return await downloadFromSoundcloud(ctx);
 
     });
 
