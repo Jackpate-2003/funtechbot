@@ -20,29 +20,6 @@ async function youtubeInfo(ctx) {
 
     videos.forEach(v => {
 
-        if (bytesToMegaBytes(v.contentLength || 0) < 50) {
-
-            ctx.session = {
-                ...ctx.session,
-                youtube: {
-                    url: v.url,
-                    hasVideo: v.hasVideo,
-                    lengthSeconds,
-                    title: title,
-                    width: v.width,
-                    height: v.height,
-                },
-            }
-
-            dataArray.push([{
-                text: `🎬${v.hasAudio ? '🎶' : ''} ${v.qualityLabel} - ${
-                    formatBytes(Number(v.contentLength))
-                } (${v.container}) ● ${v.hasAudio ? 'with' : 'without'} audio`,
-                callback_data: `download_youtube`,
-            }]);
-
-        } else {
-
             dataArray.push([{
                 text: `🎬${v.hasAudio ? '🎶' : ''} ${v.qualityLabel} - ${
                     formatBytes(Number(v.contentLength))
@@ -50,32 +27,9 @@ async function youtubeInfo(ctx) {
                 url: v.url,
             }]);
 
-        }
-
     });
 
     audios.forEach(au => {
-
-        if (bytesToMegaBytes(au.contentLength || 0) < 50) {
-
-            ctx.session = {
-                ...ctx.session,
-                youtube: {
-                    url: au.url,
-                    hasVideo: au.hasVideo,
-                    lengthSeconds,
-                    title: title,
-                },
-            }
-
-            dataArray.push([{
-                text: `🎶 ${au.audioBitrate}k - ${
-                    formatBytes(Number(au.contentLength))
-                } (${au.container})`,
-                callback_data: `download_youtube`,
-            }]);
-
-        } else {
 
             dataArray.push([{
                 text: `🎶 ${au.audioBitrate}k - ${
@@ -83,8 +37,6 @@ async function youtubeInfo(ctx) {
                 } (${au.container})`,
                 url: au.url,
             }]);
-
-        }
 
     });
 
