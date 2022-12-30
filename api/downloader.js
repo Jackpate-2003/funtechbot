@@ -22,39 +22,39 @@ async function youtubeInfo(ctx) {
 
     const s3 = new S3();
 
-    videos.forEach(v => {
+    for (let v of videos) {
 
         const key = makeID(6);
 
-        s3.setObj(key, {
+        const shortUrl = await s3.setObj(key, {
             url: v.url,
-        }).then(shortUrl => {
-            dataArray.push([{
-                text: `🎬${v.hasAudio ? '🎶' : ''} ${v.qualityLabel} - ${
-                    formatBytes(Number(v.contentLength))
-                } (${v.container}) ● ${v.hasAudio ? 'with' : 'without'} audio`,
-                url: `${HOST}/red?id=${shortUrl}`,
-            }]);
         });
 
-    });
+        dataArray.push([{
+            text: `🎬${v.hasAudio ? '🎶' : ''} ${v.qualityLabel} - ${
+                formatBytes(Number(v.contentLength))
+            } (${v.container}) ● ${v.hasAudio ? 'with' : 'without'} audio`,
+            url: `${HOST}/red?id=${shortUrl}`,
+        }]);
 
-    audios.forEach(au => {
+    }
+
+    for (let au of audios) {
 
         const key = makeID(6);
 
-        s3.setObj(key, {
+        const shortUrl = await s3.setObj(key, {
             url: au.url,
-        }).then(shortUrl => {
-            dataArray.push([{
-                text: `🎶 ${au.audioBitrate}k - ${
-                    formatBytes(Number(au.contentLength))
-                } (${au.container})`,
-                url: `${HOST}/red?id=${shortUrl}`,
-            }]);
         });
 
-    });
+        dataArray.push([{
+            text: `🎶 ${au.audioBitrate}k - ${
+                formatBytes(Number(au.contentLength))
+            } (${au.container})`,
+            url: `${HOST}/red?id=${shortUrl}`,
+        }]);
+
+    }
 
     return await ctx.replyWithPhoto({url: thumb},
         {
