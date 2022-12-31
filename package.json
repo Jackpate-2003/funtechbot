@@ -28,6 +28,7 @@
     "child_process": "*",
     "aws-sdk": "*",
     "fluent-ffmpeg": "*",
-    "soundcloud-downloader": "*"
+    "soundcloud-downloader": "*",
+    "instagram-url-direct": "*"
   }
 }
