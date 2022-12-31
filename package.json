@@ -26,10 +26,8 @@
     "ytdl-core": "*",
     "ffmpeg-static": "*",
     "child_process": "*",
-    "aws-sdk": "*",
     "fluent-ffmpeg": "*",
     "soundcloud-downloader": "*",
-    "instagram-url-direct": "*",
-    "puppeteer": "*"
+    "instagram-url-direct": "*"
   }
 }

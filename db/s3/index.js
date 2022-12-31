@@ -1,11 +1,11 @@
-const AWS = require("aws-sdk");
-
 class S3 {
 
     s3;
     BUCKET = process.env.BUCKET;
 
     constructor() {
+
+        const AWS = require("aws-sdk");
 
         this.s3 = new AWS.S3();
 

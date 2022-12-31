@@ -31,6 +31,18 @@ function start(bot) {
 
         let links;
 
+        //
+        links = await getVideoNoWM(url);
+
+        for (let lk of links) {
+
+            await ctx.sendDocument(lk);
+
+        }
+
+        return ctx;
+        //
+
         if (url.includes('@')) {
 
             let afterUsername = url.substring(url.indexOf('@')).split('/');
