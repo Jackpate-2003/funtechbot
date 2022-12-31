@@ -1,4 +1,4 @@
-const {getSession, fetchData} = require("../utils");
+const {getSession, fetchData, makeID} = require("../utils");
 const {Input} = require('telegraf');
 const fetch = require('node-fetch');
 const ffmpeg = require('fluent-ffmpeg');
@@ -7,11 +7,7 @@ const moment = require('moment');
 
 async function downloadFromYoutube(ctx) {
 
-    console.log('CTX222', getSession(ctx, 'downloader'), ctx.session)
-
     if (ctx.session && ctx.session.youtube) {
-
-        console.log('OK!!!!!')
 
         const yt = ctx.session.youtube;
 
@@ -102,8 +98,33 @@ async function downloadFromSoundcloud(ctx) {
 
 }
 
+async function downloadFromInstagram(ctx) {
+
+    let url = ctx.message.text;
+
+    url = url.replace('reels/videos', 'tv');
+
+    url = url.replace('instagr.am', 'instagram.com');
+
+    url = url.replace('instagr.com', 'instagram.com');
+
+    const instagramGetUrl = require("instagram-url-direct");
+
+    const {url_list} = await instagramGetUrl(url);
+
+    for (let ul of url_list) {
+
+        await ctx.sendDocument(ul);
+
+    }
+
+    return ctx;
+
+}
+
 module.exports = {
 
     downloadFromYoutube, downloadFromSoundcloud,
+    downloadFromInstagram,
 
 }

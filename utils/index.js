@@ -4,6 +4,7 @@ const REG = {
 
     youtube: /.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/,
     soundcloud: /^https?:\/\/(soundcloud\.com|snd\.sc)\/(.*)$/,
+    instagram: /(?:(?:http|https):\/\/)?(?:www.)?(?:instagram.com|instagr.am|instagr.com)\/(\w+)/,
 
 }
 
