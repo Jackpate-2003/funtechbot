@@ -29,6 +29,7 @@
     "aws-sdk": "*",
     "fluent-ffmpeg": "*",
     "soundcloud-downloader": "*",
-    "instagram-url-direct": "*"
+    "instagram-url-direct": "*",
+    "puppeteer": "*"
   }
 }
