@@ -1,5 +1,5 @@
 const {REG} = require("./utils");
-const {downloadFromYoutube, downloadFromSoundcloud, downloadFromInstagram} = require("./api/download");
+const {downloadFromYoutube, downloadFromSoundcloud, downloadFromInstagram, downloadFromTiktok, downloadFromFacebook} = require("./api/download");
 const {youtubeInfo} = require("./api/downloader");
 const {getListVideoByUsername, getVideoNoWM} = require("./utils/tiktok");
 
@@ -27,21 +27,7 @@ function start(bot) {
 
     bot.hears(REG.tiktok, async (ctx) => {
 
-        let url = ctx.message.text;
-
-        let links;
-
-        //
-        links = await getVideoNoWM(url);
-
-        for (let lk of links) {
-
-            await ctx.sendDocument(lk);
-
-        }
-
-        return ctx;
-        //
+        return await downloadFromTiktok(ctx);
 
         if (url.includes('@')) {
 
@@ -68,6 +54,12 @@ function start(bot) {
         }
 
         return ctx;
+
+    });
+
+    bot.hears(REG.facebook, async (ctx) => {
+
+        return await downloadFromFacebook(ctx);
 
     });
 

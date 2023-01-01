@@ -1,9 +1,10 @@
-const {getSession, fetchData, makeID} = require("../utils");
+const {getSession, fetchData, makeID, formatBytes, HOST} = require("../utils");
 const {Input} = require('telegraf');
 const fetch = require('node-fetch');
 const ffmpeg = require('fluent-ffmpeg');
 const scdl = require('soundcloud-downloader').default;
 const moment = require('moment');
+const {getVideoNoWM} = require("./utils/tiktok");
 
 async function downloadFromYoutube(ctx) {
 
@@ -122,9 +123,68 @@ async function downloadFromInstagram(ctx) {
 
 }
 
+async function downloadFromTiktok(ctx) {
+
+    let url = ctx.message.text, links = [];
+
+    links = await getVideoNoWM(url);
+
+    for (let lk of links) {
+
+        await ctx.sendDocument(lk);
+
+    }
+
+    return ctx;
+
+}
+
+async function downloadFromFacebook(ctx) {
+
+    let url = ctx.message.text;
+
+    const fbDownloader = require("fb-downloader-scrapper");
+
+    const {
+        success, download,
+    } = await fbDownloader(url);
+
+    if (success) {
+
+        let dataArray = [];
+
+        for (let down of download) {
+
+            const {quality, url} = down;
+
+            const key = makeID(6);
+
+            global.sl[key] = url;
+
+            dataArray.push([{
+                text: `🎬🎶 ${quality}`,
+                url: `${HOST}/red?id=${key}`,
+            }]);
+
+        }
+
+        return await ctx.reply('Video qualities for download:',
+            {
+                reply_to_message_id: ctx.message.message_id,
+                reply_markup: {
+                    inline_keyboard: dataArray,
+                },
+            }
+        );
+
+    }
+
+}
+
 module.exports = {
 
     downloadFromYoutube, downloadFromSoundcloud,
-    downloadFromInstagram,
+    downloadFromInstagram, downloadFromTiktok,
+    downloadFromFacebook,
 
 }

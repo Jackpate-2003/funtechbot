@@ -28,6 +28,7 @@
     "child_process": "*",
     "fluent-ffmpeg": "*",
     "soundcloud-downloader": "*",
-    "instagram-url-direct": "*"
+    "instagram-url-direct": "*",
+    "fb-downloader-scrapper": "*"
   }
 }
