@@ -4,7 +4,7 @@ const fetch = require('node-fetch');
 const ffmpeg = require('fluent-ffmpeg');
 const scdl = require('soundcloud-downloader').default;
 const moment = require('moment');
-const {getVideoNoWM} = require("./utils/tiktok");
+const {getVideoNoWM} = require("../utils/tiktok");
 
 async function downloadFromYoutube(ctx) {
 
@@ -155,11 +155,11 @@ async function downloadFromFacebook(ctx) {
 
         for (let down of download) {
 
-            const {quality, url} = down;
+            const {quality, url: link} = down;
 
             const key = makeID(6);
 
-            global.sl[key] = url;
+            global.sl[key] = link;
 
             dataArray.push([{
                 text: `🎬🎶 ${quality}`,
