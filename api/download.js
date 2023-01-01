@@ -235,6 +235,6 @@ module.exports = {
 
     downloadFromYoutube, downloadFromSoundcloud,
     downloadFromInstagram, downloadFromTiktok,
-    downloadFromFacebook,
+    downloadFromFacebook, downloadFromTwitter,
 
 }

@@ -1,5 +1,7 @@
 const {REG} = require("./utils");
-const {downloadFromYoutube, downloadFromSoundcloud, downloadFromInstagram, downloadFromTiktok, downloadFromFacebook} = require("./api/download");
+const {downloadFromYoutube, downloadFromSoundcloud, downloadFromInstagram, downloadFromTiktok, downloadFromFacebook,
+    downloadFromTwitter
+} = require("./api/download");
 const {youtubeInfo} = require("./api/downloader");
 const {getListVideoByUsername, getVideoNoWM} = require("./utils/tiktok");
 
@@ -60,6 +62,12 @@ function start(bot) {
     bot.hears(REG.facebook, async (ctx) => {
 
         return await downloadFromFacebook(ctx);
+
+    });
+
+    bot.hears(REG.twitter, async (ctx) => {
+
+        return await downloadFromTwitter(ctx);
 
     });
 
