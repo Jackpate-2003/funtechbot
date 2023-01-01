@@ -1,6 +1,6 @@
 const {REG, fetchData, API_HOST, formatBytes, setSession, bytesToMegaBytes, makeID} = require("../utils");
 const {metaData} = require("../utils/yt");
-const S3 = require('../db/s3');
+// const S3 = require('../db/s3');
 const {HOST} = require("../utils");
 
 async function youtubeInfo(ctx) {
@@ -19,8 +19,6 @@ async function youtubeInfo(ctx) {
     `;
 
     let dataArray = [];
-
-    const s3 = new S3();
 
     for (let v of videos) {
 
