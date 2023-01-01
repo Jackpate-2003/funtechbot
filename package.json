@@ -29,6 +29,7 @@
     "fluent-ffmpeg": "*",
     "soundcloud-downloader": "*",
     "instagram-url-direct": "*",
-    "fb-downloader-scrapper": "*"
+    "fb-downloader-scrapper": "*",
+    "twitter-url-direct": "*"
   }
 }

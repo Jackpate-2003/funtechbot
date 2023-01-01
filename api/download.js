@@ -181,6 +181,56 @@ async function downloadFromFacebook(ctx) {
 
 }
 
+async function downloadFromTwitter(ctx) {
+
+    let url = ctx.message.text;
+
+    const twitterGetUrl = require("twitter-url-direct");
+
+    if(url.includes('?')) {
+
+        url = url.substring(0, url.indexOf('?'));
+
+    }
+
+    const {
+        found, tweet_user, download,
+    } = await twitterGetUrl(url);
+
+    let dataArray = [];
+
+    if(found) {
+
+        for(let down of download) {
+
+            const key = makeID(6);
+
+            const {
+                dimension, url,
+            } = down;
+
+            global.sl[key] = url;
+
+            dataArray.push([{
+                text: `🎬🎶 ${dimension}`,
+                url: `${HOST}/red?id=${key}`,
+            }]);
+
+        }
+
+    }
+
+    return await ctx.reply(tweet_user.text,
+        {
+            reply_to_message_id: ctx.message.message_id,
+            reply_markup: {
+                inline_keyboard: dataArray,
+            },
+        }
+    );
+
+}
+
 module.exports = {
 
     downloadFromYoutube, downloadFromSoundcloud,
