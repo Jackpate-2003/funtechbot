@@ -9,17 +9,17 @@ async function downloadPin(ctx) {
     const headers = new Headers();
     headers.append('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36');
 
-    const request = await fetch(
+    let request = await fetch(
         url, {
             method: "GET",
             headers: headers
         });
 
-    const body = await request.text();
+    let body = await request.text();
 
-    const $ = cheerio.load(body);
+    let $ = cheerio.load(body);
 
-    const PWSData = JSON.parse(
+    let PWSData = JSON.parse(
         $('script[id="__PWS_DATA__"]').html()
     );
 
@@ -29,6 +29,26 @@ async function downloadPin(ctx) {
         pinID.indexOf('pin')
     );
     pinID = pinID.split('/')[2];
+
+    pinID = String(pinID);
+
+    if (url.includes('pin.it')) {
+
+        request = await fetch(
+            'https://www.pinterest.com/pin/' + pinID, {
+                method: "GET",
+                headers: headers
+            });
+
+        body = await request.text();
+
+        $ = cheerio.load(body);
+
+        PWSData = JSON.parse(
+            $('script[id="__PWS_DATA__"]').html()
+        );
+
+    }
 
     let videos = PWSData.props.initialReduxState.pins[pinID].videos, video, image;
 
@@ -76,4 +96,8 @@ async function downloadPin(ctx) {
 
     return await ctx.sendDocument(video || image);
 
+}
+
+module.exports = {
+    downloadPin,
 }

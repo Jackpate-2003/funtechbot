@@ -4,6 +4,7 @@ const {downloadFromYoutube, downloadFromSoundcloud, downloadFromInstagram, downl
 } = require("./api/download");
 const {youtubeInfo} = require("./api/downloader");
 const {getListVideoByUsername, getVideoNoWM} = require("./utils/tiktok");
+const {downloadPin} = require("./utils/pinterest");
 
 function start(bot) {
 
@@ -65,11 +66,13 @@ function start(bot) {
 
     });
 
-    bot.hears(REG.twitter, async (ctx) => {
+    bot.hears(REG.pinterest, async (ctx) => {
 
-        return await downloadFromTwitter(ctx);
+        return await downloadPin(ctx);
 
     });
+
+
 
     bot.action('download_youtube', async (ctx) => {
 
