@@ -103,14 +103,11 @@ async function downloadPin(ctx) {
 
         return await ctx.replyWithVideo(video, {
             thumb,
-            reply_to_message_id: ctx.from.id,
         });
 
     }
 
-    return await ctx.replyWithPhoto(image, {
-        reply_to_message_id: ctx.from.id,
-    });
+    return await ctx.replyWithPhoto(image);
 
 }
 
