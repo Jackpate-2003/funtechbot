@@ -193,11 +193,15 @@ async function downloadFromTwitter(ctx) {
 
     }
 
-    const {
+    let {
         found, tweet_user, download,
     } = await twitterGetUrl(url);
 
     let dataArray = [];
+
+    download = download.sort(((a, b) => (
+        (Number(b.width) + Number(b.height)) - (Number(a.width) + Number(a.height))
+    )));
 
     if(found) {
 
@@ -212,7 +216,7 @@ async function downloadFromTwitter(ctx) {
             global.sl[key] = url;
 
             dataArray.push([{
-                text: `🎬🎶 ${dimension}`,
+                text: `🎬🎶 (${dimension})`,
                 url: `${HOST}/red?id=${key}`,
             }]);
 
