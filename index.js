@@ -33,8 +33,15 @@ app.use(
 bot.use(session());
 
 // bot.use((new LocalSession({ database: 'ls.json' })).middleware())
+try {
+    start(bot);
+}
 
-start(bot);
+catch (err) {
+
+    console.error('ERROR!!', err);
+
+}
 
 app.get("/", (req, res) => res.send("Hello!"));
 
