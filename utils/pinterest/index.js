@@ -101,14 +101,14 @@ async function downloadPin(ctx) {
 
     if (video) {
 
-        return await ctx.sendVideo(video, {
+        return await ctx.replyWithVideo(video, {
             thumb,
             reply_to_message_id: ctx.from.id,
         });
 
     }
 
-    return await ctx.sendPhoto(image, {
+    return await ctx.replyWithPhoto(image, {
         reply_to_message_id: ctx.from.id,
     });
 
