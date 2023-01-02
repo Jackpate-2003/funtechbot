@@ -94,7 +94,13 @@ async function downloadPin(ctx) {
 
     }
 
-    return await ctx.sendDocument(video || image);
+    if(video) {
+
+        return await ctx.sendVideo(video);
+
+    }
+
+    return await ctx.sendPhoto(image);
 
 }
 
