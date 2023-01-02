@@ -66,13 +66,17 @@ function start(bot) {
 
     });
 
+    bot.hears(REG.twitter, async (ctx) => {
+
+        return await downloadFromTwitter(ctx);
+
+    });
+
     bot.hears(REG.pinterest, async (ctx) => {
 
         return await downloadPin(ctx);
 
     });
-
-
 
     bot.action('download_youtube', async (ctx) => {
 
