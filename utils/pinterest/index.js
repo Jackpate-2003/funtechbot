@@ -50,7 +50,7 @@ async function downloadPin(ctx) {
 
     }
 
-    let videos = PWSData.props.initialReduxState.pins[pinID].videos, video, thumb, image;
+    let videos = PWSData.props.initialReduxState.pins[pinID].videos, video, image;
 
     if (!videos) {
 
@@ -87,10 +87,6 @@ async function downloadPin(ctx) {
 
                 image = images[ik].url;
 
-                thumb = await fetch(images[ik].thumbnail);
-
-                thumb = Buffer.from(await thumb.arrayBuffer());
-
                 break;
 
             }
@@ -101,9 +97,7 @@ async function downloadPin(ctx) {
 
     if (video) {
 
-        return await ctx.replyWithVideo(video, {
-            thumb,
-        });
+        return await ctx.replyWithVideo(video);
 
     }
 
