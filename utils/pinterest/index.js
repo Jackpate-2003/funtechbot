@@ -50,7 +50,7 @@ async function downloadPin(ctx) {
 
     }
 
-    let videos = PWSData.props.initialReduxState.pins[pinID].videos, video, image;
+    let videos = PWSData.props.initialReduxState.pins[pinID].videos, video, thumb, image;
 
     if (!videos) {
 
@@ -86,6 +86,11 @@ async function downloadPin(ctx) {
             if (ik === 'orig') {
 
                 image = images[ik].url;
+
+                thumb = await fetch(images[ik].thumbnail);
+
+                thumb = Buffer.from(await thumb.arrayBuffer());
+
                 break;
 
             }
@@ -94,13 +99,18 @@ async function downloadPin(ctx) {
 
     }
 
-    if(video) {
+    if (video) {
 
-        return await ctx.sendVideo(video);
+        return await ctx.sendVideo(video, {
+            thumb,
+            reply_to_message_id: ctx.from.id,
+        });
 
     }
 
-    return await ctx.sendPhoto(image);
+    return await ctx.sendPhoto(image, {
+        reply_to_message_id: ctx.from.id,
+    });
 
 }
 
