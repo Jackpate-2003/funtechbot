@@ -23,7 +23,7 @@ function start(bot) {
 
     bot.hears(REG.instagram, async (ctx) => {
 
-        return await downloadFromInstagram(ctx);
+        return await waitForSent(ctx, downloadFromInstagram);
 
     });
 

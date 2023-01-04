@@ -74,7 +74,7 @@ async function downloadFromSoundcloud(ctx) {
 
     let chunks = [];
 
-    if (duration <= 20) {
+    if (true/*duration <= 20*/) {
 
         const stream = await scdl.download(url);
 
