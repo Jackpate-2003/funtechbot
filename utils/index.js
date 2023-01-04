@@ -108,8 +108,6 @@ async function waitForSent(ctx, workFunc) {
 
             if (index >= ANIMATED_LOADING_MSG.length) index = 0;
 
-            console.log('wda', index, processingMsg(index))
-
             await ctx.telegram.editMessageText(
                 ctx.chat.id,
                 sendWaitMsg.message_id,

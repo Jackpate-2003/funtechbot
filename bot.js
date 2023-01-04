@@ -11,9 +11,7 @@ function start(bot) {
 
     bot.hears(REG.youtube, async (ctx) => {
 
-        console.log('HEre!', ctx.match)
-
-        return await youtubeInfo(ctx);
+        return await waitForSent(ctx, youtubeInfo);
 
     });
 
@@ -31,7 +29,7 @@ function start(bot) {
 
     bot.hears(REG.tiktok, async (ctx) => {
 
-        return await downloadFromTiktok(ctx);
+        return await waitForSent(ctx, downloadFromTiktok);
 
         if (url.includes('@')) {
 
@@ -63,19 +61,19 @@ function start(bot) {
 
     bot.hears(REG.facebook, async (ctx) => {
 
-        return await downloadFromFacebook(ctx);
+        return await waitForSent(ctx, downloadFromFacebook);
 
     });
 
     bot.hears(REG.twitter, async (ctx) => {
 
-        return await downloadFromTwitter(ctx);
+        return await waitForSent(ctx, downloadFromTwitter);
 
     });
 
     bot.hears(REG.pinterest, async (ctx) => {
 
-        return await downloadPin(ctx);
+        return await waitForSent(ctx, downloadPin);
 
     });
 
