@@ -98,7 +98,7 @@ async function waitForSent(ctx, workFunc) {
 
     let index = 0, intervalID;
 
-    const sendWaitMsg = await ctx.reply(processingMsg(), {
+    const sendWaitMsg = await ctx.reply(processingMsg(null), {
         reply_to_message_id: ctx.message.message_id,
     });
 
@@ -107,6 +107,8 @@ async function waitForSent(ctx, workFunc) {
         intervalID = setInterval(async () => {
 
             if (index >= ANIMATED_LOADING_MSG.length) index = 0;
+
+            console.log('wda', index, processingMsg(index))
 
             await ctx.telegram.editMessageText(
                 ctx.chat.id,
