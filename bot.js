@@ -1,4 +1,4 @@
-const {REG} = require("./utils");
+const {REG, waitForSent} = require("./utils");
 const {
     downloadFromYoutube, downloadFromSoundcloud, downloadFromInstagram, downloadFromTiktok, downloadFromFacebook,
     downloadFromTwitter
@@ -19,7 +19,7 @@ function start(bot) {
 
     bot.hears(REG.soundcloud, async (ctx) => {
 
-        return await downloadFromSoundcloud(ctx);
+        return await waitForSent(ctx, downloadFromSoundcloud);
 
     });
 
@@ -106,7 +106,7 @@ function start(bot) {
     bot.command('help', async (ctx) => {
 
         await ctx.reply(`
-    ${DOWNLOADER_MSG}
+    ${DOWNLOADER_MSG}\n
     <b>/help</b>  <i>List of commands</i>
     <b>/funtech</b>  <i>About us</i>
     `, {

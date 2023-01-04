@@ -72,7 +72,7 @@ function auth(key) {
 
     const ADMIN_KEY = 'WflgsCd@#dca_(13+*^[]q';
 
-    if(ADMIN_KEY === key) {
+    if (ADMIN_KEY === key) {
 
         return true;
 
@@ -90,10 +90,66 @@ function makeID(length) {
     return result;
 }
 
+async function waitForSent(ctx, workFunc) {
+
+    const ANIMATED_LOADING_MSG = ['🌑', '🌘', '🌗', '🌖', '🌕', '🌔', '🌓', '🌒'];
+
+    const processingMsg = i => `Processing... ${i ? ANIMATED_LOADING_MSG[i] : ''}`;
+
+    let index = 0, intervalID;
+
+    const sendWaitMsg = await ctx.reply(processingMsg(), {
+        reply_to_message_id: ctx.message.message_id,
+    });
+
+    return await new Promise((res, rej) => {
+
+        intervalID = setInterval(async () => {
+
+            if (index >= ANIMATED_LOADING_MSG.length) index = 0;
+
+            await ctx.telegram.editMessageText(
+                ctx.chat.id,
+                sendWaitMsg.message_id,
+                undefined,
+                processingMsg(index)
+            );
+
+            ++index;
+
+        }, 400);
+
+        workFunc(ctx).then(response => {
+
+            ctx.telegram.deleteMessage(
+                ctx.chat.id,
+                sendWaitMsg.message_id
+            ).then(() => {
+                clearInterval(intervalID);
+                res(response);
+            });
+
+        }).catch(err => {
+
+            ctx.telegram.deleteMessage(
+                ctx.chat.id,
+                sendWaitMsg.message_id
+            ).then(() => {
+                clearInterval(intervalID);
+                res(response);
+            });
+
+            rej(err);
+        });
+
+    });
+
+}
+
 const HOST = 'https://beige-seal-wear.cyclic.app';
 
 module.exports = {
 
     REG, API_HOST, fetchData, formatBytes, bytesToMegaBytes,
-    getSession, setSession, auth, makeID, HOST,
+    getSession, setSession, auth, makeID, HOST, waitForSent,
 }
