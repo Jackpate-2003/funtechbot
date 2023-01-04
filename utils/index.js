@@ -94,7 +94,7 @@ async function waitForSent(ctx, workFunc) {
 
     const ANIMATED_LOADING_MSG = ['🌑', '🌘', '🌗', '🌖', '🌕', '🌔', '🌓', '🌒'];
 
-    const processingMsg = i => `Processing... ${i ? ANIMATED_LOADING_MSG[i] : ''}`;
+    const processingMsg = i => `Processing... ${i === null ? '' : ANIMATED_LOADING_MSG[i]}`;
 
     let index = 0, intervalID;
 
