@@ -30,6 +30,7 @@
     "soundcloud-downloader": "*",
     "instagram-url-direct": "*",
     "fb-downloader-scrapper": "*",
-    "twitter-url-direct": "*"
+    "twitter-url-direct": "*",
+    "mysql": "*"
   }
 }

@@ -1,4 +1,5 @@
 const fetch = require('node-fetch');
+const Mysql = require("../db/mysql");
 
 const REG = {
 
@@ -91,6 +92,14 @@ function makeID(length) {
 }
 
 async function waitForSent(ctx, workFunc) {
+
+    const mySql = new Mysql();
+
+    await mySql.connect();
+
+    await mySql.insert('reqs', [
+        'cmd', 'userid'
+    ], [ctx.message.text, String(ctx.message.chat.id)]);
 
     const ANIMATED_LOADING_MSG = ['🌑', '🌘', '🌗', '🌖', '🌕', '🌔', '🌓', '🌒'];
 

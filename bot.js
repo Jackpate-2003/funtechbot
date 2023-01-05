@@ -6,6 +6,7 @@ const {
 const {youtubeInfo} = require("./api/downloader");
 const {getListVideoByUsername, getVideoNoWM} = require("./utils/tiktok");
 const {downloadPin} = require("./utils/pinterest");
+const Mysql = require('./db/mysql');
 
 function start(bot) {
 
@@ -87,6 +88,24 @@ function start(bot) {
     });
 
     bot.start(async (ctx) => {
+
+        const mySql = new Mysql();
+
+        await mySql.connect();
+
+        let findUser = await mySql.select('users', `userid = ${ctx.message.chat.id}`);
+
+        if(!findUser.length) {
+
+            await mySql.insert('users', [
+                'userid', 'username',	'name'
+            ], [
+                String(ctx.message.chat.id),
+                ctx.message.chat.username,
+                ctx.message.chat.first_name
+            ]);
+
+        }
 
         await ctx.reply(
             "<b>Welcome to FunTech Bot!</b>\n We have a lot of tools and we are going to add a lot of other tools! To start, you can see the list of commands and their descriptions with the /help command, or use the menus below."
