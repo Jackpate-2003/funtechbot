@@ -95,7 +95,7 @@ function start(bot) {
 
         let findUser = await mySql.select('users', `userid = ${ctx.message.chat.id}`);
 
-        if(!findUser.length) {
+        if(false/*!findUser.length*/) {
 
             await mySql.insert('users', [
                 'userid', 'username',	'name'
