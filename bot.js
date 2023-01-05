@@ -108,7 +108,7 @@ function start(bot) {
         }
 
         await ctx.reply(
-            "<b>Welcome to FunTech Bot!</b>\n We have a lot of tools and we are going to add a lot of other tools! To start, you can see the list of commands and their descriptions with the /help command, or use the menus below."
+            "<b>Welcome to FunTech Bot!</b>\n We have a lot of tools and we are going to add a lot of other tools! To start, you can see the list of commands and their descriptions with the /help command, or use the menus below.\n<b>Please subscribe to <a href=\"https://t.me/+qGGw48DBe000NDc0\">our channel: FunTech</a> to get the latest news and features, PRO features, promotions, etc</b>"
             , {
                 "reply_markup": {
                     "resize_keyboard": true,
