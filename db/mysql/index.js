@@ -57,6 +57,8 @@ class Mysql {
 
     async select(table, where) {
 
+        return;
+
         const sql = `SELECT * FROM ${table} WHERE ${where}`;
 
         return await new Promise((res, rej) => {
