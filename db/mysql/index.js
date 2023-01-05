@@ -6,6 +6,8 @@ class Mysql {
 
     constructor() {
 
+        return;
+
         this.db = mysql.createConnection({
             host: "sql208.cfree.in",
             user: "cfrin_33314261",
@@ -16,6 +18,8 @@ class Mysql {
     }
 
     async connect() {
+
+        return;
 
         await new Promise((res, rej) => {
 
@@ -32,6 +36,8 @@ class Mysql {
     }
 
     async insert(table, columns = [], values) {
+
+        return;
 
         const sql = `INSERT INTO ${table} (${columns.join(', ')}) VALUES ?`;
 
