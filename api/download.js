@@ -199,7 +199,7 @@ async function downloadFromTwitter(ctx) {
 
 module.exports = {
 
-    downloadFromYoutube, downloadFromSoundcloud,
+    downloadFromYoutube,
     downloadFromInstagram, downloadFromTiktok,
     downloadFromFacebook, downloadFromTwitter,
 
