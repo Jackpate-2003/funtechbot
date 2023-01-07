@@ -84,11 +84,17 @@ function start(bot) {
 
         const tracks = await findTrack(ctx.message.text);
 
+        console.log('t', tracks)
+
         const results = await downloadResults(tracks);
+
+        console.log('adw', results)
 
         const {
             title, artists,
         } = tracks[0];
+
+        console.log('awdwwd', title, artists)
 
         return await ctx.telegram.sendDocument(ctx.from.id,
             {source: results[0], caption: `${title} by ${artists[0].name}`, filename: `${title}.mp3`});

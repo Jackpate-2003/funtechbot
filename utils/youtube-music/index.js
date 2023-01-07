@@ -18,6 +18,8 @@ async function downloadResults(results, tracksCount = 1) {
 
         let chunks = [];
 
+        console.log('wdw', results[i])
+
         const audio = ytdl(results[i].youtubeId, {filter: 'audioonly', quality: 'highestaudio'});
 
         const ffmpegProcess = cp.spawn(ffmpegStatic, [
@@ -32,8 +34,10 @@ async function downloadResults(results, tracksCount = 1) {
         resultArray.push(
             await new Promise((res, rej) => {
                 ffmpegProcess.stdout.on('data', chunk => {
+                    console.log('dd', chunk)
                     chunks.push(chunk);
                 }).on('end', () => {
+                    console.log('OK!!')
                     res(Buffer.concat(chunks));
                 })
             })
