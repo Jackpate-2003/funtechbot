@@ -45,9 +45,14 @@ function bytesToMegaBytes(bytes) {
     return Number(bytes) / (1024 * 1024);
 }
 
-function getSession(ctx, key) {
+function getSession(ctx, key, parent) {
 
     if (ctx.session) {
+
+        if (parent && ctx.session[parent]) {
+            return ctx.session[parent][key];
+        }
+
         return ctx.session[key];
     }
 

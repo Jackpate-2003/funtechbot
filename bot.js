@@ -1,4 +1,4 @@
-const {REG, waitForSent} = require("./utils");
+const {REG, waitForSent, setSession, getSession} = require("./utils");
 const {
     downloadFromYoutube, downloadFromSoundcloud, downloadFromInstagram, downloadFromTiktok, downloadFromFacebook,
     downloadFromTwitter
@@ -85,45 +85,90 @@ function start(bot) {
 
     bot.hears(REG.appleMusic, async (ctx) => {
 
-        const trackID = await getMusicMetaData(ctx.message.text);
+        return await waitForSent(ctx, async (ctx) => {
 
-        const tracks = await findTrack(trackID);
+            const trackID = await getMusicMetaData(ctx.message.text);
 
-        let {
-            title, artists, thumbnailUrl, youtubeId,
-        } = tracks[0];
+            const tracks = await findTrack(trackID);
 
-        const results = await downloadResults([youtubeId]);
+            let {
+                title, artists, thumbnailUrl, youtubeId,
+            } = tracks[0];
 
-        title = `${title} by ${artists[0].name}`;
+            const results = await downloadResults([youtubeId]);
 
-        return await ctx.telegram.sendDocument(ctx.from.id,
-            {
-                source: results[0],
-                thumb: thumbnailUrl,
-                caption: title, filename: `${title}.mp3`
-            });
+            title = `${title} by ${artists[0].name}`;
+
+            return await ctx.telegram.sendDocument(ctx.from.id,
+                {
+                    source: results[0],
+                    thumb: thumbnailUrl,
+                    caption: title, filename: `${title}.mp3`
+                });
+
+        });
 
     });
 
     bot.hears(REG.spotify, async (ctx) => {
 
-        let {
-            id, title, artist, albumCoverURL,
-        } = await Spotify.getMusicMetaData(ctx.message.text);
+        return await waitForSent(ctx, async (ctx) => {
 
-        const results = await downloadResults([id]);
+            let {
+                id, title, artist, albumCoverURL,
+            } = await Spotify.getMusicMetaData(ctx.message.text);
 
-        title = `${title} by ${artist}`;
+            const results = await downloadResults([id]);
 
-        return await ctx.telegram.sendDocument(ctx.from.id,
-            {
-                source: results[0],
-                thumb: albumCoverURL,
-                caption: title, filename: `${title}.mp3`
-            });
+            title = `${title} by ${artist}`;
+
+            return await ctx.telegram.sendDocument(ctx.from.id,
+                {
+                    source: results[0],
+                    thumb: albumCoverURL,
+                    caption: title, filename: `${title}.mp3`
+                });
+
+        });
 
     });
+
+    bot.on('text', async (ctx) => {
+
+        if (getSession(ctx, 'music', 'msgFunc')) {
+
+            return await waitForSent(ctx, async (ctx) => {
+
+                setSession(ctx, 'music', false, 'msgFunc');
+
+                const tracks = await findTrack(ctx.message.text);
+
+                if(!tracks.length) {
+
+                    return await ctx.reply('Music not found!');
+
+                }
+
+                let {
+                    title, artists, thumbnailUrl, youtubeId,
+                } = tracks[0];
+
+                const results = await downloadResults([youtubeId]);
+
+                title = `${title} by ${artists[0].name}`;
+
+                return await ctx.telegram.sendDocument(ctx.from.id,
+                    {
+                        source: results[0],
+                        thumb: thumbnailUrl,
+                        caption: title, filename: `${title}.mp3`
+                    });
+
+            });
+
+        }
+
+    })
 
     const DOWNLOADER_MSG = 'To download from Youtube, Instagram, TikTok, Twitter, Facebook, Pinterest and Soundcloud, just enter the link of the content you want to download!';
 
@@ -165,6 +210,19 @@ function start(bot) {
     });
 
     // Commands
+    bot.command('music', async (ctx) => {
+
+        setSession(ctx, 'music', true, 'msgFunc');
+
+    });
+
+    bot.command('cancel', async (ctx) => {
+
+        ctx.session = null;
+
+
+    });
+
     bot.command('help', async (ctx) => {
 
         await ctx.reply(`
