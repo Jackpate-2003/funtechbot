@@ -2,7 +2,6 @@ const {getSession, fetchData, makeID, formatBytes, HOST} = require("../utils");
 const {Input} = require('telegraf');
 const fetch = require('node-fetch');
 const ffmpeg = require('fluent-ffmpeg');
-const scdl = require('soundcloud-downloader').default;
 const moment = require('moment');
 const {getVideoNoWM} = require("../utils/tiktok");
 
@@ -59,43 +58,6 @@ async function downloadFromYoutube(ctx) {
         }*/
 
     }
-
-}
-
-async function downloadFromSoundcloud(ctx) {
-
-    const url = ctx.message.text;
-
-    let {
-        title, duration,
-    } = await scdl.getInfo(url);
-
-    duration = Number((Number(duration) / 1000) / 60);
-
-    let chunks = [];
-
-    if (duration <= 60) {
-
-        const stream = await scdl.download(url);
-
-        const buffer = await new Promise((res2, rej) => {
-            stream.on('data', (chunk) => {
-
-                chunks.push(chunk);
-
-            }).on('end', () => {
-
-                res2(Buffer.concat(chunks));
-
-            });
-        });
-
-        return await ctx.telegram.sendDocument(ctx.from.id,
-            {source: buffer, caption: title, filename: `${title}.mp3`});
-
-    }
-
-    return await ctx.reply('The music is more than 20 minutes!');
 
 }
 

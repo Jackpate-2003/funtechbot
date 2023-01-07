@@ -1,7 +1,7 @@
 const {REG, waitForSent, setSession, getSession} = require("./utils");
 const {
-    downloadFromYoutube, downloadFromSoundcloud, downloadFromInstagram, downloadFromTiktok, downloadFromFacebook,
-    downloadFromTwitter
+    downloadFromYoutube, downloadFromInstagram, downloadFromTiktok, downloadFromFacebook,
+    downloadFromTwitter,
 } = require("./api/download");
 const {youtubeInfo} = require("./api/downloader");
 const {getListVideoByUsername, getVideoNoWM} = require("./utils/tiktok");
@@ -10,6 +10,7 @@ const Mysql = require('./db/mysql');
 const {findTrack, downloadResults} = require("./utils/youtube-music");
 const {getMusicMetaData} = require("./utils/apple-music");
 const Spotify = require('./utils/spotify');
+const {soundCloudDownloader} = require("./utils/sound-cloud");
 
 function start(bot) {
 
@@ -23,7 +24,7 @@ function start(bot) {
 
     bot.hears(REG.soundcloud, async (ctx) => {
 
-        return await waitForSent(ctx, downloadFromSoundcloud);
+        return await waitForSent(ctx, soundCloudDownloader);
 
     });
 
@@ -133,42 +134,36 @@ function start(bot) {
 
     });
 
-    bot.on('text', async (ctx) => {
+    bot.hears(/music (.*?)/, async (ctx) => {
 
-        if (getSession(ctx, 'music', 'msgFunc')) {
+        return await waitForSent(ctx, async (ctx) => {
 
-            return await waitForSent(ctx, async (ctx) => {
+            const tracks = await findTrack(ctx.match[1]);
 
-                setSession(ctx, 'music', false, 'msgFunc');
+            if (!tracks.length) {
 
-                const tracks = await findTrack(ctx.message.text);
+                return await ctx.reply('Music not found!');
 
-                if(!tracks.length) {
+            }
 
-                    return await ctx.reply('Music not found!');
+            let {
+                title, artists, thumbnailUrl, youtubeId,
+            } = tracks[0];
 
-                }
+            const results = await downloadResults([youtubeId]);
 
-                let {
-                    title, artists, thumbnailUrl, youtubeId,
-                } = tracks[0];
+            title = `${title} by ${artists[0].name}`;
 
-                const results = await downloadResults([youtubeId]);
+            return await ctx.telegram.sendDocument(ctx.from.id,
+                {
+                    source: results[0],
+                    thumb: thumbnailUrl,
+                    caption: title, filename: `${title}.mp3`
+                });
 
-                title = `${title} by ${artists[0].name}`;
+        });
 
-                return await ctx.telegram.sendDocument(ctx.from.id,
-                    {
-                        source: results[0],
-                        thumb: thumbnailUrl,
-                        caption: title, filename: `${title}.mp3`
-                    });
-
-            });
-
-        }
-
-    })
+    });
 
     const DOWNLOADER_MSG = 'To download from Youtube, Instagram, TikTok, Twitter, Facebook, Pinterest and Soundcloud, just enter the link of the content you want to download!';
 
@@ -210,12 +205,6 @@ function start(bot) {
     });
 
     // Commands
-    bot.command('music', async (ctx) => {
-
-        setSession(ctx, 'music', true, 'msgFunc');
-
-    });
-
     bot.command('cancel', async (ctx) => {
 
         ctx.session = null;
@@ -256,6 +245,8 @@ function start(bot) {
     });
 
     bot.telegram.setMyCommands([
+        {command: "music", description: "Find a music by its name or lyrics"},
+
         {command: "help", description: "List of commands"},
         {command: "funtech", description: "About & contact us"},
     ]);
