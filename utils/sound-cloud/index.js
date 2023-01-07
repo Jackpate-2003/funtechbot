@@ -1,6 +1,12 @@
 async function soundCloudDownloader(ctx) {
 
-    const url = ctx.message.text;
+    let url = ctx.message.text;
+
+    if (url.includes('?')) {
+
+        url = url.substring(0, url.lastIndexOf('?'));
+
+    }
 
     const SoundCloud = require("soundcloud-scraper");
 
@@ -14,21 +20,9 @@ async function soundCloudDownloader(ctx) {
 
     const stream = await song.downloadProgressive();
 
-    let chunks = [];
-
-    const buffer = await new Promise((res, rej) => {
-
-        stream.on('data', chunk => {
-            chunks.push(chunk);
-        }).on('end', () => {
-            res(Buffer.concat(chunks));
-        })
-
-    });
-
     return await ctx.telegram.sendDocument(ctx.from.id,
         {
-            source: buffer,
+            source: stream,
             thumb: thumbnail,
             caption: description, filename: `${title}.mp3`
         });
