@@ -152,10 +152,8 @@ async function waitForSent(ctx, workFunc) {
                 sendWaitMsg.message_id
             ).then(() => {
                 clearInterval(intervalID);
-                res(response);
+                rej(err);
             });
-
-            rej(err);
         });
 
     });
