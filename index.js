@@ -4,6 +4,7 @@ const BodyParser = require("body-parser");
 const {start} = require('./bot');
 const S3 = require('./db/s3');
 const {HOST} = require("./utils");
+const Mysql = require("./db/mysql");
 // const LocalSession = require('telegraf-session-local');
 
 // Globals
@@ -34,6 +35,7 @@ bot.use(session());
 
 // bot.use((new LocalSession({ database: 'ls.json' })).middleware())
 try {
+
     start(bot);
 }
 

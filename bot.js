@@ -10,6 +10,8 @@ const Mysql = require('./db/mysql');
 
 function start(bot) {
 
+    const mySql = new Mysql();
+
     bot.hears(REG.youtube, async (ctx) => {
 
         return await waitForSent(ctx, youtubeInfo);
@@ -78,6 +80,21 @@ function start(bot) {
 
     });
 
+    bot.hears(REG.appleMusic, async (ctx) => {
+
+        const tracks = await findTrack(ctx.message.text);
+
+        const results = await downloadResults(tracks);
+
+        const {
+            title, artists,
+        } = tracks[0];
+
+        return await ctx.telegram.sendDocument(ctx.from.id,
+            {source: results[0], caption: `${title} by ${artists[0].name}`, filename: `${title}.mp3`});
+
+    })
+
     const DOWNLOADER_MSG = 'To download from Youtube, Instagram, TikTok, Twitter, Facebook, Pinterest and Soundcloud, just enter the link of the content you want to download!';
 
     // DESC HEARS
@@ -88,8 +105,6 @@ function start(bot) {
     });
 
     bot.start(async (ctx) => {
-
-        const mySql = new Mysql();
 
         await mySql.connect();
 

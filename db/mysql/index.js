@@ -8,7 +8,8 @@ class Mysql {
 
         return;
 
-        this.db = mysql.createConnection({
+        this.db = mysql.createPool({
+            connectionLimit : 30,
             host: "sql208.cfree.in",
             user: "cfrin_33314261",
             password: "3pH64yy1fP",

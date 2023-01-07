@@ -10,6 +10,8 @@ const REG = {
     facebook: /(?:(?:http|https):\/\/)?(?:www.)?facebook.com\/?/,
     twitter: /^https?:\/\/(www.|m.|mobile.)?twitter\.com\/(?:#!\/)?\w+\/status?\/\d+/,
     pinterest: /^https?:\/\/(www\.)?(pinterest|pin)\.(com|it)/,
+    appleMusic: /^https?:\/\/(www\.)?music.apple\.com/,
+    spotify: /^https?:\/\/(www\.)?open.spotify\.com/,
 
 }
 

@@ -31,6 +31,7 @@
     "instagram-url-direct": "*",
     "fb-downloader-scrapper": "*",
     "twitter-url-direct": "*",
-    "mysql": "*"
+    "mysql": "*",
+    "cheerio": "*"
   }
 }
