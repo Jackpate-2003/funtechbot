@@ -7,6 +7,8 @@ const {youtubeInfo} = require("./api/downloader");
 const {getListVideoByUsername, getVideoNoWM} = require("./utils/tiktok");
 const {downloadPin} = require("./utils/pinterest");
 const Mysql = require('./db/mysql');
+const {findTrack, downloadResults} = require("./utils/youtube-music");
+const {getMusicMetaData} = require("./utils/apple-music");
 
 function start(bot) {
 
@@ -82,7 +84,9 @@ function start(bot) {
 
     bot.hears(REG.appleMusic, async (ctx) => {
 
-        const tracks = await findTrack(ctx.message.text);
+        const trackMetaData = await getMusicMetaData(ctx.message.text);
+
+        const tracks = await findTrack(trackMetaData.title);
 
         console.log('t', tracks)
 

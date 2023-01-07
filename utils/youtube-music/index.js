@@ -48,3 +48,7 @@ async function downloadResults(results, tracksCount = 1) {
     return resultArray;
 
 }
+
+module.exports = {
+    findTrack, downloadResults,
+}
