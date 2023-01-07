@@ -32,6 +32,8 @@
     "fb-downloader-scrapper": "*",
     "twitter-url-direct": "*",
     "mysql": "*",
-    "cheerio": "*"
+    "cheerio": "*",
+    "node-youtube-music": "*",
+    "spottydl": "*"
   }
 }
