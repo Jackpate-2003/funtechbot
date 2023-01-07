@@ -9,6 +9,7 @@ const {downloadPin} = require("./utils/pinterest");
 const Mysql = require('./db/mysql');
 const {findTrack, downloadResults} = require("./utils/youtube-music");
 const {getMusicMetaData} = require("./utils/apple-music");
+const Spotify = require('./utils/spotify');
 
 function start(bot) {
 
@@ -84,26 +85,45 @@ function start(bot) {
 
     bot.hears(REG.appleMusic, async (ctx) => {
 
-        const trackMetaData = await getMusicMetaData(ctx.message.text);
+        const trackID = await getMusicMetaData(ctx.message.text);
 
-        const tracks = await findTrack(trackMetaData.title);
+        const tracks = await findTrack(trackID);
 
-        console.log('t', tracks)
-
-        const results = await downloadResults(tracks);
-
-        console.log('adw', results)
-
-        const {
-            title, artists,
+        let {
+            title, artists, thumbnailUrl, youtubeId,
         } = tracks[0];
 
-        console.log('awdwwd', title, artists)
+        const results = await downloadResults([youtubeId]);
+
+        title = `${title} by ${artists[0].name}`;
 
         return await ctx.telegram.sendDocument(ctx.from.id,
-            {source: results[0], caption: `${title} by ${artists[0].name}`, filename: `${title}.mp3`});
+            {
+                source: results[0],
+                thumb: thumbnailUrl,
+                caption: title, filename: `${title}.mp3`
+            });
 
-    })
+    });
+
+    bot.hears(REG.spotify, async (ctx) => {
+
+        let {
+            id, title, artist, albumCoverURL,
+        } = await Spotify.getMusicMetaData(ctx.message.text);
+
+        const results = await downloadResults([id]);
+
+        title = `${title} by ${artist}`;
+
+        return await ctx.telegram.sendDocument(ctx.from.id,
+            {
+                source: results[0],
+                thumb: albumCoverURL,
+                caption: title, filename: `${title}.mp3`
+            });
+
+    });
 
     const DOWNLOADER_MSG = 'To download from Youtube, Instagram, TikTok, Twitter, Facebook, Pinterest and Soundcloud, just enter the link of the content you want to download!';
 
@@ -120,10 +140,10 @@ function start(bot) {
 
         let findUser = await mySql.select('users', `userid = ${ctx.message.chat.id}`);
 
-        if(false/*!findUser.length*/) {
+        if (false/*!findUser.length*/) {
 
             await mySql.insert('users', [
-                'userid', 'username',	'name'
+                'userid', 'username', 'name'
             ], [
                 String(ctx.message.chat.id),
                 ctx.message.chat.username,

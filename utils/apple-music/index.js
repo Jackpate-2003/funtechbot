@@ -22,15 +22,7 @@ async function getMusicMetaData(url) {
 
     title = title[0].attribs.content;
 
-    let thumb = $('meta[property="og:image:secure_url"]');
-
-    thumb = thumb[0].attribs.content;
-
-    thumb = `${thumb.substring(0, thumb.lastIndexOf('/'))}/316x316bb.webp`;
-
-    return {
-        title, thumb
-    };
+    return title;
 
 }
 

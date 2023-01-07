@@ -6,7 +6,7 @@ async function findTrack(trackID) {
 
 }
 
-async function downloadResults(results, tracksCount = 1) {
+async function downloadResults(ids, tracksCount = 1) {
 
     const ffmpegStatic = require('ffmpeg-static');
     const ytdl = require('ytdl-core');
@@ -18,9 +18,7 @@ async function downloadResults(results, tracksCount = 1) {
 
         let chunks = [];
 
-        console.log('wdw', results[i])
-
-        const audio = ytdl(results[i].youtubeId, {filter: 'audioonly', quality: 'highestaudio'});
+        const audio = ytdl(ids[i], {filter: 'audioonly', quality: 'highestaudio'});
 
         const ffmpegProcess = cp.spawn(ffmpegStatic, [
             '-loglevel', '0', '-hide_banner',
@@ -34,10 +32,8 @@ async function downloadResults(results, tracksCount = 1) {
         resultArray.push(
             await new Promise((res, rej) => {
                 ffmpegProcess.stdout.on('data', chunk => {
-                    console.log('dd', chunk)
                     chunks.push(chunk);
                 }).on('end', () => {
-                    console.log('OK!!')
                     res(Buffer.concat(chunks));
                 })
             })
