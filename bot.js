@@ -138,7 +138,11 @@ function start(bot) {
 
         return await waitForSent(ctx, async (ctx) => {
 
+            console.log('wdd', ctx.match[1])
+
             const tracks = await findTrack(ctx.match[1]);
+
+            console.log('wS', tracks)
 
             if (!tracks.length) {
 
@@ -150,7 +154,11 @@ function start(bot) {
                 title, artists, thumbnailUrl, youtubeId,
             } = tracks[0];
 
+            console.log('ress', youtubeId)
+
             const results = await downloadResults([youtubeId]);
+
+            console.log('resa', results)
 
             title = `${title} by ${artists[0].name}`;
 
