@@ -183,11 +183,19 @@ function start(bot) {
     });
 
     const DOWNLOADER_MSG = 'To download from Youtube, Instagram, TikTok, Twitter, Facebook, Pinterest, Soundcloud, Spotify, Apple Music, Youtube Music, just enter the link of the content you want to download!';
+    const MUSIC_DOWNLOADER_DESC =
+        'By typing music followed by the name or lyrics of a song, that song will be sent to you. For example: <code>music rap god eminem</code>';
 
     // DESC HEARS
     bot.hears('Downloader', async (ctx) => {
 
         await ctx.reply(DOWNLOADER_MSG);
+
+    });
+
+    bot.hears("Download music with its name or lyrics", async (ctx) => {
+
+        await ctx.reply(MUSIC_DOWNLOADER_DESC);
 
     });
 
@@ -210,12 +218,13 @@ function start(bot) {
         }
 
         await ctx.reply(
-            "<b>Welcome to FunTech Bot!</b>\n We have a lot of tools and we are going to add a lot of other tools! To start, you can see the list of commands and their descriptions with the /help command, or use the menus below.\n<b>Please subscribe to <a href=\"https://t.me/+qGGw48DBe000NDc0\">our channel: FunTech</a> to get the latest news and features, PRO features, promotions, etc</b>"
+            "<b>Welcome to FunTech Bot!</b>\n We have a lot of tools and we are going to add a lot of other tools! To start, you can see the list of commands and their descriptions with the /help command, or use the menus below.\n<b>Please subscribe to <a href=\"https://t.me/funs_tech\">our channel: FunTech</a> to get the latest news and features, PRO features, promotions, etc</b>"
             , {
                 "reply_markup": {
                     "resize_keyboard": true,
                     "keyboard": [
                         ["Downloader"],
+                        ["Download music with its name or lyrics"]
                     ]
                 }, parse_mode: 'HTML',
             })
@@ -233,7 +242,7 @@ function start(bot) {
 
         await ctx.reply(`
     ${DOWNLOADER_MSG}\n
-    By typing music followed by the name or lyrics of a song, that song will be sent to you. For example: <code>music rap god eminem</code>\n
+    ${MUSIC_DOWNLOADER_DESC}\n
     <b>/help</b>  <i>List of commands</i>
     <b>/funtech</b>  <i>About us</i>
     `, {
@@ -248,7 +257,7 @@ function start(bot) {
         await ctx.reply(`
         FunTech is a practical collection of various entertainment, scientific and IT tools.\n
         <a href="https://www.youtube.com/@fun--tech">Youtube channel: @fun--tech</a> 
-        <a href="https://t.me/+qGGw48DBe000NDc0">Telegram channel: Fun Tech!</a>
+        <a href="https://t.me/funs_tech">Telegram channel: Fun Tech!</a>
         `, {
             parse_mode: 'HTML',
             reply_to_message_id: ctx.message.message_id,
