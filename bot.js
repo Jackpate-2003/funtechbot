@@ -193,7 +193,7 @@ function start(bot) {
 
     });
 
-    bot.hears("Download music with its name or lyrics", async (ctx) => {
+    bot.hears("Download song with its name or lyrics", async (ctx) => {
 
         await ctx.reply(MUSIC_DOWNLOADER_DESC);
 
