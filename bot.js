@@ -120,28 +120,26 @@ function start(bot) {
 
         return await waitForSent(ctx, async (ctx) => {
 
+            let trackID = await Spotify.getMusicMetaData(ctx.message.text);
+
+            const tracks = await findTrack(trackID);
+
             let {
-                id, title, artist, albumCoverURL,
-            } = await Spotify.getMusicMetaData(ctx.message.text);
-
-            const tracks = await findTrack(id);
-
-            const {
-                duration,
+                title, artists, thumbnailUrl, youtubeId, duration,
             } = tracks[0];
 
             const results = await downloadResults([{
-                id,
-                thumb: albumCoverURL,
+                id: youtubeId,
+                thumb: thumbnailUrl,
             }]);
 
-            title = `${title} by ${artist}`;
+            title = `${title} by ${artists[0].name}`;
 
             return await ctx.replyWithAudio(results[0].musicStream,
                 {
                     thumb: results[0].thumbStream,
                     title,
-                    performer: artist,
+                    performer: artists[0].name,
                     caption: title,
                     duration: duration.totalSeconds,
                 });
