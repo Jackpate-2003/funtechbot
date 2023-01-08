@@ -93,18 +93,21 @@ function start(bot) {
             const tracks = await findTrack(trackID);
 
             let {
-                title, artists, thumbnailUrl, youtubeId,
+                title, artists, thumbnailUrl, youtubeId, duration,
             } = tracks[0];
 
-            const results = await downloadResults([youtubeId]);
+            const results = await downloadResults([{
+                id: youtubeId,
+                thumb: thumbnailUrl,
+            }]);
 
             title = `${title} by ${artists[0].name}`;
 
-            return await ctx.telegram.sendDocument(ctx.from.id,
+            return await ctx.replyWithAudio(results[0].musicStream,
                 {
-                    source: results[0],
-                    thumb: thumbnailUrl,
-                    caption: title, filename: `${title}.mp3`
+                    thumb: results[0].thumbStream,
+                    title,
+                    duration: duration.totalSeconds,
                 });
 
         });
