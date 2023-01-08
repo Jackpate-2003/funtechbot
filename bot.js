@@ -224,7 +224,7 @@ function start(bot) {
                     "resize_keyboard": true,
                     "keyboard": [
                         ["Downloader"],
-                        ["Download music with its name or lyrics"]
+                        ["Download song with its name or lyrics"]
                     ]
                 }, parse_mode: 'HTML',
             })
