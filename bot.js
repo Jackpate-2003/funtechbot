@@ -182,7 +182,7 @@ function start(bot) {
 
     });
 
-    const DOWNLOADER_MSG = 'To download from Youtube, Instagram, TikTok, Twitter, Facebook, Pinterest and Soundcloud, just enter the link of the content you want to download!';
+    const DOWNLOADER_MSG = 'To download from Youtube, Instagram, TikTok, Twitter, Facebook, Pinterest, Soundcloud, Spotify, Apple Music, Youtube Music, just enter the link of the content you want to download!';
 
     // DESC HEARS
     bot.hears('Downloader', async (ctx) => {
@@ -233,6 +233,7 @@ function start(bot) {
 
         await ctx.reply(`
     ${DOWNLOADER_MSG}\n
+    By typing music followed by the name or lyrics of a song, that song will be sent to you. For example: <code>music rap god eminem</code>\n
     <b>/help</b>  <i>List of commands</i>
     <b>/funtech</b>  <i>About us</i>
     `, {
