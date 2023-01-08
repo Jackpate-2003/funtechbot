@@ -11,6 +11,7 @@ const {findTrack, downloadResults} = require("./utils/youtube-music");
 const {getMusicMetaData} = require("./utils/apple-music");
 const Spotify = require('./utils/spotify');
 const {soundCloudDownloader} = require("./utils/sound-cloud");
+const { Input } = require('telegraf');
 
 function start(bot) {
 
@@ -103,9 +104,9 @@ function start(bot) {
 
             title = `${title} by ${artists[0].name}`;
 
-            return await ctx.replyWithAudio(results[0].musicStream,
+            return await ctx.replyWithAudio(Input.fromBuffer(results[0].musicStream),
                 {
-                    thumb: results[0].thumbStream,
+                    // thumb: results[0].thumbStream,
                     title,
                     duration: duration.totalSeconds,
                 });
