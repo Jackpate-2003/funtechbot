@@ -10,6 +10,7 @@ async function downloadResults(ids, tracksCount = 1) {
 
     const ytdl = require('ytdl-core');
     const fetch = require('node-fetch');
+    const { Input } = require('telegraf');
 
     let resultArray = [];
 
@@ -24,14 +25,16 @@ async function downloadResults(ids, tracksCount = 1) {
         const imageBuffer = Buffer.from(await imageFetch.arrayBuffer());
 
         resultArray.push({
-            thumbStream: imageBuffer,
-            musicStream: await new Promise((res, rej) => {
-                audio.on('data', chunk => {
-                    chunks.push(chunk);
-                }).on('end', () => {
-                    res(Buffer.concat(chunks));
+            thumbStream: Input.fromBuffer(imageBuffer),
+            musicStream: Input.fromBuffer(
+                await new Promise((res, rej) => {
+                    audio.on('data', chunk => {
+                        chunks.push(chunk);
+                    }).on('end', () => {
+                        res(Buffer.concat(chunks));
+                    })
                 })
-            })
+            )
         });
 
     }

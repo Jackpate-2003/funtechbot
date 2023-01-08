@@ -11,7 +11,6 @@ const {findTrack, downloadResults} = require("./utils/youtube-music");
 const {getMusicMetaData} = require("./utils/apple-music");
 const Spotify = require('./utils/spotify');
 const {soundCloudDownloader} = require("./utils/sound-cloud");
-const { Input } = require('telegraf');
 
 function start(bot) {
 
@@ -104,11 +103,12 @@ function start(bot) {
 
             title = `${title} by ${artists[0].name}`;
 
-            return await ctx.replyWithAudio(Input.fromBuffer(results[0].musicStream),
+            return await ctx.replyWithAudio(results[0].musicStream,
                 {
-                    thumb: Input.fromBuffer(results[0].thumbStream),
+                    thumb: results[0].thumbStream,
                     title,
-                    filename: `${title}.mp3`,
+                    performer: artists[0].name,
+                    caption: title,
                     duration: duration.totalSeconds,
                 });
 
@@ -124,15 +124,26 @@ function start(bot) {
                 id, title, artist, albumCoverURL,
             } = await Spotify.getMusicMetaData(ctx.message.text);
 
-            const results = await downloadResults([id]);
+            const tracks = await findTrack(id);
+
+            const {
+                duration,
+            } = tracks[0];
+
+            const results = await downloadResults([{
+                id,
+                thumb: albumCoverURL,
+            }]);
 
             title = `${title} by ${artist}`;
 
-            return await ctx.telegram.sendDocument(ctx.from.id,
+            return await ctx.replyWithAudio(results[0].musicStream,
                 {
-                    source: results[0],
-                    thumb: albumCoverURL,
-                    caption: title, filename: `${title}.mp3`
+                    thumb: results[0].thumbStream,
+                    title,
+                    performer: artist,
+                    caption: title,
+                    duration: duration.totalSeconds,
                 });
 
         });
@@ -153,17 +164,23 @@ function start(bot) {
 
             let {
                 title, artists, thumbnailUrl, youtubeId,
+                duration,
             } = tracks[0];
 
-            const results = await downloadResults([youtubeId]);
+            const results = await downloadResults([{
+                id: youtubeId,
+                thumb: thumbnailUrl,
+            }]);
 
             title = `${title} by ${artists[0].name}`;
 
-            return await ctx.telegram.sendDocument(ctx.from.id,
+            return await ctx.replyWithAudio(results[0].musicStream,
                 {
-                    source: results[0],
-                    thumb: thumbnailUrl,
-                    caption: title, filename: `${title}.mp3`
+                    thumb: results[0].thumbStream,
+                    title,
+                    performer: artists[0].name,
+                    caption: title,
+                    duration: duration.totalSeconds,
                 });
 
         });
