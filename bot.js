@@ -263,7 +263,6 @@ function start(bot) {
     });
 
     bot.telegram.setMyCommands([
-        {command: "music", description: "Find a music by its name or lyrics"},
 
         {command: "help", description: "List of commands"},
         {command: "funtech", description: "About & contact us"},
