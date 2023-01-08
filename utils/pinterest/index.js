@@ -1,6 +1,7 @@
 const {Headers} = require('node-fetch');
 const fetch = require("node-fetch");
 const cheerio = require('cheerio');
+const {Input} = require('telegraf');
 
 async function downloadPin(ctx) {
 
@@ -97,11 +98,11 @@ async function downloadPin(ctx) {
 
     if (video) {
 
-        return await ctx.replyWithVideo(video);
+        return await ctx.replyWithVideo(Input.fromURL(video));
 
     }
 
-    return await ctx.replyWithPhoto(image);
+    return await ctx.replyWithPhoto(Input.fromURL(image));
 
 }
 

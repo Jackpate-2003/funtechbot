@@ -1,11 +1,5 @@
 async function getMusicMetaData(url) {
 
-    if(url.includes('?')) {
-
-        url = url.substring(0, url.lastIndexOf('?'));
-
-    }
-
     const {Headers} = require('node-fetch');
     const fetch = require('node-fetch');
     const cheerio = require('cheerio');
