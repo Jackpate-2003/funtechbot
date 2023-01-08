@@ -108,7 +108,6 @@ function start(bot) {
                     thumb: results[0].thumbStream,
                     title,
                     performer: artists[0].name,
-                    caption: title,
                     duration: duration.totalSeconds,
                 });
 
@@ -140,7 +139,6 @@ function start(bot) {
                     thumb: results[0].thumbStream,
                     title,
                     performer: artists[0].name,
-                    caption: title,
                     duration: duration.totalSeconds,
                 });
 
@@ -177,7 +175,6 @@ function start(bot) {
                     thumb: results[0].thumbStream,
                     title,
                     performer: artists[0].name,
-                    caption: title,
                     duration: duration.totalSeconds,
                 });
 

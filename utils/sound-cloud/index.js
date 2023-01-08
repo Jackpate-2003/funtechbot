@@ -9,22 +9,29 @@ async function soundCloudDownloader(ctx) {
     }
 
     const SoundCloud = require("soundcloud-scraper");
+    const {Input} = require('telegraf');
+    const fetch = require('node-fetch');
 
     const client = new SoundCloud.Client();
 
     const song = await client.getSongInfo(url);
 
     const {
-        title, description, thumbnail,
+        title, duration, thumbnail, author,
     } = song;
 
     const stream = await song.downloadProgressive();
 
-    return await ctx.telegram.sendDocument(ctx.from.id,
+    const imageFetch = await fetch(thumbnail);
+
+    const imageBuffer = Buffer.from(await imageFetch.arrayBuffer());
+
+    return await ctx.replyWithAudio(Input.fromReadableStream(stream),
         {
-            source: stream,
-            thumb: thumbnail,
-            caption: description, filename: `${title}.mp3`
+            thumb: Input.fromBuffer(imageBuffer),
+            title,
+            performer: author.name,
+            duration: duration / 1000,
         });
 
 }
