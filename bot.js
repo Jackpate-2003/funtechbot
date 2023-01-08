@@ -146,7 +146,7 @@ function start(bot) {
 
     });
 
-    bot.hears(/(music) (.*)/, async (ctx) => {
+    bot.hears(/music (.*)/, async (ctx) => {
 
         return await waitForSent(ctx, async (ctx) => {
 
