@@ -106,8 +106,9 @@ function start(bot) {
 
             return await ctx.replyWithAudio(Input.fromBuffer(results[0].musicStream),
                 {
-                    // thumb: results[0].thumbStream,
+                    thumb: Input.fromBuffer(results[0].thumbStream),
                     title,
+                    filename: `${title}.mp3`,
                     duration: duration.totalSeconds,
                 });
 
