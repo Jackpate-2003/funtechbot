@@ -146,7 +146,7 @@ function start(bot) {
 
     });
 
-    bot.hears(/(music|موزیک|اهنگ|آهنگ) (.*)/i, async (ctx) => {
+    bot.hears(/(music) (.*)/i, async (ctx) => {
 
         return await waitForSent(ctx, async (ctx) => {
 
