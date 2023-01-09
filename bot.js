@@ -254,7 +254,7 @@ function start(bot) {
 
         await ctx.reply(`
         Please contact <a href="tg://user?id=1407206551">@BLACKS_SOULS</a>,
-         or send your issue to <a href="mailto:funny.tech.2021@gmail.com">funny.tech.2021@.com</a>.
+         or send your issue to funny.tech.2021@.com.
         <a href="tg://user?id=1407206551">Youtube channel: @fun--tech</a>
         `, {
             parse_mode: 'HTML',
