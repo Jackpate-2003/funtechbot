@@ -21,14 +21,12 @@ class Mysql {
 
     async connect() {
 
-        console.log('HCC!')
-
         this.connection = await new Promise((res, rej) => {
 
             this.pool.getConnection(function (err, connection) {
 
                 if (err) {
-                    console.log('Errr', err)
+                    console.log('DB connection error', err)
                     rej(err);
                 }
 
@@ -42,15 +40,17 @@ class Mysql {
 
     async insert(table, columns = [], values) {
 
-        const sql = `INSERT INTO ${table} (${columns.join(', ')}) VALUES ?`;
-
-        console.log('waw', sql, values)
+        const sql =
+            `INSERT INTO ${table} (${columns.join(', ')}) VALUES ?`;
 
         await new Promise((res, rej) => {
 
             this.connection.query(sql, [values], function (err, result) {
 
-                if (err) rej(err);
+                if (err) {
+                    console.log('Insert error');
+                    rej(err);
+                }
 
                 res(result);
 

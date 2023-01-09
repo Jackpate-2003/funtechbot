@@ -108,7 +108,7 @@ async function waitForSent(ctx, workFunc) {
         'cmd', 'userid', 'username', 'name'
     ], [
         ctx.message.text,
-        String(ctx.message.chat.id),
+        Number(ctx.message.chat.id),
         ctx.message.chat.username,
         ctx.message.chat.first_name
     ]);
