@@ -41,7 +41,7 @@ class Mysql {
     async insert(table, columns = [], values) {
 
         const sql =
-            `INSERT INTO ${table} (${columns.join(', ')}) VALUES ?`;
+            `INSERT INTO ${table} (${columns.join(', ')}) VALUES (?)`;
 
         await new Promise((res, rej) => {
 
