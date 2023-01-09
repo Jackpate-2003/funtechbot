@@ -19,11 +19,16 @@ class Mysql {
 
     async connect() {
 
+        console.log('HCC!')
+
         await new Promise((res, rej) => {
 
             this.db.connect(function (err) {
 
-                if (err) rej(err);
+                if (err) {
+                    console.log('Errr', err)
+                    rej(err);
+                }
 
                 res(true);
 
@@ -36,6 +41,8 @@ class Mysql {
     async insert(table, columns = [], values) {
 
         const sql = `INSERT INTO ${table} (${columns.join(', ')}) VALUES ?`;
+
+        console.log('waw', sql, values)
 
         return await new Promise((res, rej) => {
 
