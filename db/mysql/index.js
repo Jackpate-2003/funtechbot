@@ -1,4 +1,4 @@
-const mysql = require('mysql');
+const mysql = require('mysql2');
 
 class Mysql {
 
@@ -9,6 +9,7 @@ class Mysql {
 
         this.pool = mysql.createPool({
             connectionLimit: 100,
+            waitForConnections: true,
             host: "containers-us-west-167.railway.app",
             port: 5907,
             user: "root",
