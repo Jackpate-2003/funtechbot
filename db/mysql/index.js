@@ -2,12 +2,13 @@ const mysql = require('mysql');
 
 class Mysql {
 
-    db;
+    pool;
+    connection;
 
     constructor() {
 
-        this.db = mysql.createPool({
-            connectionLimit : 100,
+        this.pool = mysql.createPool({
+            connectionLimit: 100,
             host: "containers-us-west-167.railway.app",
             port: 5907,
             user: "root",
@@ -21,16 +22,16 @@ class Mysql {
 
         console.log('HCC!')
 
-        await new Promise((res, rej) => {
+        this.connection = await new Promise((res, rej) => {
 
-            this.db.connect(function (err) {
+            this.pool.getConnection(function (err, connection) {
 
                 if (err) {
                     console.log('Errr', err)
                     rej(err);
                 }
 
-                res(true);
+                res(connection);
 
             });
 
@@ -44,9 +45,9 @@ class Mysql {
 
         console.log('waw', sql, values)
 
-        return await new Promise((res, rej) => {
+        await new Promise((res, rej) => {
 
-            this.db.query(sql, [values], function (err, result) {
+            this.connection.query(sql, [values], function (err, result) {
 
                 if (err) rej(err);
 
@@ -56,13 +57,17 @@ class Mysql {
 
         });
 
+        this.connection.release();
+
     }
 
     async select(table, where) {
 
         return;
 
-        const sql = `SELECT * FROM ${table} WHERE ${where}`;
+        const sql = `SELECT *
+                     FROM ${table}
+                     WHERE ${where}`;
 
         return await new Promise((res, rej) => {
 
@@ -79,7 +84,9 @@ class Mysql {
 
     async update(keyValue = [], where) {
 
-        const sql = `UPDATE cfrin_33314261_funtekbot SET ${keyValue.join(', ')}  WHERE ${where}`;
+        const sql = `UPDATE cfrin_33314261_funtekbot
+                     SET ${keyValue.join(', ')}
+                     WHERE ${where}`;
 
         return await new Promise((res, rej) => {
 
@@ -96,7 +103,9 @@ class Mysql {
 
     async remove(where) {
 
-        const sql = `DELETE FROM cfrin_33314261_funtekbot WHERE ${where}`;
+        const sql = `DELETE
+                     FROM cfrin_33314261_funtekbot
+                     WHERE ${where}`;
 
         return await new Promise((res, rej) => {
 
