@@ -14,8 +14,6 @@ const {soundCloudDownloader} = require("./utils/sound-cloud");
 
 function start(bot) {
 
-    const mySql = new Mysql();
-
     bot.hears(REG.youtube, async (ctx) => {
 
         return await waitForSent(ctx, youtubeInfo);
@@ -202,22 +200,6 @@ function start(bot) {
     });
 
     bot.start(async (ctx) => {
-
-        await mySql.connect();
-
-        let findUser = await mySql.select('users', `userid = ${ctx.message.chat.id}`);
-
-        if (false/*!findUser.length*/) {
-
-            await mySql.insert('users', [
-                'userid', 'username', 'name'
-            ], [
-                String(ctx.message.chat.id),
-                ctx.message.chat.username,
-                ctx.message.chat.first_name
-            ]);
-
-        }
 
         await ctx.reply(
             "<b>Welcome to FunTech Bot!</b>\n We have a lot of tools and we are going to add a lot of other tools! To start, you can see the list of commands and their descriptions with the /help command, or use the menus below.\n<b>Please subscribe to <a href=\"https://t.me/funs_tech\">our channel: FunTech</a> to get the latest news and features, PRO features, promotions, etc</b>"

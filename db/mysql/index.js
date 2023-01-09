@@ -6,21 +6,18 @@ class Mysql {
 
     constructor() {
 
-        return;
-
         this.db = mysql.createPool({
-            connectionLimit : 30,
-            host: "sql208.cfree.in",
-            user: "cfrin_33314261",
-            password: "3pH64yy1fP",
-            database: "cfrin_33314261_funtekbot",
+            connectionLimit : 100,
+            host: "containers-us-west-167.railway.app",
+            port: 5907,
+            user: "root",
+            password: "u26UZOhuMp9I1iU2mliV",
+            database: "railway",
         });
 
     }
 
     async connect() {
-
-        return;
 
         await new Promise((res, rej) => {
 
@@ -37,8 +34,6 @@ class Mysql {
     }
 
     async insert(table, columns = [], values) {
-
-        return;
 
         const sql = `INSERT INTO ${table} (${columns.join(', ')}) VALUES ?`;
 

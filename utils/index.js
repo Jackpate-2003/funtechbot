@@ -105,8 +105,13 @@ async function waitForSent(ctx, workFunc) {
     await mySql.connect();
 
     await mySql.insert('reqs', [
-        'cmd', 'userid'
-    ], [ctx.message.text, String(ctx.message.chat.id)]);
+        'cmd', 'userid', 'username', 'name'
+    ], [
+        ctx.message.text,
+        String(ctx.message.chat.id),
+        ctx.message.chat.username,
+        ctx.message.chat.first_name
+    ]);
 
     const ANIMATED_LOADING_MSG = ['🌑', '🌘', '🌗', '🌖', '🌕', '🌔', '🌓', '🌒'];
 
