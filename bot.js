@@ -229,6 +229,7 @@ function start(bot) {
     ${MUSIC_DOWNLOADER_DESC}\n
     <b>/help</b>  <i>List of commands</i>
     <b>/funtech</b>  <i>About us</i>
+    <b>/support</b> <i>Report a problem or request to add a tool</i>
     `, {
             parse_mode: 'HTML',
             reply_to_message_id: ctx.message.message_id,
@@ -249,6 +250,19 @@ function start(bot) {
 
     });
 
+    bot.command('support', async (ctx) => {
+
+        await ctx.reply(`
+        Please contact <a href="tg://user?id=1407206551">@BLACKS_SOULS</a>,
+         or send your issue to <a href="mailto:funny.tech.2021@gmail.com">funny.tech.2021@.com</a>.
+        <a href="tg://user?id=1407206551">Youtube channel: @fun--tech</a>
+        `, {
+            parse_mode: 'HTML',
+            reply_to_message_id: ctx.message.message_id,
+        });
+
+    });
+
     bot.action('download_youtube', async (ctx) => {
 
         return await downloadFromYoutube(ctx);
@@ -259,6 +273,10 @@ function start(bot) {
 
         {command: "help", description: "List of commands"},
         {command: "funtech", description: "About & contact us"},
+        {
+            command: "support",
+            description: "Let support know if there is a problem with the bot or if you have a request to add a tool"
+        },
     ]);
 
 }
