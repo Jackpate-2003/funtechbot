@@ -175,6 +175,8 @@ function start(bot) {
 
             const {video, image} = await downloadPin(url);
 
+            console.log('v', video, 'i', image)
+
             if (video) {
 
                 return await ctx.replyWithVideo(Input.fromURL(video), {
