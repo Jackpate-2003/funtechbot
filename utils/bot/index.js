@@ -1,4 +1,4 @@
-import {waitForSent} from "../index";
+const {waitForSent} = require("../index");
 
 const replyOptions = {
     reply_markup: {
