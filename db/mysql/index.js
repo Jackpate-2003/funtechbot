@@ -64,15 +64,13 @@ class Mysql {
 
     async select(table, where) {
 
-        return;
-
         const sql = `SELECT *
                      FROM ${table}
                      WHERE ${where}`;
 
         return await new Promise((res, rej) => {
 
-            this.db.query(sql, [values], function (err, result) {
+            this.connection.query(sql, function (err, result) {
                 if (err) rej(err);
 
                 res(result);

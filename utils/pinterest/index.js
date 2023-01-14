@@ -3,9 +3,7 @@ const fetch = require("node-fetch");
 const cheerio = require('cheerio');
 const {Input} = require('telegraf');
 
-async function downloadPin(ctx) {
-
-    const url = ctx.message.text;
+async function downloadPin(url) {
 
     const headers = new Headers();
     headers.append('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36');
@@ -78,31 +76,25 @@ async function downloadPin(ctx) {
 
         }
 
-    } else {
+    }
 
-        const images = PWSData.props.initialReduxState.pins[pinID].images;
+    const images = PWSData.props.initialReduxState.pins[pinID].images;
 
-        for (let ik in images) {
+    for (let ik in images) {
 
-            if (ik === 'orig') {
+        if (ik === 'orig') {
 
-                image = images[ik].url;
+            image = images[ik].url;
 
-                break;
-
-            }
+            break;
 
         }
 
     }
 
-    if (video) {
-
-        return await ctx.replyWithVideo(Input.fromURL(video));
-
-    }
-
-    return await ctx.replyWithPhoto(Input.fromURL(image));
+    return {
+        video, image,
+    };
 
 }
 

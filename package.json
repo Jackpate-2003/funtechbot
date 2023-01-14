@@ -35,6 +35,7 @@
     "cheerio": "*",
     "node-youtube-music": "*",
     "spottydl": "*",
-    "soundcloud-scraper": "*"
+    "soundcloud-scraper": "*",
+    "typescript": "*"
   }
 }

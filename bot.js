@@ -1,84 +1,192 @@
-const {REG, waitForSent, setSession, getSession} = require("./utils");
-const {
-    downloadFromYoutube, downloadFromInstagram, downloadFromTiktok, downloadFromFacebook,
-    downloadFromTwitter,
-} = require("./api/download");
-const {youtubeInfo} = require("./api/downloader");
-const {getListVideoByUsername, getVideoNoWM} = require("./utils/tiktok");
+const {REG, waitForSent, setSession, getSession, getUrlBuffers} = require("./utils");
 const {downloadPin} = require("./utils/pinterest");
-const Mysql = require('./db/mysql');
 const {findTrack, downloadResults} = require("./utils/youtube-music");
 const {getMusicMetaData} = require("./utils/apple-music");
 const Spotify = require('./utils/spotify');
 const {soundCloudDownloader} = require("./utils/sound-cloud");
+const {Input} = require('telegraf');
+const replyOptions = require("./utils/bot");
+const {makeID, HOST} = require("../utils");
+const {twitterDownloader} = require("./utils/twitter");
+const {youtubeInfo, youtubeDownloader} = require("./utils/yt");
+const {instagramDownloader} = require("./utils/instagram");
+const {tikTokDownloader} = require("./utils/tiktok");
+const {facebookDownloader} = require("./utils/facebook");
+
 
 function start(bot) {
 
     bot.hears(REG.youtube, async (ctx) => {
 
-        return await waitForSent(ctx, youtubeInfo);
+        return await waitForSent(ctx, async (ctx) => {
+
+            const yd = await youtubeDownloader()
+
+            return await ctx.replyWithPhoto({url: yd.thumb},
+                {
+                    reply_to_message_id: ctx.message.message_id,
+                    reply_markup: {
+                        inline_keyboard: yd.dataArray,
+                    }, caption: yd.caption, parse_mode: 'HTML'
+                }
+            );
+
+        });
 
     });
 
     bot.hears(REG.soundcloud, async (ctx) => {
 
-        return await waitForSent(ctx, soundCloudDownloader);
+        return await waitForSent(ctx, async ctx => {
+
+            const url = ctx.message.text;
+
+            const scd = await soundCloudDownloader(url);
+
+            return await ctx.replyWithAudio(Input.fromReadableStream(scd.stream),
+                {
+                    thumb: Input.fromBuffer(await getUrlBuffers(scd.thumbnail)),
+                    title: scd.title,
+                    performer: scd.performer,
+                    duration: scd.duration,
+                });
+
+        });
 
     });
 
     bot.hears(REG.instagram, async (ctx) => {
 
-        return await waitForSent(ctx, downloadFromInstagram);
+        return await waitForSent(ctx, async (ctx) => {
+
+            let url = ctx.message.text;
+
+            const id = await instagramDownloader(url);
+
+            for (let ul of id) {
+
+                await ctx.sendDocument(ul);
+
+            }
+
+        });
 
     });
 
     bot.hears(REG.tiktok, async (ctx) => {
 
-        return await waitForSent(ctx, downloadFromTiktok);
+        return await waitForSent(ctx, async (ctx) => {
 
-        if (url.includes('@')) {
+            let url = ctx.message.text;
 
-            let afterUsername = url.substring(url.indexOf('@')).split('/');
+            const td = await tikTokDownloader(url);
 
-            if (
-                !afterUsername[1]
-            ) {
+            for (let lk of td) {
 
-                links = await getListVideoByUsername(url);
+                await ctx.sendDocument(lk);
 
             }
 
-        }
-
-        if (!links) {
-            links = await getVideoNoWM(url);
-        }
-
-        for (let lk of links) {
-
-            await ctx.sendDocument(lk);
-
-        }
-
-        return ctx;
-
+        });
     });
 
     bot.hears(REG.facebook, async (ctx) => {
 
-        return await waitForSent(ctx, downloadFromFacebook);
+        return await waitForSent(ctx, async (ctx) => {
+
+            let url = ctx.message.text;
+
+            const fd = facebookDownloader(url);
+
+            let dataArray = [];
+
+            for (let down of fd) {
+
+                const {quality, url: link} = down;
+
+                const key = makeID(6);
+
+                global.sl[key] = link;
+
+                dataArray.push([{
+                    text: `🎬🎶 ${quality}`,
+                    url: `${HOST}/red?id=${key}`,
+                }]);
+
+            }
+
+            return await ctx.reply('Video qualities for download:',
+                {
+                    reply_to_message_id: ctx.message.message_id,
+                    reply_markup: {
+                        inline_keyboard: dataArray,
+                        ...replyOptions.reply_markup,
+                    },
+                }
+            );
+
+        });
 
     });
 
     bot.hears(REG.twitter, async (ctx) => {
 
-        return await waitForSent(ctx, downloadFromTwitter);
+        return await waitForSent(ctx, async (ctx) => {
+
+            let url = ctx.message.text;
+
+            const td = await twitterDownloader(url);
+
+            for (let down of td.download) {
+
+                const key = makeID(6);
+
+                const {
+                    dimension, url,
+                } = down;
+
+                global.sl[key] = url;
+
+                dataArray.push([{
+                    text: `🎬🎶 (${dimension})`,
+                    url: `${HOST}/red?id=${key}`,
+                }]);
+
+            }
+
+            return await ctx.reply(td.user.text,
+                {
+                    reply_to_message_id: ctx.message.message_id,
+                    reply_markup: {
+                        inline_keyboard: dataArray,
+                    },
+                }
+            );
+
+        });
 
     });
 
     bot.hears(REG.pinterest, async (ctx) => {
 
-        return await waitForSent(ctx, downloadPin);
+        return await waitForSent(ctx, async (ctx) => {
+
+            const url = ctx.message.text;
+
+            const {video, image} = await downloadPin(url);
+
+            if (video) {
+
+                return await ctx.replyWithVideo(Input.fromURL(video), {
+                    ...replyOptions,
+                    thumb: Input.fromBuffer(await getUrlBuffers(image)),
+                });
+
+            }
+
+            return await ctx.replyWithPhoto(Input.fromURL(image), replyOptions);
+
+        });
 
     });
 
@@ -107,6 +215,7 @@ function start(bot) {
                     title,
                     performer: artists[0].name,
                     duration: duration.totalSeconds,
+                    ...replyOptions,
                 });
 
         });
@@ -138,6 +247,7 @@ function start(bot) {
                     title,
                     performer: artists[0].name,
                     duration: duration.totalSeconds,
+                    ...replyOptions,
                 });
 
         });
@@ -174,6 +284,7 @@ function start(bot) {
                     title,
                     performer: artists[0].name,
                     duration: duration.totalSeconds,
+                    ...replyOptions,
                 });
 
         });
@@ -187,15 +298,13 @@ function start(bot) {
     // DESC HEARS
     bot.hears('Downloader', async (ctx) => {
 
-        await ctx.reply(DOWNLOADER_MSG);
+        await ctx.reply(DOWNLOADER_MSG, replyOptions);
 
     });
 
     bot.hears("Download song with its name or lyrics", async (ctx) => {
 
-        await ctx.reply(MUSIC_DOWNLOADER_DESC, {
-            parse_mode: 'HTML',
-        });
+        await ctx.reply(MUSIC_DOWNLOADER_DESC, replyOptions);
 
     });
 
@@ -203,15 +312,7 @@ function start(bot) {
 
         await ctx.reply(
             "<b>Welcome to FunTech Bot!</b>\n We have a lot of tools and we are going to add a lot of other tools! To start, you can see the list of commands and their descriptions with the /help command, or use the menus below.\n<b>Please subscribe to <a href=\"https://t.me/funs_tech\">our channel: FunTech</a> to get the latest news and features, PRO features, promotions, etc</b>"
-            , {
-                "reply_markup": {
-                    "resize_keyboard": true,
-                    "keyboard": [
-                        ["Downloader"],
-                        ["Download song with its name or lyrics"]
-                    ]
-                }, parse_mode: 'HTML',
-            })
+            , replyOptions)
     });
 
     // Commands
@@ -233,6 +334,7 @@ function start(bot) {
     `, {
             parse_mode: 'HTML',
             reply_to_message_id: ctx.message.message_id,
+            ...replyOptions,
         })
 
     });
@@ -246,6 +348,7 @@ function start(bot) {
         `, {
             parse_mode: 'HTML',
             reply_to_message_id: ctx.message.message_id,
+            ...replyOptions,
         });
 
     });
@@ -259,13 +362,22 @@ function start(bot) {
         `, {
             parse_mode: 'HTML',
             reply_to_message_id: ctx.message.message_id,
+            ...replyOptions,
         });
 
     });
 
-    bot.action('download_youtube', async (ctx) => {
+    bot.action('download_yt', async (ctx) => {
 
-        return await downloadFromYoutube(ctx);
+        const ms = getSession(ctx, 'yt', 'downloader');
+
+        return await ctx.replyWithAudio(Input.fromBuffer(await getUrlBuffers(ms.url)),
+            {
+                ...replyOptions,
+                thumb: Input.fromBuffer(await getUrlBuffers(ms.thumb)),
+                title: ms.title,
+                duration: ms.lengthSeconds,
+            });
 
     });
 

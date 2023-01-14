@@ -1,6 +1,6 @@
-async function soundCloudDownloader(ctx) {
+const {getUrlBuffers} = require("../index");
 
-    let url = ctx.message.text;
+async function soundCloudDownloader(url) {
 
     if (url.includes('?')) {
 
@@ -9,8 +9,6 @@ async function soundCloudDownloader(ctx) {
     }
 
     const SoundCloud = require("soundcloud-scraper");
-    const {Input} = require('telegraf');
-    const fetch = require('node-fetch');
 
     const client = new SoundCloud.Client();
 
@@ -22,17 +20,13 @@ async function soundCloudDownloader(ctx) {
 
     const stream = await song.downloadProgressive();
 
-    const imageFetch = await fetch(thumbnail);
-
-    const imageBuffer = Buffer.from(await imageFetch.arrayBuffer());
-
-    return await ctx.replyWithAudio(Input.fromReadableStream(stream),
-        {
-            thumb: Input.fromBuffer(imageBuffer),
-            title,
-            performer: author.name,
-            duration: duration / 1000,
-        });
+    return {
+        stream,
+        thumb: await getUrlBuffers(thumbnail),
+        title,
+        performer: author.name,
+        duration: duration / 1000,
+    }
 
 }
 

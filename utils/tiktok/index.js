@@ -98,6 +98,13 @@ const getListVideoByUsername = async (baseUrl) => {
 
 }
 
+async function tikTokDownloader(url) {
+
+    return await getVideoNoWM(url);
+
+}
+
 module.exports = {
     getVideoNoWM, getListVideoByUsername,
+    tikTokDownloader,
 }

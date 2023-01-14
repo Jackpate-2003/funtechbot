@@ -165,10 +165,20 @@ async function waitForSent(ctx, workFunc) {
 
 }
 
-const HOST = 'https://beige-seal-wear.cyclic.app';
+async function getUrlBuffers(url) {
+
+    const req = await fetch(url);
+
+    return Buffer.from(await req.arrayBuffer());
+
+}
+
+const HOST = 'https://beige-seal-wear.cyclic.app';//'67.219.139.52';
+const baseUploadPath = './uploads';
 
 module.exports = {
 
     REG, API_HOST, fetchData, formatBytes, bytesToMegaBytes,
     getSession, setSession, auth, makeID, HOST, waitForSent,
+    baseUploadPath, getUrlBuffers,
 }
