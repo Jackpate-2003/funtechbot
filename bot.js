@@ -130,7 +130,6 @@ function start(bot) {
                     reply_to_message_id: ctx.message.message_id,
                     reply_markup: {
                         inline_keyboard: dataArray,
-                        ...replyOptions.reply_markup,
                     },
                 }
             );
@@ -170,7 +169,6 @@ function start(bot) {
                     reply_to_message_id: ctx.message.message_id,
                     reply_markup: {
                         inline_keyboard: dataArray,
-                        ...replyOptions.reply_markup,
                     },
                 }
             );
