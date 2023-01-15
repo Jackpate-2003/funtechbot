@@ -5,7 +5,7 @@ const {getMusicMetaData} = require("./utils/apple-music");
 const Spotify = require('./utils/spotify');
 const {soundCloudDownloader} = require("./utils/sound-cloud");
 const {Input} = require('telegraf');
-const replyOptions = require("./utils/bot");
+const {replyOptions} = require("./utils/bot");
 const {makeID, HOST} = require("./utils");
 const {twitterDownloader} = require("./utils/twitter");
 const {youtubeDownloader} = require("./utils/yt");
@@ -26,10 +26,12 @@ function start(bot) {
 
             return await ctx.replyWithPhoto({url: yd.thumb},
                 {
+                    ...replyOptions,
                     reply_to_message_id: ctx.message.message_id,
                     reply_markup: {
                         inline_keyboard: yd.dataArray,
-                    }, caption: yd.caption, parse_mode: 'HTML'
+                        ...replyOptions.reply_markup,
+                    }, caption: yd.caption,
                 }
             );
 
@@ -51,6 +53,7 @@ function start(bot) {
                     title: scd.title,
                     performer: scd.performer,
                     duration: scd.duration,
+                    ...replyOptions,
                 });
 
         });
@@ -67,7 +70,9 @@ function start(bot) {
 
             for (let ul of id) {
 
-                await ctx.sendDocument(ul);
+                await ctx.sendDocument(ul, {
+                    ...replyOptions,
+                });
 
             }
 
@@ -85,7 +90,9 @@ function start(bot) {
 
             for (let lk of td) {
 
-                await ctx.sendDocument(lk);
+                await ctx.sendDocument(lk, {
+                    ...replyOptions,
+                });
 
             }
 
@@ -119,6 +126,7 @@ function start(bot) {
 
             return await ctx.reply('Video qualities for download:',
                 {
+                    ...replyOptions,
                     reply_to_message_id: ctx.message.message_id,
                     reply_markup: {
                         inline_keyboard: dataArray,
@@ -158,9 +166,11 @@ function start(bot) {
 
             return await ctx.reply(td.user.text,
                 {
+                    ...replyOptions,
                     reply_to_message_id: ctx.message.message_id,
                     reply_markup: {
                         inline_keyboard: dataArray,
+                        ...replyOptions.reply_markup,
                     },
                 }
             );
@@ -213,11 +223,11 @@ function start(bot) {
 
             return await ctx.replyWithAudio(results[0].musicStream,
                 {
+                    ...replyOptions,
                     thumb: results[0].thumbStream,
                     title,
                     performer: artists[0].name,
                     duration: duration.totalSeconds,
-                    ...replyOptions,
                 });
 
         });
@@ -245,11 +255,11 @@ function start(bot) {
 
             return await ctx.replyWithAudio(results[0].musicStream,
                 {
+                    ...replyOptions,
                     thumb: results[0].thumbStream,
                     title,
                     performer: artists[0].name,
                     duration: duration.totalSeconds,
-                    ...replyOptions,
                 });
 
         });
@@ -282,11 +292,11 @@ function start(bot) {
 
             return await ctx.replyWithAudio(results[0].musicStream,
                 {
+                    ...replyOptions,
                     thumb: results[0].thumbStream,
                     title,
                     performer: artists[0].name,
                     duration: duration.totalSeconds,
-                    ...replyOptions,
                 });
 
         });
