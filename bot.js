@@ -20,7 +20,9 @@ function start(bot) {
 
         return await waitForSent(ctx, async (ctx) => {
 
-            const yd = await youtubeDownloader()
+            const ID = ctx.match[1];
+
+            const yd = await youtubeDownloader(ID);
 
             return await ctx.replyWithPhoto({url: yd.thumb},
                 {
@@ -45,7 +47,7 @@ function start(bot) {
 
             return await ctx.replyWithAudio(Input.fromReadableStream(scd.stream),
                 {
-                    thumb: Input.fromBuffer(await getUrlBuffers(scd.thumbnail)),
+                    thumb: Input.fromBuffer(scd.thumb),
                     title: scd.title,
                     performer: scd.performer,
                     duration: scd.duration,
@@ -96,7 +98,7 @@ function start(bot) {
 
             let url = ctx.message.text;
 
-            const fd = facebookDownloader(url);
+            const fd = await facebookDownloader(url);
 
             let dataArray = [];
 
@@ -174,8 +176,6 @@ function start(bot) {
             const url = ctx.message.text;
 
             const {video, image} = await downloadPin(url);
-
-            console.log('v', video, 'i', image)
 
             if (video) {
 
