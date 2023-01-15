@@ -20,9 +20,7 @@ function start(bot) {
 
         return await waitForSent(ctx, async (ctx) => {
 
-            const ID = ctx.match[1];
-
-            const yd = await youtubeDownloader(ID);
+            const yd = await youtubeDownloader(ctx);
 
             return await ctx.replyWithPhoto({url: yd.thumb},
                 {

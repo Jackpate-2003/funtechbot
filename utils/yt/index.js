@@ -62,12 +62,14 @@ const youtubeInfo = async (id) => {
 
 }
 
-async function youtubeDownloader(id) {
+async function youtubeDownloader(ctx) {
+
+    const ID = ctx.match[1];
 
     const {
         videos, audios, title, description, url, thumb,
         duration, lengthSeconds,
-    } = await youtubeInfo(id);
+    } = await youtubeInfo(ID);
 
     const caption = `
     <b>Link:</b> ${url}
