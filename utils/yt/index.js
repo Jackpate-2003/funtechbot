@@ -124,7 +124,7 @@ async function youtubeDownloader(ctx) {
         if (bytesToMegaBytes(au.contentLength || 0) < 50) {
 
             setSession(ctx, 'yt', {
-                url: `${HOST}/red?id=${key}`,
+                url: au.url,
                 video: false,
                 thumb,
                 title,

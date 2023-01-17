@@ -174,7 +174,6 @@ async function getUrlBuffers(url) {
 }
 
 const HOST = 'https://beige-seal-wear.cyclic.app';//'67.219.139.52';
-const baseUploadPath = './uploads';
 
 module.exports = {
 
