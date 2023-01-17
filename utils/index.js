@@ -179,5 +179,5 @@ module.exports = {
 
     REG, API_HOST, fetchData, formatBytes, bytesToMegaBytes,
     getSession, setSession, auth, makeID, HOST, waitForSent,
-    baseUploadPath, getUrlBuffers,
+    getUrlBuffers,
 }
