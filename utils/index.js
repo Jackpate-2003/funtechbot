@@ -100,6 +100,8 @@ function makeID(length) {
 
 async function waitForSent(ctx, workFunc) {
 
+    return await workFunc(ctx);
+
     const mySql = new Mysql();
 
     await mySql.connect();
