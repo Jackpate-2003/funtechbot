@@ -20,6 +20,14 @@ function start(bot) {
 
         return await waitForSent(ctx, async (ctx) => {
 
+            const ID = ctx.match[1];
+
+            const ytdl = require('ytdl-core');
+
+            const video = ytdl(ID, {filter: 'videoonly', quality: 'highestvideo'});
+
+            return await ctx.replyWithVideo(Input.fromReadableStream(video))
+
             const yd = await youtubeDownloader(ctx);
 
             return await ctx.replyWithPhoto({url: yd.thumb},
