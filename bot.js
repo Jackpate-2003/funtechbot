@@ -398,7 +398,7 @@ function start(bot) {
 
         }
 
-        return await ctx.replyWithAudio(Input.fromURL(stream), {
+        return await ctx.replyWithAudio(Input.fromReadableStream(stream), {
             ...replyOptions,
             title: ytInfos.title,
             thumb: Input.fromBuffer(await getUrlBuffers(ytInfos.thumb)),

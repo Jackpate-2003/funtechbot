@@ -176,9 +176,9 @@ async function youtubeDownloader(info) {
 
     }
 
-    // const audio = ytdl(id, {filter: 'audioonly', quality: itag});
+    const audio = ytdl(id, {filter: 'audioonly', quality: itag});
 
-    return info.url;
+    return audio;
 
 }
 
