@@ -10,19 +10,25 @@ const path = require("path");
 // const LocalSession = require('telegraf-session-local');
 
 // Globals
-if (!global.sl) {
+if(!global.sl) {
     global.sl = {};
 }
 
 const BOT_KEY = '5836436547:AAE_Z-6MpCP-bVp3r96M8XhFIMCGxNJgKvk';
 
-const bot = new Telegraf(BOT_KEY, /*{
+const bot = new Telegraf(BOT_KEY /*{
     /!*telegram: {
         apiRoot: 'http://67.219.139.52:8081'
     }*!/
 }*/);
 
 const app = express();
+
+const secret = `/tel/${bot.secretPathComponent()}`;
+
+bot.telegram.setWebhook(`${HOST}/${secret}`)
+    .then((status) => console.log('Webhook setted: ' + status))
+    .catch(err => console.log("ERR", err));
 
 app.use(BodyParser.json());
 app.use(
@@ -37,23 +43,23 @@ bot.use(session());
 try {
 
     start(bot);
-} catch (err) {
+}
+
+catch (err) {
 
     console.error('ERROR!!', err);
 
 }
 
-bot.launch();
-
 app.get("/", (req, res) => res.send("Hello!"));
 
 app.get('/red', async (req, res) => {
 
-    const {id} = req.query;
+    const { id } = req.query;
 
     const url = global.sl[id];
 
-    if (!url) {
+    if(!url) {
 
         return res.send('The link has expired!');
 
