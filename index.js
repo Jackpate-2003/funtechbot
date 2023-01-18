@@ -16,11 +16,11 @@ if(!global.sl) {
 
 const BOT_KEY = '5836436547:AAE_Z-6MpCP-bVp3r96M8XhFIMCGxNJgKvk';
 
-const bot = new Telegraf(BOT_KEY, {
-    /*telegram: {
+const bot = new Telegraf(BOT_KEY, /*{
+    /!*telegram: {
         apiRoot: 'http://67.219.139.52:8081'
-    }*/
-});
+    }*!/
+}*/);
 
 const app = express();
 
