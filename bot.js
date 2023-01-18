@@ -388,7 +388,6 @@ function start(bot) {
 
         return await ctx.replyWithVideo(Input.fromReadableStream(stream), {
             ...replyOptions,
-            reply_to_message_id: ctx.message.message_id,
             title: ytInfo.title,
             thumb: Input.fromBuffer(await getUrlBuffers(ytInfo.thumb)),
             duration: ytInfo.lengthSeconds,
