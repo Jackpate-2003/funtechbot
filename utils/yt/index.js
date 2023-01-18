@@ -98,7 +98,7 @@ async function ytdlCallback(ctx) {
             text: `🎶 ${au.audioBitrate}k - ${
                 formatBytes(Number(au.contentLength))
             } (${au.container})`,
-            callback_data: `download_yt ${v.id} ${au.itag}`,
+            callback_data: `download_yt ${au.id} ${au.itag}`,
         }
 
         dataArray.push([param]);
