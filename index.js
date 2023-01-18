@@ -14,7 +14,7 @@ if(!global.sl) {
     global.sl = {};
 }
 
-const BOT_KEY = '5836436547:AAE_Z-6MpCP-bVp3r96M8XhFIMCGxNJgKvk';
+const BOT_KEY = '5836436547:AAG_M6qhVvQkFlBSoR8eQuGH3tJ85cujbA4';
 
 const bot = new Telegraf(BOT_KEY /*{
     /!*telegram: {
