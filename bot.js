@@ -383,8 +383,7 @@ function start(bot) {
         let ytInfo = ytInfos.itags[itag];
 
         ytInfo.id = ytInfos.id;
-
-        console.log('wdz', itag, ytInfo)
+        ytInfo.itag = itag;
 
         const stream = await youtubeDownloader(ytInfo);
 
