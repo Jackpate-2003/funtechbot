@@ -384,6 +384,8 @@ function start(bot) {
 
         ytInfo.id = ytInfos.id;
 
+        console.log('wdz', itag, ytInfo)
+
         const stream = await youtubeDownloader(ytInfo);
 
         return await ctx.replyWithVideo(Input.fromReadableStream(stream), {
