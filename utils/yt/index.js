@@ -128,6 +128,8 @@ async function youtubeDownloader(id, itag) {
         title, thumb, lengthSeconds,
     }
 
+    const {hasVideo, hasAudio} = ytdl.chooseFormat(info.formats, {quality: itag});
+
     if (hasVideo) {
 
         const video = ytdl(id, {filter: 'videoonly', quality: itag});
