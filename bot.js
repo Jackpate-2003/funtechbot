@@ -386,8 +386,6 @@ function start(bot) {
 
         const stream = await youtubeDownloader(ytInfo);
 
-        console.log('awdwdw', ytInfos)
-
         return await ctx.replyWithVideo(Input.fromReadableStream(stream), {
             ...replyOptions,
             title: ytInfos.title,
