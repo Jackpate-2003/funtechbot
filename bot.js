@@ -393,7 +393,7 @@ function start(bot) {
 
         }
 
-        return await ctx.replyWithAudio(Input.fromReadableStream(stream), {
+        return await ctx.replyWithAudio(Input.fromReadableStream(ytdlRes.stream), {
             ...replyOptions,
             title: ytdlRes.title,
             thumb: Input.fromBuffer(await getUrlBuffers(ytdlRes.thumb)),
