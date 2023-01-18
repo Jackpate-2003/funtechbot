@@ -380,9 +380,9 @@ function start(bot) {
 
         const ytInfos = getSession(ctx, 'yt', 'downloader');
 
-        const ytInfo = ytInfos.itags[itag];
+        let ytInfo = ytInfos.itags[itag];
 
-        console.log('awd', itag, ytInfo, ytInfos)
+        ytInfo.id = ytInfos.id;
 
         const stream = await youtubeDownloader(ytInfo);
 
