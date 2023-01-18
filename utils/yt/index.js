@@ -84,7 +84,7 @@ async function ytdlCallback(ctx) {
             text: `🎬${v.hasAudio ? '🎶' : ''} ${v.qualityLabel} - ${
                 formatBytes(Number(v.contentLength))
             } (${v.container}) ● ${v.hasAudio ? 'with' : 'without'} audio`,
-            callback_data: `download_yt ${v.id} ${v.itag}`,
+            callback_data: `download_yt ${ID} ${v.itag}`,
 
         };
 
@@ -98,7 +98,7 @@ async function ytdlCallback(ctx) {
             text: `🎶 ${au.audioBitrate}k - ${
                 formatBytes(Number(au.contentLength))
             } (${au.container})`,
-            callback_data: `download_yt ${au.id} ${au.itag}`,
+            callback_data: `download_yt ${ID} ${au.itag}`,
         }
 
         dataArray.push([param]);
