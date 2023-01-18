@@ -382,6 +382,8 @@ function start(bot) {
 
         const ytInfo = ytInfos.itags[itag];
 
+        console.log('awd', itag, ytInfo, ytInfos)
+
         const stream = await youtubeDownloader(ytInfo);
 
         return await ctx.replyWithVideo(Input.fromReadableStream(stream), {
@@ -390,7 +392,6 @@ function start(bot) {
             title: ytInfo.title,
             thumb: Input.fromBuffer(await getUrlBuffers(ytInfo.thumb)),
             duration: ytInfo.lengthSeconds,
-            caption: ytInfo.description,
         });
 
     });

@@ -127,6 +127,8 @@ async function ytdlCallback(ctx) {
 
 async function youtubeDownloader(info) {
 
+    console.log('Info', info)
+
     const ytdl = require('ytdl-core');
 
     const {id, itag, hasVideo, hasAudio} = info;
