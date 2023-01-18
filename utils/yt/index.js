@@ -1,6 +1,5 @@
 const {makeID, formatBytes, HOST, bytesToMegaBytes, setSession} = require("../../utils");
 const {getSession} = require("../index");
-const {uploadReadableStream} = require("../../api/uploader");
 
 const youtubeInfo = async (id) => {
 
