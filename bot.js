@@ -385,11 +385,20 @@ function start(bot) {
         ytInfo.id = ytInfos.id;
         ytInfo.itag = itag;
 
-        console.log('OK!')
-
         const stream = await youtubeDownloader(ytInfo);
 
-        return await ctx.replyWithVideo(Input.fromReadableStream(stream), {
+        if(ytInfo.hasVideo) {
+
+            return await ctx.replyWithVideo(Input.fromReadableStream(stream), {
+                ...replyOptions,
+                title: ytInfos.title,
+                thumb: Input.fromBuffer(await getUrlBuffers(ytInfos.thumb)),
+                duration: ytInfos.lengthSeconds,
+            });
+
+        }
+
+        return await ctx.replyWithAudio(Input.fromURL(stream), {
             ...replyOptions,
             title: ytInfos.title,
             thumb: Input.fromBuffer(await getUrlBuffers(ytInfos.thumb)),
