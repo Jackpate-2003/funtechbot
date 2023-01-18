@@ -388,9 +388,9 @@ function start(bot) {
 
         return await ctx.replyWithVideo(Input.fromReadableStream(stream), {
             ...replyOptions,
-            title: ytInfo.title,
-            thumb: Input.fromBuffer(await getUrlBuffers(ytInfo.thumb)),
-            duration: ytInfo.lengthSeconds,
+            title: ytInfos.title,
+            thumb: Input.fromBuffer(await getUrlBuffers(ytInfos.thumb)),
+            duration: ytInfos.lengthSeconds,
         });
 
     });
