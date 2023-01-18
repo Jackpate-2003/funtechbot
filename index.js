@@ -10,7 +10,7 @@ const path = require("path");
 // const LocalSession = require('telegraf-session-local');
 
 // Globals
-if(!global.sl) {
+if (!global.sl) {
     global.sl = {};
 }
 
@@ -23,12 +23,6 @@ const bot = new Telegraf(BOT_KEY, /*{
 }*/);
 
 const app = express();
-
-const secret = `/tel/${bot.secretPathComponent()}`;
-
-bot.telegram.setWebhook(`${HOST}/${secret}`)
-    .then((status) => console.log('Webhook setted: ' + status))
-    .catch(err => console.log("ERR", err));
 
 app.use(BodyParser.json());
 app.use(
@@ -43,23 +37,23 @@ bot.use(session());
 try {
 
     start(bot);
-}
-
-catch (err) {
+} catch (err) {
 
     console.error('ERROR!!', err);
 
 }
 
+bot.launch();
+
 app.get("/", (req, res) => res.send("Hello!"));
 
 app.get('/red', async (req, res) => {
 
-    const { id } = req.query;
+    const {id} = req.query;
 
     const url = global.sl[id];
 
-    if(!url) {
+    if (!url) {
 
         return res.send('The link has expired!');
 
@@ -68,31 +62,6 @@ app.get('/red', async (req, res) => {
     return res.redirect(url);
 
 });
-
-/*app.get('/upload/:file', async (req, res) => {
-
-    const filePath = `${baseUploadPath}/${req.params.file}`;
-
-    if(await isExists(filePath)) {
-
-        const fs = require('fs');
-
-        const stat = fs.statSync(path);
-
-        const fileSize = stat.size;
-
-        const head = {
-            'Content-Length': fileSize,
-            'Content-Type': 'video/mp4',
-        }
-        res.writeHead(200, head)
-        fs.createReadStream(path).pipe(res);
-
-    }
-
-    res.send('File not found! 404 Error');
-
-});*/
 
 app.use(express.static(path.join(__dirname, baseUploadPath)));
 
