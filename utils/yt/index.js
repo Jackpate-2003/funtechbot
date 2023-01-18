@@ -76,17 +76,15 @@ async function ytdlCallback(ctx) {
     <b>Duration:</b> ${duration}
     `;
 
-    let dataArray = [], ytInfos = {};
+    let dataArray = [];
 
     for (let v of videos) {
-
-        ytInfos[v.itag] = {url: v.url, hasVideo: v.hasVideo, hasAudio: v.hasAudio};
 
         let param = {
             text: `🎬${v.hasAudio ? '🎶' : ''} ${v.qualityLabel} - ${
                 formatBytes(Number(v.contentLength))
             } (${v.container}) ● ${v.hasAudio ? 'with' : 'without'} audio`,
-            callback_data: `download_yt ${v.itag}`,
+            callback_data: `download_yt ${v.id} ${v.itag}`,
 
         };
 
@@ -96,27 +94,16 @@ async function ytdlCallback(ctx) {
 
     for (let au of audios) {
 
-        ytInfos[au.itag] = {url: au.url, hasVideo: au.hasVideo, hasAudio: au.hasAudio};
-
         let param = {
             text: `🎶 ${au.audioBitrate}k - ${
                 formatBytes(Number(au.contentLength))
             } (${au.container})`,
-            callback_data: `download_yt ${au.itag}`,
+            callback_data: `download_yt ${v.id} ${au.itag}`,
         }
 
         dataArray.push([param]);
 
     }
-
-    setSession(ctx, 'yt', {
-        id: ID,
-        itags: ytInfos,
-        thumb,
-        title,
-        lengthSeconds,
-        description,
-    }, 'downloader');
 
     return {
         thumb, dataArray, caption,
@@ -125,11 +112,21 @@ async function ytdlCallback(ctx) {
 }
 
 
-async function youtubeDownloader(info) {
+async function youtubeDownloader(id, itag) {
 
     const ytdl = require('ytdl-core');
 
-    const {id, itag, hasVideo, hasAudio} = info;
+    const info = await ytdl.getInfo(id);
+
+    let {
+        title, thumbnails, lengthSeconds,
+    } = info.videoDetails;
+
+    const thumb = thumbnails[0].url;
+
+    let res = {
+        title, thumb, lengthSeconds,
+    }
 
     if (hasVideo) {
 
@@ -137,7 +134,9 @@ async function youtubeDownloader(info) {
 
         if (hasAudio) {
 
-            return video;
+            res.stream = video;
+
+            return res;
 
         }
 
@@ -172,13 +171,17 @@ async function youtubeDownloader(info) {
         audio.pipe(ffmpegProcess.stdio[3]);
         video.pipe(ffmpegProcess.stdio[4]);
 
-        return ffmpegProcess.stdio[5];
+        res.stream = ffmpegProcess.stdio[5];
+
+        return res;
 
     }
 
     const audio = ytdl(id, {filter: 'audioonly', quality: itag});
 
-    return audio;
+    res.stream = audio;
+
+    return res;
 
 }
 

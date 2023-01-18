@@ -376,33 +376,28 @@ function start(bot) {
 
     bot.action(/download_yt (.*)/, async (ctx) => {
 
-        const itag = ctx.match[1];
+        const params = ctx.match[1].split(' ');
 
-        const ytInfos = getSession(ctx, 'yt', 'downloader');
+        const ID = params[0], ITAG = params[1];
 
-        let ytInfo = ytInfos.itags[itag];
-
-        ytInfo.id = ytInfos.id;
-        ytInfo.itag = itag;
-
-        const stream = await youtubeDownloader(ytInfo);
+        const ytdlRes = await youtubeDownloader(ID, ITAG);
 
         if(ytInfo.hasVideo) {
 
-            return await ctx.replyWithVideo(Input.fromReadableStream(stream), {
+            return await ctx.replyWithVideo(Input.fromReadableStream(ytdlRes.stream), {
                 ...replyOptions,
-                title: ytInfos.title,
-                thumb: Input.fromBuffer(await getUrlBuffers(ytInfos.thumb)),
-                duration: ytInfos.lengthSeconds,
+                title: ytdlRes.title,
+                thumb: Input.fromBuffer(await getUrlBuffers(ytdlRes.thumb)),
+                duration: ytdlRes.lengthSeconds,
             });
 
         }
 
         return await ctx.replyWithAudio(Input.fromReadableStream(stream), {
             ...replyOptions,
-            title: ytInfos.title,
-            thumb: Input.fromBuffer(await getUrlBuffers(ytInfos.thumb)),
-            duration: ytInfos.lengthSeconds,
+            title: ytdlRes.title,
+            thumb: Input.fromBuffer(await getUrlBuffers(ytdlRes.thumb)),
+            duration: ytdlRes.lengthSeconds,
         });
 
     });
