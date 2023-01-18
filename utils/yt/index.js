@@ -124,11 +124,11 @@ async function youtubeDownloader(id, itag) {
 
     const thumb = thumbnails[0].url;
 
-    let res = {
-        title, thumb, lengthSeconds,
-    }
-
     const {hasVideo, hasAudio} = ytdl.chooseFormat(info.formats, {quality: itag});
+
+    let res = {
+        title, thumb, lengthSeconds, hasVideo,
+    }
 
     if (hasVideo) {
 

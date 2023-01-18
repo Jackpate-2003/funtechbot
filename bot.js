@@ -382,7 +382,7 @@ function start(bot) {
 
         const ytdlRes = await youtubeDownloader(ID, ITAG);
 
-        if(ytInfo.hasVideo) {
+        if(ytdlRes.hasVideo) {
 
             return await ctx.replyWithVideo(Input.fromReadableStream(ytdlRes.stream), {
                 ...replyOptions,
