@@ -68,7 +68,6 @@ function setSession(ctx, key, value, parent) {
         if (!ctx.session[parent]) {
             ctx.session[parent] = {};
         }
-        console.log(';;;a', ctx.session[parent][key] = value)
         return ctx.session[parent][key] = value;
     }
 
