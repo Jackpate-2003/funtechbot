@@ -5,6 +5,8 @@ const {start} = require('./bot');
 const S3 = require('./db/s3');
 const {HOST} = require("./utils");
 const Mysql = require("./db/mysql");
+const {baseUploadPath, isExists, remove2HoursFiles} = require("./api/uploader");
+const path = require("path");
 // const LocalSession = require('telegraf-session-local');
 
 // Globals
@@ -67,6 +69,33 @@ app.get('/red', async (req, res) => {
 
 });
 
+/*app.get('/upload/:file', async (req, res) => {
+
+    const filePath = `${baseUploadPath}/${req.params.file}`;
+
+    if(await isExists(filePath)) {
+
+        const fs = require('fs');
+
+        const stat = fs.statSync(path);
+
+        const fileSize = stat.size;
+
+        const head = {
+            'Content-Length': fileSize,
+            'Content-Type': 'video/mp4',
+        }
+        res.writeHead(200, head)
+        fs.createReadStream(path).pipe(res);
+
+    }
+
+    res.send('File not found! 404 Error');
+
+});*/
+
+app.use(express.static(path.join(__dirname, baseUploadPath)));
+
 app.use(bot.webhookCallback(secret));
 
 app.listen(process.env.PORT || 3000, () => {
@@ -74,6 +103,10 @@ app.listen(process.env.PORT || 3000, () => {
     console.log('I\'m ready!');
 
 });
+
+setInterval(async () => {
+    await remove2HoursFiles();
+}, 5 * 60 * 1000);
 
 process.once('SIGINT', () => bot.stop('SIGINT'))
 process.once('SIGTERM', () => bot.stop('SIGTERM'))

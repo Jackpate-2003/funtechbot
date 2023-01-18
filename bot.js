@@ -8,7 +8,7 @@ const {Input} = require('telegraf');
 const {replyOptions} = require("./utils/bot");
 const {makeID, HOST} = require("./utils");
 const {twitterDownloader} = require("./utils/twitter");
-const {youtubeDownloader} = require("./utils/yt");
+const {youtubeDownloader, ytdlCallback} = require("./utils/yt");
 const {instagramDownloader} = require("./utils/instagram");
 const {tikTokDownloader} = require("./utils/tiktok");
 const {facebookDownloader} = require("./utils/facebook");
@@ -20,15 +20,7 @@ function start(bot) {
 
         return await waitForSent(ctx, async (ctx) => {
 
-            const ID = ctx.match[1];
-
-            const ytdl = require('ytdl-core');
-
-            const video = ytdl(ID, {filter: 'videoonly', quality: 'highestvideo'});
-
-            return await ctx.replyWithVideo(Input.fromReadableStream(video))
-
-            const yd = await youtubeDownloader(ctx);
+            const yd = await ytdlCallback(ctx);
 
             return await ctx.replyWithPhoto({url: yd.thumb},
                 {
@@ -382,17 +374,24 @@ function start(bot) {
 
     });
 
-    bot.action('download_yt', async (ctx) => {
+    bot.action(/download_yt (.*)/, async (ctx) => {
 
-        const ms = getSession(ctx, 'yt', 'downloader');
+        const itag = ctx.match[1];
 
-        return await ctx.replyWithAudio(Input.fromBuffer(await getUrlBuffers(ms.url)),
-            {
-                ...replyOptions,
-                thumb: Input.fromBuffer(await getUrlBuffers(ms.thumb)),
-                title: ms.title,
-                duration: ms.lengthSeconds,
-            });
+        const ytInfos = getSession(ctx, 'yt', 'downloader');
+
+        const ytInfo = ytInfos.itags[itag];
+
+        const stream = await youtubeDownloader(ytInfo);
+
+        return await ctx.replyWithVideo(Input.fromReadableStream(stream), {
+            ...replyOptions,
+            reply_to_message_id: ctx.message.message_id,
+            title: ytInfo.title,
+            thumb: Input.fromBuffer(await getUrlBuffers(ytInfo.thumb)),
+            duration: ytInfo.lengthSeconds,
+            caption: ytInfo.description,
+        });
 
     });
 

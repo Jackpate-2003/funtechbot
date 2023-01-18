@@ -1,4 +1,6 @@
 const {makeID, formatBytes, HOST, bytesToMegaBytes, setSession} = require("../../utils");
+const {getSession} = require("../index");
+const {uploadReadableStream} = require("../../api/uploader");
 
 const youtubeInfo = async (id) => {
 
@@ -11,13 +13,11 @@ const youtubeInfo = async (id) => {
 
     info.formats.forEach((f) => {
 
-        if(f.hasVideo && f.hasAudio) {
+        if (f.hasVideo && f.hasAudio) {
 
             videosWithAudio.push(f);
 
-        }
-
-        else if (f.hasVideo) {
+        } else if (f.hasVideo) {
             videos.push(f);
         } else {
             audios.push(f);
@@ -62,7 +62,7 @@ const youtubeInfo = async (id) => {
 
 }
 
-async function youtubeDownloader(ctx) {
+async function ytdlCallback(ctx) {
 
     const ID = ctx.match[1];
 
@@ -77,33 +77,19 @@ async function youtubeDownloader(ctx) {
     <b>Duration:</b> ${duration}
     `;
 
-    let dataArray = [];
+    let dataArray = [], ytInfos = {};
 
     for (let v of videos) {
 
-        const key = makeID(6);
+        ytInfos[v.itag] = {url: v.url, hasVideo: v.hasVideo, hasAudio: v.hasAudio};
 
         let param = {
             text: `🎬${v.hasAudio ? '🎶' : ''} ${v.qualityLabel} - ${
                 formatBytes(Number(v.contentLength))
             } (${v.container}) ● ${v.hasAudio ? 'with' : 'without'} audio`,
+            callback_data: `download_yt ${v.itag}`,
+
         };
-
-        global.sl[key] = v.url;
-
-        param.url = `${HOST}/red?id=${key}`;
-
-        /*if(bytesToMegaBytes(au.contentLength || 0) < 50) {
-
-            param.callback_data = `download_yt_v ${key}`;
-
-        }
-
-        else {
-
-            param.url = `${HOST}/red?id=${key}`;
-
-        }*/
 
         dataArray.push([param]);
 
@@ -111,37 +97,27 @@ async function youtubeDownloader(ctx) {
 
     for (let au of audios) {
 
-        const key = makeID(6);
-
-        global.sl[key] = au.url;
+        ytInfos[au.itag] = {url: au.url, hasVideo: au.hasVideo, hasAudio: au.hasAudio};
 
         let param = {
             text: `🎶 ${au.audioBitrate}k - ${
                 formatBytes(Number(au.contentLength))
             } (${au.container})`,
-        }
-
-        if (bytesToMegaBytes(au.contentLength || 0) < 50) {
-
-            setSession(ctx, 'yt', {
-                url: au.url,
-                video: false,
-                thumb,
-                title,
-                lengthSeconds,
-            }, 'downloader');
-
-            param.callback_data = `download_yt`;
-
-        } else {
-
-            param.url = `${HOST}/red?id=${key}`;
-
+            callback_data: `download_yt ${au.itag}`,
         }
 
         dataArray.push([param]);
 
     }
+
+    setSession(ctx, 'yt', {
+        id: ID,
+        itags: ytInfos,
+        thumb,
+        title,
+        lengthSeconds,
+        description,
+    }, 'downloader');
 
     return {
         thumb, dataArray, caption,
@@ -149,62 +125,64 @@ async function youtubeDownloader(ctx) {
 
 }
 
-async function youtubeAction(ctx) {
 
-    /*if (ctx.session && ctx.session.youtube) {
+async function youtubeDownloader(info) {
 
-        const yt = ctx.session.youtube;
+    const ytdl = require('ytdl-core');
 
-        const file = await fetch(yt.url);
+    const {id, itag, hasVideo, hasAudio} = info;
 
-        let chunks = [];
+    if (hasVideo) {
 
-        const fileBuffer = Buffer.from(await file.arrayBuffer());
+        const video = ytdl(id, {filter: 'videoonly', quality: itag});
 
-        /!*const buffer = await new Promise((res, rej) => {
-            ffmpeg(fileBuffer)
-                .audioBitrate(yt.bitrate)
-                .on('data', chunk => {
+        if (hasAudio) {
 
-                    chunks.push(chunk);
+            return video;
 
-                }).on('end', () => {
+        }
 
-                res(Buffer.concat(chunks));
+        const audio = ytdl(id, {filter: 'audioonly', quality: 'highestaudio'});
 
-            });
-        });*!/
+        const ffmpeg = require('ffmpeg-static');
+        const cp = require('child_process');
 
-        return await ctx.sendVoice(fileBuffer);
+        const ffmpegProcess = cp.spawn(ffmpeg, [
+            // Remove ffmpeg's console spamming
+            '-loglevel', '0', '-hide_banner',
+            // 3 second audio offset
+            '-itsoffset', '3.0', '-i', 'pipe:3',
+            '-i', 'pipe:4',
+            // Rescale the video
+            '-vf', 'scale=320:240',
+            // Choose some fancy codes
+            '-c:v', 'libx265', '-x265-params', 'log-level=0',
+            '-c:a', 'flac',
+            // Define output container
+            '-f', 'matroska', 'pipe:5',
+        ], {
+            windowsHide: true,
+            stdio: [
+                /* Standard: stdin, stdout, stderr */
+                'inherit', 'inherit', 'inherit',
+                /* Custom: pipe:3, pipe:4, pipe:5 */
+                'pipe', 'pipe', 'pipe',
+            ],
+        });
 
-        /!*if (yt.hasVideo) {
+        audio.pipe(ffmpegProcess.stdio[3]);
+        video.pipe(ffmpegProcess.stdio[4]);
 
-            return await ctx.sendVideo(
-                yt.url,
-                {
-                    // reply_to_message_id: ctx.from.id,
-                    duration: yt.lengthSeconds,
-                    caption: yt.title,
-                    width: yt.width,
-                    height: yt.height
-                });
-
-        } else {
-
-            return await ctx.sendVoice(
-                yt.url,
-                {
-                    // reply_to_message_id: ctx.from.id,
-                    duration: yt.lengthSeconds,
-                    caption: yt.title,
-                });
-
-        }*!/
+        return ffmpegProcess.stdio[5];
 
     }
-*/
+
+    const audio = ytdl(id, {filter: 'audioonly', quality: itag});
+
+    return audio;
+
 }
 
 module.exports = {
-    youtubeInfo, youtubeDownloader,
+    youtubeInfo, youtubeDownloader, ytdlCallback,
 }
