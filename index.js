@@ -31,7 +31,7 @@ app.use(
     })
 );
 
-app.use(await bot.createWebhook({ domain: HOST }));
+app.use(bot.createWebhook({ domain: HOST }));
 
 bot.use(session());
 

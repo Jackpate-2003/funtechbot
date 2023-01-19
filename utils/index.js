@@ -174,7 +174,7 @@ async function getUrlBuffers(url) {
 
 }
 
-const HOST = 'https://beige-seal-wear.cyclic.app';
+const HOST = 'https://smiling-crab-tunic.cyclic.app';
 // const HOST = '67.219.139.52';
 
 module.exports = {
