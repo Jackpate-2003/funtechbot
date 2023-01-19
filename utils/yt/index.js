@@ -61,7 +61,7 @@ const youtubeInfo = async (id) => {
 
 }
 
-async function ytdlCallback(ctx) {
+async function ytdlCallback(ctx, returnLink = true) {
 
     const ID = ctx.match[1];
 
@@ -84,9 +84,24 @@ async function ytdlCallback(ctx) {
             text: `🎬${v.hasAudio ? '🎶' : ''} ${v.qualityLabel} - ${
                 formatBytes(Number(v.contentLength))
             } (${v.container}) ● ${v.hasAudio ? 'with' : 'without'} audio`,
-            callback_data: `download_yt ${ID} ${v.itag}`,
 
         };
+
+        if(returnLink) {
+
+            const sl = makeID(6);
+
+            global.sl[sl] = v.url;
+
+            param.url = `${HOST}/red/${sl}`;
+
+        }
+
+        else {
+
+            param.callback_data = `download_yt ${ID} ${v.itag}`;
+
+        }
 
         dataArray.push([param]);
 
@@ -98,7 +113,22 @@ async function ytdlCallback(ctx) {
             text: `🎶 ${au.audioBitrate}k - ${
                 formatBytes(Number(au.contentLength))
             } (${au.container})`,
-            callback_data: `download_yt ${ID} ${au.itag}`,
+        }
+
+        if(returnLink) {
+
+            const sl = makeID(6);
+
+            global.sl[sl] = au.url;
+
+            param.url = `${HOST}/red/${sl}`;
+
+        }
+
+        else {
+
+            param.callback_data = `download_yt ${ID} ${au.itag}`;
+
         }
 
         dataArray.push([param]);

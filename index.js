@@ -53,9 +53,9 @@ catch (err) {
 
 app.get("/", (req, res) => res.send("Hello!"));
 
-app.get('/red', async (req, res) => {
+app.get('/red/:id', async (req, res) => {
 
-    const { id } = req.query;
+    const { id } = req.params;
 
     const url = global.sl[id];
 
@@ -79,9 +79,9 @@ app.listen(process.env.PORT || 3000, () => {
 
 });
 
-setInterval(async () => {
+/*setInterval(async () => {
     await remove2HoursFiles();
-}, 5 * 60 * 1000);
+}, 5 * 60 * 1000);*/
 
 process.once('SIGINT', () => bot.stop('SIGINT'))
 process.once('SIGTERM', () => bot.stop('SIGTERM'))
