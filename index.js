@@ -24,18 +24,14 @@ const bot = new Telegraf(BOT_KEY /*{
 
 const app = express();
 
-const secret = `/tel/${bot.secretPathComponent()}`;
-
-bot.telegram.setWebhook(`${HOST}/${secret}`)
-    .then((status) => console.log('Webhook setted: ' + status))
-    .catch(err => console.log("ERR", err));
-
 app.use(BodyParser.json());
 app.use(
     BodyParser.urlencoded({
         extended: true,
     })
 );
+
+app.use(await bot.createWebhook({ domain: HOST }));
 
 bot.use(session());
 
@@ -70,8 +66,6 @@ app.get('/red', async (req, res) => {
 });
 
 app.use(express.static(path.join(__dirname, baseUploadPath)));
-
-app.use(bot.webhookCallback(secret));
 
 app.listen(process.env.PORT || 3000, () => {
 
