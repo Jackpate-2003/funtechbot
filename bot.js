@@ -116,7 +116,7 @@ function start(bot) {
 
                 dataArray.push([{
                     text: `🎬🎶 ${quality}`,
-                    url: `${HOST}/red?id=${key}`,
+                    url: `${HOST}/red/${key}`,
                 }]);
 
             }
@@ -155,7 +155,7 @@ function start(bot) {
 
                 dataArray.push([{
                     text: `🎬🎶 (${dimension})`,
-                    url: `${HOST}/red?id=${key}`,
+                    url: `${HOST}/red/${key}`,
                 }]);
 
             }
