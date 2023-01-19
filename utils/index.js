@@ -1,6 +1,6 @@
 const fetch = require('node-fetch');
 const Mysql = require("../db/mysql");
-const {replyOptions} = require("./utils/bot");
+const {replyOptions} = require("../utils/bot");
 
 const REG = {
 
