@@ -36,6 +36,7 @@
     "node-youtube-music": "*",
     "spottydl": "*",
     "soundcloud-scraper": "*",
-    "typescript": "*"
+    "typescript": "*",
+    "tiktok-down": "*"
   }
 }
