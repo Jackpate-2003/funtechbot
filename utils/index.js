@@ -108,19 +108,6 @@ async function waitForSent(ctx, workFunc) {
         }
     );
 
-    const mySql = new Mysql();
-
-    await mySql.connect();
-
-    await mySql.insert('reqs', [
-        'cmd', 'userid', 'username', 'name'
-    ], [
-        ctx.message.text,
-        Number(ctx.message.chat.id),
-        ctx.message.chat.username,
-        ctx.message.chat.first_name
-    ]);
-
     const res = await workFunc(ctx);
 
     await ctx.telegram.deleteMessage(

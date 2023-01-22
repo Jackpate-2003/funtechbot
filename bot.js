@@ -86,14 +86,14 @@ function start(bot) {
             const res = await tikTokDownloader(url);
 
             if (res.isVideo) {
-                await ctx.replyWithVideo(res.stream, {
+                return await ctx.replyWithVideo(res.stream, {
                     ...replyOptions,
                     caption: res.title,
                     duration: res.duration
                 });
             } else {
 
-                await ctx.replyWithAudio(res.stream, {
+                return await ctx.replyWithAudio(res.stream, {
                     ...replyOptions,
                     title: res.title,
                     duration: res.duration,
