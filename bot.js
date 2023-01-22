@@ -10,7 +10,7 @@ const {makeID, HOST} = require("./utils");
 const {twitterDownloader} = require("./utils/twitter");
 const {youtubeDownloader, ytdlCallback} = require("./utils/yt");
 const {instagramDownloader} = require("./utils/instagram");
-const {tikTokDownloader} = require("./utils/tiktok");
+const tikTokDownloader = require("./utils/tiktok");
 const {facebookDownloader} = require("./utils/facebook");
 
 
@@ -83,12 +83,21 @@ function start(bot) {
 
             let url = ctx.message.text;
 
-            const td = await tikTokDownloader(url);
+            const res = await tikTokDownloader(url);
 
-            for (let lk of td) {
-
-                await ctx.sendDocument(lk, {
+            if (res.isVideo) {
+                await ctx.replyWithVideo(res.stream, {
                     ...replyOptions,
+                    caption: res.title,
+                    duration: res.duration
+                });
+            } else {
+
+                await ctx.replyWithAudio(res.stream, {
+                    ...replyOptions,
+                    title: res.title,
+                    duration: res.duration,
+                    performer: res.artist,
                 });
 
             }
@@ -382,7 +391,7 @@ function start(bot) {
 
         const ytdlRes = await youtubeDownloader(ID, ITAG);
 
-        if(ytdlRes.hasVideo) {
+        if (ytdlRes.hasVideo) {
 
             return await ctx.replyWithVideo(Input.fromReadableStream(ytdlRes.stream), {
                 ...replyOptions,
