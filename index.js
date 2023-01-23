@@ -26,7 +26,7 @@ const app = express();
 
     console.log('ADDR', `${HOST}:${process.env.PORT || 3000}`);
 
-    app.use(await bot.createWebhook({domain: `${HOST}:${process.env.PORT || 3000}`}));
+    app.use(await bot.createWebhook({domain: `${HOST}:${443}`}));
 
     bot.use(session());
 
@@ -60,7 +60,7 @@ const app = express();
 
     app.use(express.static(path.join(__dirname, baseUploadPath)));
 
-    app.listen(process.env.PORT || 3000, () => {
+    app.listen(443, () => {
 
         console.log('I\'m ready!');
 
