@@ -26,13 +26,6 @@ const app = express();
 
     app.use(await bot.createWebhook({domain: HOST}));
 
-    app.use(BodyParser.json());
-    app.use(
-        BodyParser.urlencoded({
-            extended: true,
-        })
-    );
-
     bot.use(session());
 
 // bot.use((new LocalSession({ database: 'ls.json' })).middleware())
