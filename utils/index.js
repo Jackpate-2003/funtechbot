@@ -1,6 +1,15 @@
 const fetch = require('node-fetch');
-const {replyOptions} = require("../utils/bot");
 const {Input} = require('telegraf');
+
+const replyOptions = {
+    reply_markup: {
+        resize_keyboard: true,
+        keyboard: [
+            ["Downloader"],
+            ["Download song with its name or lyrics"]
+        ]
+    }, parse_mode: 'HTML',
+};
 
 const REG = {
 
@@ -134,5 +143,5 @@ module.exports = {
 
     REG, API_HOST, fetchData, formatBytes, bytesToMegaBytes,
     getSession, setSession, auth, makeID, HOST, waitForSent,
-    getUrlBuffers, baseUploadPath,
+    getUrlBuffers, baseUploadPath, replyOptions,
 }
