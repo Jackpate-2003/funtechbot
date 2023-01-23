@@ -26,6 +26,8 @@ const app = express();
 
 const secret = `/tel/${bot.secretPathComponent()}`;
 
+console.log('SECRET', secret);
+
 bot.telegram.setWebhook(`${HOST}/${secret}`)
     .then((status) => console.log('Webhook setted: ' + status))
     .catch(err => console.log("ERR", err));
@@ -40,16 +42,19 @@ app.use(
 bot.use(session());
 
 // bot.use((new LocalSession({ database: 'ls.json' })).middleware())
-try {
+(async () => {
 
-    start(bot);
-}
+    try {
 
-catch (err) {
+        await start(bot);
 
-    console.error('ERROR!!', err);
+    } catch (err) {
 
-}
+        console.error('ERROR!!', err);
+
+    }
+
+})();
 
 app.get("/", (req, res) => res.send("Hello!"));
 
