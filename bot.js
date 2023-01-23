@@ -44,7 +44,7 @@ function start(bot) {
 
             const scd = await soundCloudDownloader(url);
 
-            return await ctx.replyWithAudio(Input.fromReadableStream(scd.stream),
+            return await ctx.sendAudio(Input.fromReadableStream(scd.stream),
                 {
                     thumb: Input.fromBuffer(scd.thumb),
                     title: scd.title,
@@ -86,14 +86,17 @@ function start(bot) {
             const res = await tikTokDownloader(url);
 
             if (res.isVideo) {
-                return await ctx.replyWithVideo(Input.fromBuffer(await getUrlBuffers(res.stream)), {
+
+                console.log('oK!')
+
+                return await ctx.sendVideo(Input.fromBuffer(await getUrlBuffers(res.stream)), {
                     ...replyOptions,
                     caption: res.title,
                     duration: res.duration
                 });
             } else {
 
-                return await ctx.replyWithAudio(Input.fromBuffer(await getUrlBuffers(res.stream)), {
+                return await ctx.sendAudio(Input.fromBuffer(await getUrlBuffers(res.stream)), {
                     ...replyOptions,
                     title: res.title,
                     duration: res.duration,
@@ -193,7 +196,7 @@ function start(bot) {
 
             if (video) {
 
-                return await ctx.replyWithVideo(Input.fromURL(video), {
+                return await ctx.sendVideo(Input.fromURL(video), {
                     ...replyOptions,
                     thumb: Input.fromBuffer(await getUrlBuffers(image)),
                 });
@@ -225,7 +228,7 @@ function start(bot) {
 
             title = `${title} by ${artists[0].name}`;
 
-            return await ctx.replyWithAudio(results[0].musicStream,
+            return await ctx.sendAudio(results[0].musicStream,
                 {
                     ...replyOptions,
                     thumb: results[0].thumbStream,
@@ -257,7 +260,7 @@ function start(bot) {
 
             title = `${title} by ${artists[0].name}`;
 
-            return await ctx.replyWithAudio(results[0].musicStream,
+            return await ctx.sendAudio(results[0].musicStream,
                 {
                     ...replyOptions,
                     thumb: results[0].thumbStream,
@@ -294,7 +297,7 @@ function start(bot) {
 
             title = `${title} by ${artists[0].name}`;
 
-            return await ctx.replyWithAudio(results[0].musicStream,
+            return await ctx.sendAudio(results[0].musicStream,
                 {
                     ...replyOptions,
                     thumb: results[0].thumbStream,
@@ -393,7 +396,7 @@ function start(bot) {
 
         if (ytdlRes.hasVideo) {
 
-            return await ctx.replyWithVideo(Input.fromReadableStream(ytdlRes.stream), {
+            return await ctx.sendVideo(Input.fromReadableStream(ytdlRes.stream), {
                 ...replyOptions,
                 title: ytdlRes.title,
                 thumb: Input.fromBuffer(await getUrlBuffers(ytdlRes.thumb)),
@@ -402,7 +405,7 @@ function start(bot) {
 
         }
 
-        return await ctx.replyWithAudio(Input.fromReadableStream(ytdlRes.stream), {
+        return await ctx.sendAudio(Input.fromReadableStream(ytdlRes.stream), {
             ...replyOptions,
             title: ytdlRes.title,
             thumb: Input.fromBuffer(await getUrlBuffers(ytdlRes.thumb)),
