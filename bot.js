@@ -75,7 +75,7 @@ function start(bot) {
 
     });
 
-    bot.hears(REG.tiktok, async (ctx) => {
+    bot.hears('REG.tiktok', async (ctx) => {
 
         return await waitForSent(ctx, async (ctx) => {
 
