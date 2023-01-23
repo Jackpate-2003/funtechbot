@@ -6,7 +6,7 @@ async function downloader(url) {
         clientIP: '127.0.0.1'
     });
 
-    let res = {};
+    let res;
 
     let info = await tt.getDetails({
         url,
