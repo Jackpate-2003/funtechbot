@@ -128,10 +128,11 @@ async function getUrlBuffers(url) {
 
 const HOST = 'https://fun-tech.cyclic.app';
 // const HOST = '67.219.139.52';
+const baseUploadPath = 'uploads';
 
 module.exports = {
 
     REG, API_HOST, fetchData, formatBytes, bytesToMegaBytes,
     getSession, setSession, auth, makeID, HOST, waitForSent,
-    getUrlBuffers,
+    getUrlBuffers, baseUploadPath,
 }

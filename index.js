@@ -3,13 +3,12 @@ const {Telegraf, session} = require("telegraf");
 const BodyParser = require("body-parser");
 const {start} = require('./bot');
 const S3 = require('./db/s3');
-const {HOST} = require("./utils");
-const {baseUploadPath, isExists, remove2HoursFiles} = require("./api/uploader");
+const {HOST, baseUploadPath} = require("./utils");
 const path = require("path");
 // const LocalSession = require('telegraf-session-local');
 
 // Globals
-if(!global.sl) {
+if (!global.sl) {
     global.sl = {};
 }
 
@@ -59,11 +58,11 @@ app.get("/", (req, res) => res.send("Hello!"));
 
 app.get('/red/:id', async (req, res) => {
 
-    const { id } = req.params;
+    const {id} = req.params;
 
     const url = global.sl[id];
 
-    if(!url) {
+    if (!url) {
 
         return res.send('The link has expired!');
 

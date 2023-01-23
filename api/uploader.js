@@ -1,8 +1,6 @@
 const fs = require('fs');
 const MySql = require('../db/mysql');
 
-const baseUploadPath = 'uploads';
-
 const db = new MySql();
 
 async function isExists(path) {
