@@ -22,58 +22,62 @@ const bot = new Telegraf(BOT_KEY /*{
 
 const app = express();
 
-app.use(await bot.createWebhook({ domain: HOST }));
+(async () => {
 
-app.use(BodyParser.json());
-app.use(
-    BodyParser.urlencoded({
-        extended: true,
-    })
-);
+    app.use(await bot.createWebhook({domain: HOST}));
 
-bot.use(session());
+    app.use(BodyParser.json());
+    app.use(
+        BodyParser.urlencoded({
+            extended: true,
+        })
+    );
+
+    bot.use(session());
 
 // bot.use((new LocalSession({ database: 'ls.json' })).middleware())
 
-try {
+    try {
 
-    start(bot);
+        start(bot);
 
-} catch (err) {
+    } catch (err) {
 
-    console.error('ERROR!!', err);
-
-}
-
-app.get("/", (req, res) => res.send("Hello!"));
-
-app.get('/red/:id', async (req, res) => {
-
-    const {id} = req.params;
-
-    const url = global.sl[id];
-
-    if (!url) {
-
-        return res.send('The link has expired!');
+        console.error('ERROR!!', err);
 
     }
 
-    return res.redirect(url);
+    app.get("/", (req, res) => res.send("Hello!"));
 
-});
+    app.get('/red/:id', async (req, res) => {
 
-app.use(express.static(path.join(__dirname, baseUploadPath)));
+        const {id} = req.params;
 
-app.listen(process.env.PORT || 3000, () => {
+        const url = global.sl[id];
 
-    console.log('I\'m ready!');
+        if (!url) {
 
-});
+            return res.send('The link has expired!');
+
+        }
+
+        return res.redirect(url);
+
+    });
+
+    app.use(express.static(path.join(__dirname, baseUploadPath)));
+
+    app.listen(process.env.PORT || 3000, () => {
+
+        console.log('I\'m ready!');
+
+    });
+
+    process.once('SIGINT', () => bot.stop('SIGINT'));
+    process.once('SIGTERM', () => bot.stop('SIGTERM'));
+
+})();
 
 /*setInterval(async () => {
     await remove2HoursFiles();
 }, 5 * 60 * 1000);*/
-
-process.once('SIGINT', () => bot.stop('SIGINT'))
-process.once('SIGTERM', () => bot.stop('SIGTERM'))
