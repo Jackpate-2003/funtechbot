@@ -4,7 +4,6 @@ const BodyParser = require("body-parser");
 const {start} = require('./bot');
 const S3 = require('./db/s3');
 const {HOST} = require("./utils");
-const Mysql = require("./db/mysql");
 const {baseUploadPath, isExists, remove2HoursFiles} = require("./api/uploader");
 const path = require("path");
 // const LocalSession = require('telegraf-session-local');
