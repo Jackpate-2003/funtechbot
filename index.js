@@ -24,7 +24,9 @@ const app = express();
 
 (async () => {
 
-    app.use(await bot.createWebhook({domain: HOST}));
+    console.log('ADDR', `HOST:${process.env.PORT || 3000}`);
+
+    app.use(await bot.createWebhook({domain: `HOST:${process.env.PORT || 3000}`}));
 
     bot.use(session());
 
@@ -39,8 +41,6 @@ const app = express();
         console.error('ERROR!!', err);
 
     }
-
-    app.get("/", (req, res) => res.send("Hello!"));
 
     app.get('/red/:id', async (req, res) => {
 

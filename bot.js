@@ -422,8 +422,6 @@ function start(bot) {
         },
     ]);
 
-    bot.launch();
-
 }
 
 module.exports = {
