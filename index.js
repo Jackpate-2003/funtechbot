@@ -22,14 +22,6 @@ const bot = new Telegraf(BOT_KEY /*{
 
 const app = express();
 
-const secret = `/tel/${bot.secretPathComponent()}`;
-
-console.log('SECRET', secret);
-
-bot.telegram.setWebhook(`${HOST}/${secret}`)
-    .then((status) => console.log('Webhook setted: ' + status))
-    .catch(err => console.log("ERR", err));
-
 app.use(BodyParser.json());
 app.use(
     BodyParser.urlencoded({
@@ -40,19 +32,16 @@ app.use(
 bot.use(session());
 
 // bot.use((new LocalSession({ database: 'ls.json' })).middleware())
-(async () => {
 
-    try {
+try {
 
-        await start(bot);
+    start(bot);
 
-    } catch (err) {
+} catch (err) {
 
-        console.error('ERROR!!', err);
+    console.error('ERROR!!', err);
 
-    }
-
-})();
+}
 
 app.get("/", (req, res) => res.send("Hello!"));
 
@@ -73,8 +62,6 @@ app.get('/red/:id', async (req, res) => {
 });
 
 app.use(express.static(path.join(__dirname, baseUploadPath)));
-
-app.use(bot.webhookCallback(secret));
 
 app.listen(process.env.PORT || 3000, () => {
 
