@@ -22,21 +22,17 @@
     "body-parser": "*",
     "node-fetch": "^2.6.1",
     "moment": "*",
-    "telegraf-session-local": "*",
     "ytdl-core": "*",
     "ffmpeg-static": "*",
     "child_process": "*",
-    "fluent-ffmpeg": "*",
     "soundcloud-downloader": "*",
     "instagram-url-direct": "*",
     "fb-downloader-scrapper": "*",
     "twitter-url-direct": "*",
-    "mysql2": "*",
     "cheerio": "*",
     "node-youtube-music": "*",
     "spottydl": "*",
     "soundcloud-scraper": "*",
-    "typescript": "*",
     "tiktok-down": "*"
   }
 }
