@@ -24,9 +24,9 @@ const app = express();
 
 (async () => {
 
-    console.log('ADDR', `HOST:${process.env.PORT || 3000}`);
+    console.log('ADDR', `${HOST}:${process.env.PORT || 3000}`);
 
-    app.use(await bot.createWebhook({domain: `HOST:${process.env.PORT || 3000}`}));
+    app.use(await bot.createWebhook({domain: `${HOST}:${process.env.PORT || 3000}`}));
 
     bot.use(session());
 
