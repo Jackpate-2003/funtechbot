@@ -22,6 +22,8 @@ const bot = new Telegraf(BOT_KEY /*{
 
 const app = express();
 
+app.use(await bot.createWebhook({ domain: HOST }));
+
 app.use(BodyParser.json());
 app.use(
     BodyParser.urlencoded({
