@@ -1,17 +1,23 @@
+const {getIPAddress} = require("../index");
+
 async function downloader(url) {
 
     const tiktokDown = require('tiktok-down');
 
     const tt = new tiktokDown({
-        clientIP: '127.0.0.1'
+        clientIP: getIPAddress(),
     });
 
     let res;
+
+    console.log('HERE')
 
     let info = await tt.getDetails({
         url,
         noWaterMark: true
     });
+
+    console.log('NOW HWR!')
 
     if (info.video.playAddr.includes('http')) {
 

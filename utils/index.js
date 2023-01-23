@@ -109,21 +109,31 @@ function makeID(length) {
 
 async function waitForSent(ctx, workFunc) {
 
-    const sendWaitMsg = await ctx.reply('Processing...',
-        {
-            ...replyOptions,
-            reply_to_message_id: ctx.message.message_id,
-        }
-    );
+    try {
 
-    const res = await workFunc(ctx);
+        const sendWaitMsg = await ctx.reply('Processing...',
+            {
+                ...replyOptions,
+                reply_to_message_id: ctx.message.message_id,
+            }
+        );
 
-    await ctx.telegram.deleteMessage(
-        ctx.chat.id,
-        sendWaitMsg.message_id
-    );
+        const res = await workFunc(ctx);
 
-    return res;
+        await ctx.telegram.deleteMessage(
+            ctx.chat.id,
+            sendWaitMsg.message_id
+        );
+
+        return res;
+
+    } catch (err) {
+
+        console.log('ERROR', err);
+
+        await ctx.reply('Process failed!');
+
+    }
 
 }
 
@@ -135,6 +145,20 @@ async function getUrlBuffers(url) {
 
 }
 
+function getIPAddress() {
+    const interfaces = require('os').networkInterfaces();
+    for (let devName in interfaces) {
+        const iface = interfaces[devName];
+
+        for (let i = 0; i < iface.length; i++) {
+            const alias = iface[i];
+            if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal)
+                return alias.address;
+        }
+    }
+    return '0.0.0.0';
+}
+
 const HOST = 'https://fun-tech.cyclic.app';
 // const HOST = '67.219.139.52';
 const baseUploadPath = 'uploads';
@@ -143,5 +167,5 @@ module.exports = {
 
     REG, API_HOST, fetchData, formatBytes, bytesToMegaBytes,
     getSession, setSession, auth, makeID, HOST, waitForSent,
-    getUrlBuffers, baseUploadPath, replyOptions,
+    getUrlBuffers, baseUploadPath, replyOptions, getIPAddress,
 }
