@@ -127,7 +127,7 @@ async function getUrlBuffers(url) {
 
 }
 
-const HOST = 'https://lazy-tan-fossa-kit.cyclic.app';
+const HOST = 'https://fun-tech.cyclic.app';
 // const HOST = '67.219.139.52';
 
 module.exports = {
