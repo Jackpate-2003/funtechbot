@@ -109,23 +109,16 @@ function makeID(length) {
 
 async function waitForSent(ctx, workFunc) {
 
+    const sendWaitMsg = await ctx.reply('Processing...',
+        {
+            ...replyOptions,
+            reply_to_message_id: ctx.message.message_id,
+        }
+    );
+
     try {
 
-        const sendWaitMsg = await ctx.reply('Processing...',
-            {
-                ...replyOptions,
-                reply_to_message_id: ctx.message.message_id,
-            }
-        );
-
-        const res = await workFunc(ctx);
-
-        await ctx.telegram.deleteMessage(
-            ctx.chat.id,
-            sendWaitMsg.message_id
-        );
-
-        return res;
+        await workFunc(ctx);
 
     } catch (err) {
 
@@ -134,6 +127,11 @@ async function waitForSent(ctx, workFunc) {
         await ctx.reply('Process failed!');
 
     }
+
+    await ctx.telegram.deleteMessage(
+        ctx.chat.id,
+        sendWaitMsg.message_id
+    );
 
 }
 

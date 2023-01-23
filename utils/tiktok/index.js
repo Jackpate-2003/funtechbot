@@ -10,8 +10,6 @@ async function downloader(url) {
 
     let res;
 
-    console.log('HERE')
-
     let info = await tt.getDetails({
         url,
         noWaterMark: true
