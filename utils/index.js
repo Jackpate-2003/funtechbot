@@ -21,6 +21,10 @@ const SUBSCRIBE_REPLY = `
             [{
                 text: 'Subscribe to the channel',
                 url: 'https://t.me/funs_tech'
+            }],
+            [{
+            text: 'I subscribed!',
+                callback_data: 'subscribed',
             }]
         ],
     },
