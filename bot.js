@@ -404,7 +404,7 @@ function start(bot) {
 
     bot.action('subscribed', async (ctx) => {
 
-        const member = await isMember(bot, ctx, false);
+        const member = await isMember(bot);
 
         if (member) {
 
