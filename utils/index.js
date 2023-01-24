@@ -126,9 +126,15 @@ async function isMember(bot, ctx) {
 
     try {
 
-        return await bot.telegram.getChatMember('@funs_tech', ctx.message.from.id);
+        const member = await bot.telegram.getChatMember('@funs_tech', ctx.message.from.id);
+
+        console.log('mem', member)
+
+        return member;
         // member.status === 'member';
     } catch (err) {
+
+        console.log('WOW!')
 
         await ctx.reply(SUBSCRIBE_REPLY, SUBSCRIBE_REPLY_OPTIONS(ctx));
 
