@@ -83,11 +83,11 @@ function start(bot) {
 
             const res = await tikTokDownloader(url);
 
-            return await ctx.sendVideo(Input.fromURL(res.stream), {
+            return await ctx.sendVideo(Input.fromBuffer(await getUrlBuffers(res.stream)), {
                 ...replyOptions,
                 caption: res.title,
                 // duration: res.duration,
-                thumb: res.thumb,
+                thumb: Input.fromBuffer(await getUrlBuffers(res.thumb)),
             });
 
         });
