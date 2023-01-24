@@ -2,9 +2,7 @@ async function downloader(url) {
 
     const ttDl = require("tiktok-video-downloader");
 
-    const info = ttDl.getInfo(url);
-
-    console.log('info', info)
+    const info = await ttDl.getInfo(url);
 
     return {
         stream: info.video.url.no_wm,
