@@ -5,7 +5,7 @@ async function downloader(url) {
     const info = ttDl.getInfo(url);
 
     return {
-        stream: info.url.no_wm,
+        stream: info.video.url.no_wm,
         title: info.author.name,
         thumb: info.video.thumbnail,
         // duration: info.video.duration,
