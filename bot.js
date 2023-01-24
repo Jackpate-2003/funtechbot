@@ -258,9 +258,11 @@ function start(bot) {
 
     });
 
-    bot.hears(/music (.*)/, async (ctx) => {
+    bot.hears(/music (.*)/i, async (ctx) => {
 
         return await waitForSent(bot, ctx, async (ctx) => {
+
+            console.log('aa', ctx.match[1])
 
             const tracks = await findTrack(ctx.match[1]);
 
