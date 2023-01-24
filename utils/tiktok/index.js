@@ -1,48 +1,16 @@
-const {getIPAddress} = require("../index");
-
 async function downloader(url) {
 
-    const tiktokDown = require('tiktok-down');
+    const ttDl = require("tiktok-video-downloader");
 
-    const tt = new tiktokDown({
-        clientIP: getIPAddress(),
-    });
+    const info = ttDl.getInfo(url);
 
-    let res;
-
-    let info = await tt.getDetails({
-        url,
-        noWaterMark: true
-    });
-
-    console.log('NOW HWR!')
-
-    if (info.video.playAddr.includes('http')) {
-
-        res = {
-            stream: info.video.playAddr,
-            title: info.desc,
-            duration: info.video.duration,
-            isVideo: true,
-        }
-
-    } else {
-
-        info = await tt.getDetailsMusic({
-            url,
-            noWaterMark: true
-        });
-
-        res = {
-            stream: info.music.playUrl,
-            title: info.music.title,
-            artist: info.music.authorName,
-            duration: info.music.duration,
-        }
-
+    return {
+        stream: info.url.no_wm,
+        title: info.author.name,
+        thumb: info.video.thumbnail,
+        // duration: info.video.duration,
+        // isVideo: true,
     }
-
-    return res;
 
 }
 

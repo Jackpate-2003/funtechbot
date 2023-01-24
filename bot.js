@@ -75,7 +75,7 @@ function start(bot) {
 
     });
 
-    bot.hears('REG.tiktok', async (ctx) => {
+    bot.hears(REG.tiktok, async (ctx) => {
 
         return await waitForSent(ctx, async (ctx) => {
 
@@ -83,25 +83,12 @@ function start(bot) {
 
             const res = await tikTokDownloader(url);
 
-            if (res.isVideo) {
-
-                console.log('oK!')
-
-                return await ctx.sendVideo(Input.fromBuffer(await getUrlBuffers(res.stream)), {
-                    ...replyOptions,
-                    caption: res.title,
-                    duration: res.duration
-                });
-            } else {
-
-                return await ctx.sendAudio(Input.fromBuffer(await getUrlBuffers(res.stream)), {
-                    ...replyOptions,
-                    title: res.title,
-                    duration: res.duration,
-                    performer: res.artist,
-                });
-
-            }
+            return await ctx.sendVideo(Input.fromURL(res.stream), {
+                ...replyOptions,
+                caption: res.title,
+                // duration: res.duration,
+                thumb: res.thumb,
+            });
 
         });
     });

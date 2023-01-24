@@ -33,6 +33,6 @@
     "node-youtube-music": "*",
     "spottydl": "*",
     "soundcloud-scraper": "*",
-    "tiktok-down": "*"
+    "tiktok-video-downloader": "*"
   }
 }
