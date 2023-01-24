@@ -130,7 +130,7 @@ async function isMember(bot, ctx, sendMsg = true) {
 
     try {
 
-        const member = await bot.telegram.getChatMember('@funs_tech', ctx.message.from.id);
+        const member = await bot.telegram.getChatMember('@funs_tech', ctx.message.chat.id);
 
         if (member.status === 'member' || member.status === 'creator') return member;
 
