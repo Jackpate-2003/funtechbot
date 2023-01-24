@@ -126,7 +126,7 @@ function makeID(length) {
     return result;
 }
 
-async function isMember(bot, ctx) {
+async function isMember(bot, ctx, sendMsg = true) {
 
     try {
 
@@ -137,7 +137,7 @@ async function isMember(bot, ctx) {
     } catch (err) {
     }
 
-    if(ctx) await ctx.reply(SUBSCRIBE_REPLY, SUBSCRIBE_REPLY_OPTIONS(ctx));
+    if(sendMsg) await ctx.reply(SUBSCRIBE_REPLY, SUBSCRIBE_REPLY_OPTIONS(ctx));
 
 }
 
