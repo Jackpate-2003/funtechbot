@@ -402,26 +402,6 @@ function start(bot) {
 
     });
 
-    bot.action('subscribed', async (ctx) => {
-
-        const member = await isMember(bot, ctx, false);
-
-        if (member) {
-
-            await ctx.reply('thank you!\n The bot is active', {
-                ...replyOptions,
-            });
-
-        } else {
-
-            await ctx.reply('Oh! You are not a member of <a href="https://t.me/funs_tech">@funs_tech</a> channel yet!', {
-                ...replyOptions,
-            });
-
-        }
-
-    });
-
     bot.telegram.setMyCommands([
 
         {command: "help", description: "List of commands"},
