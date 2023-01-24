@@ -1,4 +1,4 @@
-const {REG, waitForSent, getUrlBuffers, replyOptions} = require("./utils");
+const {REG, waitForSent, getUrlBuffers, replyOptions, isMember} = require("./utils");
 const {downloadPin} = require("./utils/pinterest");
 const {findTrack, downloadResults} = require("./utils/youtube-music");
 const {getMusicMetaData} = require("./utils/apple-music");
@@ -16,7 +16,7 @@ function start(bot) {
 
     bot.hears(REG.youtube, async (ctx) => {
 
-        return await waitForSent(ctx, async (ctx) => {
+        return await waitForSent(bot, ctx, async (ctx) => {
 
             const yd = await ytdlCallback(ctx);
 
@@ -36,7 +36,7 @@ function start(bot) {
 
     bot.hears(REG.soundcloud, async (ctx) => {
 
-        return await waitForSent(ctx, async ctx => {
+        return await waitForSent(bot, ctx, async ctx => {
 
             const url = ctx.message.text;
 
@@ -57,7 +57,7 @@ function start(bot) {
 
     bot.hears(REG.instagram, async (ctx) => {
 
-        return await waitForSent(ctx, async (ctx) => {
+        return await waitForSent(bot, ctx, async (ctx) => {
 
             let url = ctx.message.text;
 
@@ -77,7 +77,7 @@ function start(bot) {
 
     bot.hears(REG.tiktok, async (ctx) => {
 
-        return await waitForSent(ctx, async (ctx) => {
+        return await waitForSent(bot, ctx, async (ctx) => {
 
             let url = ctx.message.text;
 
@@ -95,7 +95,7 @@ function start(bot) {
 
     bot.hears(REG.facebook, async (ctx) => {
 
-        return await waitForSent(ctx, async (ctx) => {
+        return await waitForSent(bot, ctx, async (ctx) => {
 
             let url = ctx.message.text;
 
@@ -134,7 +134,7 @@ function start(bot) {
 
     bot.hears(REG.twitter, async (ctx) => {
 
-        return await waitForSent(ctx, async (ctx) => {
+        return await waitForSent(bot, ctx, async (ctx) => {
 
             let url = ctx.message.text;
 
@@ -173,7 +173,7 @@ function start(bot) {
 
     bot.hears(REG.pinterest, async (ctx) => {
 
-        return await waitForSent(ctx, async (ctx) => {
+        return await waitForSent(bot, ctx, async (ctx) => {
 
             const url = ctx.message.text;
 
@@ -196,7 +196,7 @@ function start(bot) {
 
     bot.hears(REG.appleMusic, async (ctx) => {
 
-        return await waitForSent(ctx, async (ctx) => {
+        return await waitForSent(bot, ctx, async (ctx) => {
 
             const trackID = await getMusicMetaData(ctx.message.text);
 
@@ -228,7 +228,7 @@ function start(bot) {
 
     bot.hears(REG.spotify, async (ctx) => {
 
-        return await waitForSent(ctx, async (ctx) => {
+        return await waitForSent(bot, ctx, async (ctx) => {
 
             let trackID = await Spotify.getMusicMetaData(ctx.message.text);
 
@@ -260,7 +260,7 @@ function start(bot) {
 
     bot.hears(/music (.*)/, async (ctx) => {
 
-        return await waitForSent(ctx, async (ctx) => {
+        return await waitForSent(bot, ctx, async (ctx) => {
 
             const tracks = await findTrack(ctx.match[1]);
 
@@ -315,8 +315,11 @@ function start(bot) {
     bot.start(async (ctx) => {
 
         await ctx.reply(
-            "<b>Welcome to FunTech Bot!</b>\n We have a lot of tools and we are going to add a lot of other tools! To start, you can see the list of commands and their descriptions with the /help command, or use the menus below.\n<b>Please subscribe to <a href=\"https://t.me/funs_tech\">our channel: FunTech</a> to get the latest news and features, PRO features, promotions, etc</b>"
-            , replyOptions)
+            "<b>Welcome to FunTech Bot!</b>\n We have a lot of tools and we are going to add a lot of other tools! To start, you can see the list of commands and their descriptions with the /help command, or use the menus below"
+            , replyOptions);
+
+        await isMember(bot, ctx);
+
     });
 
     // Commands

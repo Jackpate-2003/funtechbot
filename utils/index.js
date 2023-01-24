@@ -11,6 +11,21 @@ const replyOptions = {
     }, parse_mode: 'HTML',
 };
 
+const SUBSCRIBE_REPLY = `
+<b>To use the bot, please subscribe to our channel</b>, to get access to the latest news, features, polls, criticism, requests to add tools, etc.
+`, SUBSCRIBE_REPLY_OPTIONS = (ctx) => ({
+    ...replyOptions,
+    reply_to_message_id: ctx.message.message_id,
+    reply_markup: {
+        inline_keyboard: [
+            [{
+                text: 'Subscribe to the channel',
+                url: 'https://t.me/funs_tech'
+            }]
+        ],
+    },
+});
+
 const REG = {
 
     youtube: /.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/,
@@ -107,7 +122,29 @@ function makeID(length) {
     return result;
 }
 
-async function waitForSent(ctx, workFunc) {
+async function isMember(bot, ctx) {
+
+    try {
+
+        return await bot.telegram.getChatMember('@funs_tech', ctx.message.from.id);
+        // member.status === 'member';
+    } catch (err) {
+
+        await ctx.reply(SUBSCRIBE_REPLY, SUBSCRIBE_REPLY_OPTIONS(ctx));
+
+    }
+
+}
+
+async function waitForSent(bot, ctx, workFunc) {
+
+    const member = await isMember(bot, ctx);
+
+    if (!member) {
+
+        return ctx;
+
+    }
 
     const sendWaitMsg = await ctx.reply('Processing...',
         {
@@ -166,4 +203,5 @@ module.exports = {
     REG, API_HOST, fetchData, formatBytes, bytesToMegaBytes,
     getSession, setSession, auth, makeID, HOST, waitForSent,
     getUrlBuffers, baseUploadPath, replyOptions, getIPAddress,
+    SUBSCRIBE_REPLY, SUBSCRIBE_REPLY_OPTIONS, isMember,
 }
