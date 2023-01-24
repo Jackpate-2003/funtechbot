@@ -4,6 +4,8 @@ async function downloader(url) {
 
     const info = ttDl.getInfo(url);
 
+    console.log('info', info)
+
     return {
         stream: info.video.url.no_wm,
         title: info.author.name,
