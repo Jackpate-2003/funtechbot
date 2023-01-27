@@ -38,7 +38,9 @@ function start(bot) {
 
         return await waitForSent(bot, ctx, async ctx => {
 
-            const url = ctx.message.text;
+            let url = ctx.message.text;
+
+            url = url.replace('m.soundcloud.com', 'soundcloud.com');
 
             const scd = await soundCloudDownloader(url);
 
@@ -261,8 +263,6 @@ function start(bot) {
     bot.hears(/music (.*)/i, async (ctx) => {
 
         return await waitForSent(bot, ctx, async (ctx) => {
-
-            console.log('aa', ctx.match[1])
 
             const tracks = await findTrack(ctx.match[1]);
 
