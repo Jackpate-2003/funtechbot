@@ -139,6 +139,8 @@ async function isMember(bot, ctx, sendMsg = true) {
 
 async function waitForSent(bot, ctx, workFunc) {
 
+    console.log('REQ', `${ctx.message.chat.id} - ${ctx.message.text}`);
+
     const member = await isMember(bot, ctx);
 
     if (!member) {
@@ -158,11 +160,15 @@ async function waitForSent(bot, ctx, workFunc) {
 
         await workFunc(ctx);
 
+        console.log(`OK REQ! ${ctx.message.chat.id}`);
+
     } catch (err) {
 
         console.log('ERROR', err);
 
         await ctx.reply('Process failed!');
+
+        console.error(`ERR REQ ${ctx.message.chat.id}`);
 
     }
 
