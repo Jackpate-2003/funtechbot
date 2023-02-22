@@ -14,6 +14,33 @@ const {facebookDownloader} = require("./utils/facebook");
 
 function start(bot) {
 
+    bot.hears(REG.url, async (ctx) => {
+
+        let url = ctx.message.text;
+
+        const sl = makeID(6);
+
+        global.sl[sl] = `https://fun-tech.vercel.app/tools/downloader?url=${url}`;
+
+        const shortURL = `${HOST}/red/${sl}`;
+
+        return await ctx.reply('Click the Get Link button to see the download links inside our website:',
+            {
+                ...replyOptions,
+                reply_to_message_id: ctx.message.message_id,
+                reply_markup: {
+                    inline_keyboard: [{
+                        text: 'Get Link',
+                        url: shortURL,
+                    }],
+                },
+            }
+        );
+
+    });
+
+    return;
+
     bot.hears(REG.youtube, async (ctx) => {
 
         return await waitForSent(bot, ctx, async (ctx) => {
