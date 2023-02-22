@@ -39,6 +39,31 @@ function start(bot) {
 
     });
 
+    bot.hears(/apk (.*)/i, async (ctx) => {
+
+        const apkName = ctx.match[1];
+
+        const sl = makeID(6);
+
+        global.sl[sl] = `https://fun-tech.vercel.app/tools/apk-downloader?name=${apkName}`;
+
+        const shortURL = `${HOST}/red/${sl}`;
+
+        return await ctx.reply('Click the Get Link button to see the download links inside our website:',
+            {
+                ...replyOptions,
+                reply_to_message_id: ctx.message.message_id,
+                reply_markup: {
+                    inline_keyboard: [{
+                        text: 'Get Link',
+                        url: shortURL,
+                    }],
+                },
+            }
+        );
+
+    });
+
     return;
 
     bot.hears(REG.youtube, async (ctx) => {
@@ -324,7 +349,8 @@ function start(bot) {
 
     });
 
-    const DOWNLOADER_MSG = 'To download from Youtube, Instagram, TikTok, Twitter, Facebook, Pinterest, Soundcloud, Spotify, Apple Music, Youtube Music, just enter the link of the content you want to download!';
+    const DOWNLOADER_MSG = 'To download from Youtube, Instagram, TikTok, Twitter, Facebook, Pinterest, Soundcloud, Spotify, Apple Music, Porn sites, and 1000+ websites, just enter the link of the content you want to download!';
+    const APK_DOWNLOADER_MSG = 'To download Android apps, first write apk and then write the name of the app. Example: <code>apk fortnite</code>';
     const MUSIC_DOWNLOADER_DESC =
         'By typing music followed by the name or lyrics of a song, that song will be sent to you. For example: <code>music rap god eminem</code>';
 
@@ -332,6 +358,12 @@ function start(bot) {
     bot.hears('Downloader', async (ctx) => {
 
         await ctx.reply(DOWNLOADER_MSG, replyOptions);
+
+    });
+
+    bot.hears('APK Downloader', async (ctx) => {
+
+        await ctx.reply(APK_DOWNLOADER_MSG, replyOptions);
 
     });
 
@@ -363,7 +395,7 @@ function start(bot) {
 
         await ctx.reply(`
     ${DOWNLOADER_MSG}\n
-    ${MUSIC_DOWNLOADER_DESC}\n
+    ${APK_DOWNLOADER_MSG}\n
     <b>/help</b>  <i>List of commands</i>
     <b>/funtech</b>  <i>About us</i>
     <b>/support</b> <i>Report a problem or request to add a tool</i>

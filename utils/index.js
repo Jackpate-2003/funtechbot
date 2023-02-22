@@ -6,7 +6,8 @@ const replyOptions = {
         resize_keyboard: true,
         keyboard: [
             ["Downloader"],
-            ["Download song with its name or lyrics"]
+            ["APK Downloader"]
+            // ["Download song with its name or lyrics"]
         ]
     }, parse_mode: 'HTML',
 };
