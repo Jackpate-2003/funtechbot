@@ -80,9 +80,7 @@ function start(bot) {
 
     });
 
-    return;
-
-    bot.hears(REG.youtube, async (ctx) => {
+    /*bot.hears(REG.youtube, async (ctx) => {
 
         return await waitForSent(bot, ctx, async (ctx) => {
 
@@ -363,7 +361,7 @@ function start(bot) {
 
         });
 
-    });
+    });*/
 
     const DOWNLOADER_MSG = 'To download from Youtube, Instagram, TikTok, Twitter, Facebook, Pinterest, Soundcloud, Spotify, Apple Music, Porn sites, and 1000+ websites, just enter the link of the content you want to download!';
     const APK_DOWNLOADER_MSG = 'To download Android apps, first write apk and then write the name of the app. Example: <code>apk fortnite</code>';
