@@ -16,6 +16,14 @@ function start(bot) {
 
     bot.hears(REG.url, async (ctx) => {
 
+        const member = await isMember(bot, ctx);
+
+        if (!member) {
+
+            return ctx;
+
+        }
+
         let url = ctx.message.text;
 
         const sl = makeID(6);
@@ -29,10 +37,10 @@ function start(bot) {
                 ...replyOptions,
                 reply_to_message_id: ctx.message.message_id,
                 reply_markup: {
-                    inline_keyboard: [{
+                    inline_keyboard: [[{
                         text: 'Get Link',
                         url: shortURL,
-                    }],
+                    }]],
                 },
             }
         );
@@ -40,6 +48,14 @@ function start(bot) {
     });
 
     bot.hears(/apk (.*)/i, async (ctx) => {
+
+        const member = await isMember(bot, ctx);
+
+        if (!member) {
+
+            return ctx;
+
+        }
 
         const apkName = ctx.match[1];
 
@@ -54,10 +70,10 @@ function start(bot) {
                 ...replyOptions,
                 reply_to_message_id: ctx.message.message_id,
                 reply_markup: {
-                    inline_keyboard: [{
+                    inline_keyboard: [[{
                         text: 'Get Link',
                         url: shortURL,
-                    }],
+                    }]],
                 },
             }
         );
