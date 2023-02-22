@@ -32,7 +32,7 @@ function start(bot) {
 
         const shortURL = `${HOST}/red/${sl}`;
 
-        return await ctx.reply('Click the Get Link button to see the download links inside our website:',
+        return await ctx.reply('Click the <b>Get Link</b> button to see the download links inside our website:',
             {
                 ...replyOptions,
                 reply_to_message_id: ctx.message.message_id,
@@ -65,7 +65,7 @@ function start(bot) {
 
         const shortURL = `${HOST}/red/${sl}`;
 
-        return await ctx.reply('Click the Get Link button to see the download links inside our website:',
+        return await ctx.reply('Click the <b>Get Link</b> button to see the download links inside our website:',
             {
                 ...replyOptions,
                 reply_to_message_id: ctx.message.message_id,
