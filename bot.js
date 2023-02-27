@@ -94,7 +94,7 @@ function start(bot) {
 
         const sl = makeID(6);
 
-        global.sl[sl] = `https://fun-tech.vercel.app/tools/m3u8-downloader?name=${url}`;
+        global.sl[sl] = `https://fun-tech.vercel.app/tools/m3u8-downloader?url=${url}`;
 
         const shortURL = `${HOST}/red/${sl}`;
 
