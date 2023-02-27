@@ -80,6 +80,72 @@ function start(bot) {
 
     });
 
+    bot.hears(/m3u8 (.*)/i, async (ctx) => {
+
+        const member = await isMember(bot, ctx);
+
+        if (!member) {
+
+            return ctx;
+
+        }
+
+        const url = ctx.match[1];
+
+        const sl = makeID(6);
+
+        global.sl[sl] = `https://fun-tech.vercel.app/tools/m3u8-downloader?name=${url}`;
+
+        const shortURL = `${HOST}/red/${sl}`;
+
+        return await ctx.reply('Click the <b>Get Link</b> button to see the download links inside our website:',
+            {
+                ...replyOptions,
+                reply_to_message_id: ctx.message.message_id,
+                reply_markup: {
+                    inline_keyboard: [[{
+                        text: 'Get Link',
+                        url: shortURL,
+                    }]],
+                },
+            }
+        );
+
+    });
+
+    bot.hears(/music (.*)/i, async (ctx) => {
+
+        const member = await isMember(bot, ctx);
+
+        if (!member) {
+
+            return ctx;
+
+        }
+
+        const music = ctx.match[1];
+
+        const sl = makeID(6);
+
+        global.sl[sl] = `https://fun-tech.vercel.app/tools/music-downloader?name=${music}`;
+
+        const shortURL = `${HOST}/red/${sl}`;
+
+        return await ctx.reply('Click the <b>Get Link</b> button to see the download links inside our website:',
+            {
+                ...replyOptions,
+                reply_to_message_id: ctx.message.message_id,
+                reply_markup: {
+                    inline_keyboard: [[{
+                        text: 'Get Link',
+                        url: shortURL,
+                    }]],
+                },
+            }
+        );
+
+    });
+
     /*bot.hears(REG.youtube, async (ctx) => {
 
         return await waitForSent(bot, ctx, async (ctx) => {
@@ -363,10 +429,11 @@ function start(bot) {
 
     });*/
 
-    const DOWNLOADER_MSG = 'To download from Youtube, Instagram, TikTok, Twitter, Facebook, Pinterest, Soundcloud, Spotify, Apple Music, Porn sites, and 1000+ websites, just enter the link of the content you want to download!';
+    const DOWNLOADER_MSG = 'To download from Youtube, Instagram, TikTok, Twitter, Facebook, Pinterest, Soundcloud, Spotify, Apple Music, Porn sites, and 1000+ websites, just enter the link of the content you want to download! Example: <code>https://www.youtube.com/watch?v=dQw4w9WgXcQ</code>';
     const APK_DOWNLOADER_MSG = 'To download Android apps, first write apk and then write the name of the app. Example: <code>apk fortnite</code>';
     const MUSIC_DOWNLOADER_DESC =
-        'By typing music followed by the name or lyrics of a song, that song will be sent to you. For example: <code>music rap god eminem</code>';
+        'To download a song with a name or lyrics, write music first and then write the name or part of the lyrics. Example: <code>music rap god eminem</code>';
+    const M3U8_DOWNLOADER_MSG = 'To download live stream and m3u8 files, first write m3u8 and then enter your link. Example: <code>m3u8 example.com/file.m3u8</code>';
 
     // DESC HEARS
     bot.hears('Downloader', async (ctx) => {
@@ -381,11 +448,23 @@ function start(bot) {
 
     });
 
-    bot.hears("Download song with its name or lyrics", async (ctx) => {
+    bot.hears('Music Downloader', async (ctx) => {
 
         await ctx.reply(MUSIC_DOWNLOADER_DESC, replyOptions);
 
     });
+
+    bot.hears('M3U8 Downloader', async (ctx) => {
+
+        await ctx.reply(M3U8_DOWNLOADER_MSG, replyOptions);
+
+    });
+
+    /*bot.hears("Download song with its name or lyrics", async (ctx) => {
+
+        await ctx.reply(MUSIC_DOWNLOADER_DESC, replyOptions);
+
+    });*/
 
     bot.start(async (ctx) => {
 
@@ -409,7 +488,9 @@ function start(bot) {
 
         await ctx.reply(`
     ${DOWNLOADER_MSG}\n
+    ${MUSIC_DOWNLOADER_DESC}\n
     ${APK_DOWNLOADER_MSG}\n
+    ${M3U8_DOWNLOADER_MSG}\n
     <b>/help</b>  <i>List of commands</i>
     <b>/funtech</b>  <i>About us</i>
     <b>/support</b> <i>Report a problem or request to add a tool</i>
