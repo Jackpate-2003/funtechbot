@@ -442,19 +442,19 @@ function start(bot) {
 
     });
 
-    bot.hears('APK Downloader', async (ctx) => {
+    bot.hears('APKs Downloader', async (ctx) => {
 
         await ctx.reply(APK_DOWNLOADER_MSG, replyOptions);
 
     });
 
-    bot.hears('Music Downloader', async (ctx) => {
+    bot.hears('Musics Downloader', async (ctx) => {
 
         await ctx.reply(MUSIC_DOWNLOADER_DESC, replyOptions);
 
     });
 
-    bot.hears('M3U8 Downloader', async (ctx) => {
+    bot.hears('Live Streams Downloader', async (ctx) => {
 
         await ctx.reply(M3U8_DOWNLOADER_MSG, replyOptions);
 

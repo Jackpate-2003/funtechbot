@@ -6,9 +6,9 @@ const replyOptions = {
         resize_keyboard: true,
         keyboard: [
             ["Downloader"],
-            ["Music Downloader"],
-            ["APK Downloader"],
-            ["M3U8 Downloader"]
+            ["Musics Downloader"],
+            ["APKs Downloader"],
+            ["Live Streams Downloader"]
             // ["Download song with its name or lyrics"]
         ]
     }, parse_mode: 'HTML',
