@@ -7,7 +7,7 @@ const replyOptions = {
         keyboard: [
             ["Downloader"],
             ["Music Downloader"],
-            ["APK Downloader"]
+            ["APK Downloader"],
             ["M3U8 Downloader"]
             // ["Download song with its name or lyrics"]
         ]
